@@ -1,5 +1,9 @@
+import { TwentyFirstToolbar } from "@21st-extension/toolbar-next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
+import { Toaster } from "@/shared/components/ui/sonner";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,11 +28,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <SessionProvider>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <TwentyFirstToolbar
+            config={{
+              plugins: [],
+            }}
+          />
+          {children}
+          <Toaster />
+        </body>
+      </SessionProvider>
     </html>
   );
 }

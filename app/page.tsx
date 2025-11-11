@@ -1,6 +1,40 @@
+"use client";
 import Image from "next/image";
+import { useEffect } from "react";
+import LogoutButton from "@/features/auth/components/LogoutButton";
+
+// 1. Import the toolbar
+
+// 2. Define your toolbar configuration
+const stagewiseConfig = {
+  plugins: [],
+};
+
+// 3. Initialize the toolbar when your app starts (client only)
+// We run this inside a useEffect with a dynamic import to avoid
+// accessing `document` during server-side rendering.
 
 export default function Home() {
+  useEffect(() => {
+    async function setupStagewise() {
+      if (
+        process.env.NODE_ENV === "development" &&
+        typeof window !== "undefined" &&
+        typeof document !== "undefined"
+      ) {
+        try {
+          const { initToolbar } = await import("@21st-extension/toolbar");
+          initToolbar(stagewiseConfig);
+        } catch (err) {
+          // Don't crash the app for toolbar init failures in dev
+          // Log for debugging
+          console.warn("stagewise toolbar initialization failed:", err);
+        }
+      }
+    }
+
+    setupStagewise();
+  }, []);
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
@@ -60,6 +94,7 @@ export default function Home() {
           </a>
         </div>
       </main>
+      <LogoutButton />
     </div>
   );
 }
