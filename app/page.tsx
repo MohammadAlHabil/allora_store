@@ -1,5 +1,6 @@
 import Image from "next/image";
 import LogoutButton from "@/features/auth/components/LogoutButton";
+import { ModeToggle } from "@/shared/components/SwitchMode";
 
 export default function Home() {
   return (
@@ -61,6 +62,7 @@ export default function Home() {
           </a>
         </div>
       </main>
+      <ModeToggle />
       <LogoutButton />
     </div>
   );
