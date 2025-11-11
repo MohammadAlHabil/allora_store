@@ -1,4 +1,3 @@
-import { TwentyFirstToolbar } from "@21st-extension/toolbar-next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
@@ -30,11 +29,6 @@ export default function RootLayout({
     <html lang="en">
       <SessionProvider>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <TwentyFirstToolbar
-            config={{
-              plugins: [],
-            }}
-          />
           {children}
           <Toaster />
         </body>

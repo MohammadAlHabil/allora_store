@@ -4,8 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { redirect } from "next/navigation";
 import { useEffect, useActionState } from "react";
 import { useForm, FormProvider, Resolver, Path, FieldValues, Controller } from "react-hook-form";
-import { ZodType } from "zod";
-import { ZodTypeDef } from "zod/v3";
+import { ZodTypeAny } from "zod";
 import { Button } from "@/shared/components/ui/button";
 import {
   Field,
@@ -17,7 +16,11 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { ActionResponse } from "@/shared/types";
 
-type ZodSchemaType<T extends FieldValues> = ZodType<T, ZodTypeDef>;
+// Accept any Zod schema shape. We keep the generic on the component to type the
+// react-hook-form values, but allow the runtime schema to be any Zod schema
+// (ZodTypeAny) to avoid strict _input/_output type mismatches from Zod's
+// internal generics.
+type ZodSchemaType = ZodTypeAny;
 
 type FieldSpec<T extends FieldValues> = {
   name: Path<T>;
@@ -30,7 +33,7 @@ type FieldSpec<T extends FieldValues> = {
 type SubmitAction = (formData: FormData) => Promise<ActionResponse>;
 
 type AuthFormProps<T extends FieldValues> = {
-  schema: ZodSchemaType<T>;
+  schema: ZodSchemaType;
   fields: FieldSpec<T>[];
   submitLabel: string;
   children?: React.ReactNode;
@@ -62,7 +65,9 @@ export function AuthForm<T extends FieldValues>({
   const [state, action, isPending] = useActionState(actionWrapper, undefined);
 
   const form = useForm<T>({
-    resolver: zodResolver(schema) as unknown as Resolver<T>,
+    // cast schema to any to avoid zod/resolver strict generic mismatch
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(schema as any) as Resolver<T>,
   });
 
   // When the action returns server-side field errors, attach them to the
