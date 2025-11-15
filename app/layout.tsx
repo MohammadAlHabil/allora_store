@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import { SessionProvider } from "next-auth/react";
+import { ModeToggle } from "@/shared/components/SwitchMode";
 import { Toaster } from "@/shared/components/ui/sonner";
 
 import "./globals.css";
@@ -36,9 +38,24 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <header className="w-full border-b border-border">
+              <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Link href="/" className="text-lg font-semibold">
+                    Allora Store
+                  </Link>
+                </div>
+                <div className="flex items-center gap-3">
+                  <ModeToggle />
+                </div>
+              </div>
+            </header>
+
+            <main>{children}</main>
+
             <Toaster />
           </ThemeProvider>
+          <footer />
         </body>
       </SessionProvider>
     </html>
