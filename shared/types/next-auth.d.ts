@@ -13,7 +13,7 @@
 // }
 
 import { DefaultSession, DefaultUser } from "next-auth";
-import { UserRole } from "@/features/auth/types";
+import { UserRole } from "@/app/generated/prisma";
 
 interface ExtendedUser extends DefaultUser {
   id: string;

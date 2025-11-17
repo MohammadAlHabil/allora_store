@@ -1,7 +1,7 @@
 "use client";
 
 import { forgotPasswordAction } from "../actions";
-import { ForgotPasswordSchema } from "../validations";
+import { ForgotPasswordSchema } from "../schemas";
 import { AuthForm } from "./AuthForm";
 
 export function ForgotPasswordForm() {

@@ -1,17 +1,15 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { resetPasswordAction } from "../actions";
-import { ResetPasswordSchema } from "../validations";
+import { ResetPasswordSchema } from "../schemas";
 import { AuthForm } from "./AuthForm";
 
 export function ResetPasswordForm() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token") || "";
+  const searchParams = useParams();
+  const token = Array.isArray(searchParams?.token) ? searchParams.token[0] : searchParams?.token;
 
-  // wrap the server action so it receives the token from the URL
   const submitAction = async (formData: FormData) => {
-    // forward formData and token to the server action
     return resetPasswordAction(formData, token);
   };
 

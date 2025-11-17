@@ -1,7 +1,7 @@
 "use client";
 
 import { signInAction } from "../actions";
-import { SignInSchema } from "../validations";
+import { SignInSchema } from "../schemas";
 import { AuthForm } from "./AuthForm";
 import GoogleLoginButton from "./GoogleLoginButton";
 
@@ -21,6 +21,7 @@ export function SignInForm() {
           },
         ]}
         submitLabel="Sign In"
+        showForgotPasswordLink
       />
       <GoogleLoginButton className="w-full" />
     </div>

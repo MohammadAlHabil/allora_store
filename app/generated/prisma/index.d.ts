@@ -121,12 +121,12 @@ export type ActivityLog = $Result.DefaultSelection<Prisma.$ActivityLogPayload>;
  * Enums
  */
 export namespace $Enums {
-  export const Role: {
+  export const UserRole: {
     USER: "USER";
     ADMIN: "ADMIN";
   };
 
-  export type Role = (typeof Role)[keyof typeof Role];
+  export type UserRole = (typeof UserRole)[keyof typeof UserRole];
 
   export const ProductType: {
     PHYSICAL: "PHYSICAL";
@@ -177,9 +177,9 @@ export namespace $Enums {
   export type CouponType = (typeof CouponType)[keyof typeof CouponType];
 }
 
-export type Role = $Enums.Role;
+export type UserRole = $Enums.UserRole;
 
-export const Role: typeof $Enums.Role;
+export const UserRole: typeof $Enums.UserRole;
 
 export type ProductType = $Enums.ProductType;
 
@@ -3316,7 +3316,7 @@ export namespace Prisma {
     image: string | null;
     resetToken: string | null;
     resetTokenExpiry: Date | null;
-    role: $Enums.Role | null;
+    role: $Enums.UserRole | null;
     emailVerified: Date | null;
     isActive: boolean | null;
     isDeleted: boolean | null;
@@ -3334,7 +3334,7 @@ export namespace Prisma {
     image: string | null;
     resetToken: string | null;
     resetTokenExpiry: Date | null;
-    role: $Enums.Role | null;
+    role: $Enums.UserRole | null;
     emailVerified: Date | null;
     isActive: boolean | null;
     isDeleted: boolean | null;
@@ -3498,7 +3498,7 @@ export namespace Prisma {
     image: string | null;
     resetToken: string | null;
     resetTokenExpiry: Date | null;
-    role: $Enums.Role;
+    role: $Enums.UserRole;
     emailVerified: Date | null;
     isActive: boolean;
     isDeleted: boolean;
@@ -3676,7 +3676,7 @@ export namespace Prisma {
         image: string | null;
         resetToken: string | null;
         resetTokenExpiry: Date | null;
-        role: $Enums.Role;
+        role: $Enums.UserRole;
         emailVerified: Date | null;
         isActive: boolean;
         isDeleted: boolean;
@@ -4242,7 +4242,7 @@ export namespace Prisma {
     readonly image: FieldRef<"User", "String">;
     readonly resetToken: FieldRef<"User", "String">;
     readonly resetTokenExpiry: FieldRef<"User", "DateTime">;
-    readonly role: FieldRef<"User", "Role">;
+    readonly role: FieldRef<"User", "UserRole">;
     readonly emailVerified: FieldRef<"User", "DateTime">;
     readonly isActive: FieldRef<"User", "Boolean">;
     readonly isDeleted: FieldRef<"User", "Boolean">;
@@ -32643,14 +32643,17 @@ export namespace Prisma {
   >;
 
   /**
-   * Reference to a field of type 'Role'
+   * Reference to a field of type 'UserRole'
    */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, "Role">;
+  export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, "UserRole">;
 
   /**
-   * Reference to a field of type 'Role[]'
+   * Reference to a field of type 'UserRole[]'
    */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, "Role[]">;
+  export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
+    $PrismaModel,
+    "UserRole[]"
+  >;
 
   /**
    * Reference to a field of type 'Boolean'
@@ -32796,7 +32799,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null;
     resetToken?: StringNullableFilter<"User"> | string | null;
     resetTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null;
-    role?: EnumRoleFilter<"User"> | $Enums.Role;
+    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole;
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null;
     isActive?: BoolFilter<"User"> | boolean;
     isDeleted?: BoolFilter<"User"> | boolean;
@@ -32852,7 +32855,7 @@ export namespace Prisma {
       image?: StringNullableFilter<"User"> | string | null;
       resetToken?: StringNullableFilter<"User"> | string | null;
       resetTokenExpiry?: DateTimeNullableFilter<"User"> | Date | string | null;
-      role?: EnumRoleFilter<"User"> | $Enums.Role;
+      role?: EnumUserRoleFilter<"User"> | $Enums.UserRole;
       emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null;
       isActive?: BoolFilter<"User"> | boolean;
       isDeleted?: BoolFilter<"User"> | boolean;
@@ -32904,7 +32907,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null;
     resetToken?: StringNullableWithAggregatesFilter<"User"> | string | null;
     resetTokenExpiry?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null;
-    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role;
+    role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole;
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null;
     isActive?: BoolWithAggregatesFilter<"User"> | boolean;
     isDeleted?: BoolWithAggregatesFilter<"User"> | boolean;
@@ -34808,7 +34811,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -34834,7 +34837,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -34860,7 +34863,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -34886,7 +34889,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -34912,7 +34915,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -34930,7 +34933,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -34948,7 +34951,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -36970,11 +36973,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
   };
 
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
+  export type EnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole;
   };
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -37182,14 +37185,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
 
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role;
+  export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole;
     _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumRoleFilter<$PrismaModel>;
-    _max?: NestedEnumRoleFilter<$PrismaModel>;
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>;
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>;
   };
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -38806,8 +38809,8 @@ export namespace Prisma {
     set?: Date | string | null;
   };
 
-  export type EnumRoleFieldUpdateOperationsInput = {
-    set?: $Enums.Role;
+  export type EnumUserRoleFieldUpdateOperationsInput = {
+    set?: $Enums.UserRole;
   };
 
   export type BoolFieldUpdateOperationsInput = {
@@ -41267,11 +41270,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null;
   };
 
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role;
+  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole;
   };
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -41360,14 +41363,14 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>;
   };
 
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>;
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>;
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role;
+  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>;
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>;
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole;
     _count?: NestedIntFilter<$PrismaModel>;
-    _min?: NestedEnumRoleFilter<$PrismaModel>;
-    _max?: NestedEnumRoleFilter<$PrismaModel>;
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>;
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>;
   };
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -42228,7 +42231,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -42253,7 +42256,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -42294,7 +42297,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -42319,7 +42322,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -42344,7 +42347,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -42369,7 +42372,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -42410,7 +42413,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -42435,7 +42438,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -44234,7 +44237,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -44259,7 +44262,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -44316,7 +44319,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -44341,7 +44344,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -44666,7 +44669,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -44691,7 +44694,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -44850,7 +44853,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -44875,7 +44878,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -45024,7 +45027,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -45049,7 +45052,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -45235,7 +45238,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -45260,7 +45263,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -45865,7 +45868,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -45890,7 +45893,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -45992,7 +45995,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -46017,7 +46020,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -46109,7 +46112,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -46134,7 +46137,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -46239,7 +46242,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -46264,7 +46267,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -46365,7 +46368,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -46390,7 +46393,7 @@ export namespace Prisma {
     image?: string | null;
     resetToken?: string | null;
     resetTokenExpiry?: Date | string | null;
-    role?: $Enums.Role;
+    role?: $Enums.UserRole;
     emailVerified?: Date | string | null;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -46431,7 +46434,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;
@@ -46456,7 +46459,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null;
     resetToken?: NullableStringFieldUpdateOperationsInput | string | null;
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole;
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     isActive?: BoolFieldUpdateOperationsInput | boolean;
     isDeleted?: BoolFieldUpdateOperationsInput | boolean;

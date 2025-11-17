@@ -1,21 +1,25 @@
 import { ZodError } from "zod";
-import { AnyFieldErrors } from "@/shared/types";
+import { FieldErrorMessages } from "@/shared/types";
 
-export function mapZodErrors(err: unknown): AnyFieldErrors {
-  const out: AnyFieldErrors = {};
+export function mapZodErrors(error: ZodError): FieldErrorMessages {
+  const fieldErrors: FieldErrorMessages = {};
 
-  if (err && typeof err === "object" && "flatten" in err) {
-    try {
-      const zErr = err as ZodError<unknown>;
-      const flat = (zErr.flatten().fieldErrors ?? {}) as Record<string, string[] | undefined>;
-      for (const key in flat) {
-        const v = flat[key];
-        out[key] = Array.isArray(v) ? v.join(", ") : undefined;
-      }
-    } catch {
-      // fallthrough to empty out
+  const flattened = error.flatten().fieldErrors;
+
+  // Original implementation that kept multiple messages as an array
+  // for (const [key, value] of Object.entries(flattened)) {
+  //   if (Array.isArray(value) && value.length > 0) {
+  //     fieldErrors[key] = value.filter((msg): msg is string => msg !== undefined && msg !== null);
+  //   }
+  // }
+
+  // Join multiple error messages into a single string per field
+  for (const [key, value] of Object.entries(flattened)) {
+    if (Array.isArray(value) && value.length > 0) {
+      const messages = value.filter((msg): msg is string => msg !== undefined && msg !== null);
+      fieldErrors[key] = messages.join(", ");
     }
   }
 
-  return out;
+  return fieldErrors;
 }

@@ -16,7 +16,7 @@ generator client {
 // Data source & generator are preserved from project boilerplate
 
 // Enums
-enum Role {
+enum UserRole {
   USER
   ADMIN
 }
@@ -71,7 +71,7 @@ model User {
   image            String?
   resetToken       String?
   resetTokenExpiry DateTime?
-  role             Role       @default(USER)
+  role             UserRole       @default(USER)
   emailVerified    DateTime?
   isActive         Boolean    @default(true)
   isDeleted        Boolean    @default(false)

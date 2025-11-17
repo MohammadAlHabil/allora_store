@@ -1,7 +1,7 @@
 "use client";
 
 import { signUpAction } from "../actions";
-import { SignUpSchema } from "../validations";
+import { SignUpSchema } from "../schemas";
 import { AuthForm } from "./AuthForm";
 import GoogleLoginButton from "./GoogleLoginButton";
 

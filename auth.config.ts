@@ -3,7 +3,7 @@ import type { NextAuthConfig, Session } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { UserRole } from "./features/auth";
+import { UserRole } from "@/app/generated/prisma";
 import { getUserByEmail } from "./features/user/actions/user.actions";
 
 type TokenWithRole = JWT & { id?: string; role?: UserRole | undefined };
