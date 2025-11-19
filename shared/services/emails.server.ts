@@ -1,13 +1,14 @@
 "use server";
 
 import nodemailer from "nodemailer";
+import { EmailServiceError } from "@/shared/lib/errors/server";
+import { APP_URL } from "../constants/constant";
 
 const SMTP_USER = process.env.SMTP_USER;
 const SMTP_PASS = process.env.SMTP_PASS;
 const SMTP_SERVICE = process.env.SMTP_SERVICE || "gmail";
-const SMTP_FROM = process.env.SMTP_FROM || `no-reply@${process.env.APP_URL ?? "localhost"}`;
+const SMTP_FROM = process.env.SMTP_FROM || `no-reply@${APP_URL ?? "localhost"}`;
 const DISABLE_EMAIL = process.env.DISABLE_EMAIL === "true";
-const APP_URL = process.env.APP_URL || "http://localhost:3000";
 
 const primaryTransporter =
   SMTP_USER && SMTP_PASS
@@ -29,7 +30,6 @@ const NETWORK_ERRORS = new Set([
 
 export async function sendMail(opts: { to: string; subject: string; html: string }) {
   if (DISABLE_EMAIL) {
-    console.info("Emails disabled (DISABLE_EMAIL=true). Skipping sendMail:", opts.to);
     return { success: true, skipped: true };
   }
 
@@ -39,14 +39,13 @@ export async function sendMail(opts: { to: string; subject: string; html: string
       ...opts,
     });
 
-    // const preview = nodemailer.getTestMessageUrl(info);
-    // if (preview) console.info("Preview email:", preview);
-
+    const preview = nodemailer.getTestMessageUrl(info);
+    if (preview) console.info("Preview email:", preview);
     return { success: true };
   } catch (err) {
     const e = err as { code?: string; message?: string };
-    console.warn("Primary email send failed:", e.message || e);
 
+    // Try fallback for network errors
     if (e.code && NETWORK_ERRORS.has(e.code)) {
       try {
         await fallbackTransporter.sendMail({
@@ -54,14 +53,26 @@ export async function sendMail(opts: { to: string; subject: string; html: string
           ...opts,
         });
 
-        console.info("Email captured via fallback jsonTransport.");
         return { success: true, fallback: true };
       } catch (e2) {
-        console.warn("Fallback transport also failed:", (e2 as Error).message ?? e2);
+        const fallbackErr = e2 as Error;
+
+        // Both transports failed - throw error with full details
+        throw new EmailServiceError("Failed to send email after fallback attempt", {
+          to: opts.to,
+          subject: opts.subject,
+          primaryError: e.message,
+          fallbackError: fallbackErr.message,
+        });
       }
     }
 
-    return { success: false, error: e.message };
+    // Non-network error - throw immediately
+    throw new EmailServiceError(e.message || "Failed to send email", {
+      to: opts.to,
+      subject: opts.subject,
+      code: e.code,
+    });
   }
 }
 

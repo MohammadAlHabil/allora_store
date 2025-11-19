@@ -1,127 +1,146 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { handleActionError } from "@/shared/lib/error-handler";
-import { ActionResponse } from "@/shared/types";
+import {
+  ok,
+  type Result,
+  ValidationError,
+  withAction,
+  InvalidCredentialsError,
+} from "@/shared/lib/errors/server";
+import { parseFormData } from "@/shared/lib/utils";
 import { SignUpSchema, SignInSchema, ForgotPasswordSchema, ResetPasswordSchema } from "../schemas";
 import {
   signupUserService,
-  signinUserService,
   verifyEmailService,
   forgotPasswordService,
   resetPasswordService,
 } from "../services/auth.service";
-import { parseFormData } from "../utils";
 
 // ───────────────────────────────────────────────
 // Sign Up
 // ───────────────────────────────────────────────
-export async function signUpAction(formData: FormData): Promise<ActionResponse<null>> {
-  try {
-    const validation = parseFormData(formData, SignUpSchema);
-    if (!validation.success) return validation.response;
+export const signUpAction = withAction(async (formData: FormData): Promise<Result<null>> => {
+  const validation = parseFormData(formData, SignUpSchema);
+  if (!validation.success) return validation;
 
-    const { name, email, password } = validation.data;
+  const { name, email, password } = validation.data;
 
-    await signupUserService(name, email, password);
-
-    return { success: true, message: "Verification email sent" };
-  } catch (error) {
-    return handleActionError(error, "signUpAction");
-  }
-}
+  await signupUserService(name, email, password);
+  return ok(null, "Account created! Please check your email to verify your account.");
+}, "auth.actions.signUp");
 
 // ───────────────────────────────────────────────
 // Sign In
 // ───────────────────────────────────────────────
-export async function signInAction(formData: FormData): Promise<ActionResponse> {
+export const signInAction = withAction(async (formData: FormData): Promise<Result<null>> => {
+  const validation = parseFormData(formData, SignInSchema);
+  if (!validation.success) return validation;
+
+  const { email, password } = validation.data;
+
   try {
-    const validation = parseFormData(formData, SignInSchema);
-    if (!validation.success) return validation.response;
-
-    const { email, password } = validation.data;
-
-    await signinUserService(email, password);
-
+    // NextAuth will handle validation via authorize function in auth.config.ts
     await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
 
-    return { success: true, message: "Signed in" };
+    return ok(null, "Signed in successfully");
   } catch (error) {
-    return handleActionError(error, "signInAction");
+    // NextAuth wraps errors in CallbackRouteError
+    // The actual error is in error.cause.err
+    if (error instanceof Error) {
+      const errorMessage = error.message;
+      const errorWithCause = error as Error & {
+        cause?: {
+          err?: Error;
+          message?: string;
+        };
+      };
+
+      // Extract the actual error message from cause.err or cause.message
+      const causeMessage =
+        errorWithCause.cause?.err?.message || errorWithCause.cause?.message || "";
+      const combinedMessage = errorMessage + " " + causeMessage;
+
+      // Check for specific error codes from authorize function
+      if (combinedMessage.includes("EMAIL_NOT_VERIFIED")) {
+        throw new ValidationError(
+          "Please verify your email before signing in. Check your inbox for the verification link."
+        );
+      }
+
+      if (combinedMessage.includes("INVALID_CREDENTIALS")) {
+        throw new InvalidCredentialsError();
+      }
+
+      if (combinedMessage.includes("VALIDATION_ERROR")) {
+        throw new ValidationError("Email and password are required");
+      }
+    }
+
+    // Re-throw the original error if it's not a credentials issue
+    throw error;
   }
-}
+}, "auth.actions.signIn");
 
 // ───────────────────────────────────────────────
 // Forgot Password
 // ───────────────────────────────────────────────
-export async function forgotPasswordAction(formData: FormData): Promise<ActionResponse> {
-  try {
+export const forgotPasswordAction = withAction(
+  async (formData: FormData): Promise<Result<null>> => {
     const validation = parseFormData(formData, ForgotPasswordSchema);
-    if (!validation.success) return validation.response;
+    if (!validation.success) return validation;
 
     const { email } = validation.data;
 
-    const { message } = await forgotPasswordService(email);
-
-    return { success: true, message };
-  } catch (error) {
-    return handleActionError(error, "forgotPasswordAction");
-  }
-}
+    await forgotPasswordService(email);
+    return ok(
+      null,
+      "If an account exists with this email, you will receive password reset instructions."
+    );
+  },
+  "auth.actions.forgotPassword"
+);
 
 // ───────────────────────────────────────────────
 // Reset Password
 // ───────────────────────────────────────────────
-export async function resetPasswordAction(
-  formData: FormData,
-  token: string | undefined
-): Promise<ActionResponse> {
-  try {
+export const resetPasswordAction = withAction(
+  async (formData: FormData, token: string | undefined): Promise<Result<null>> => {
     if (!token) {
-      return { success: false, message: "Token is required" };
+      throw new ValidationError("Token is required");
     }
 
     const validation = parseFormData(formData, ResetPasswordSchema);
-    if (!validation.success) return validation.response;
+    if (!validation.success) return validation;
 
     const { password } = validation.data;
 
-    const { message } = await resetPasswordService(token, password);
-
-    return { success: true, message };
-  } catch (error) {
-    return handleActionError(error, "resetPasswordAction");
-  }
-}
+    await resetPasswordService(token, password);
+    return ok(null, "Password reset successfully. You can now sign in with your new password.");
+  },
+  "auth.actions.resetPassword"
+);
 
 // ───────────────────────────────────────────────
 // Verify Email
 // ───────────────────────────────────────────────
-export async function verifyEmailAction(token: string): Promise<ActionResponse> {
-  try {
-    if (!token) {
-      return { success: false, message: "Token is required" };
-    }
-
-    const { message } = await verifyEmailService(token);
-
-    return { success: true, message };
-  } catch (error) {
-    return handleActionError(error, "verifyEmailAction");
+export const verifyEmailAction = withAction(async (token: string): Promise<Result<null>> => {
+  if (!token) {
+    throw new ValidationError("Token is required");
   }
-}
+
+  await verifyEmailService(token);
+  return ok(null, "Email verified successfully! You can now sign in.");
+}, "auth.actions.verifyEmail");
 
 // ───────────────────────────────────────────────
 // Google OAuth
 // ───────────────────────────────────────────────
-export async function googleSignInAction(): Promise<void> {
-  try {
-    await signIn("google");
-  } catch (error) {
-    handleActionError(error, "googleSignInAction");
-  }
-}
+export const googleSignInAction = withAction(async () => {
+  await signIn("google");
+  return ok(null);
+}, "auth.actions.googleSignIn");

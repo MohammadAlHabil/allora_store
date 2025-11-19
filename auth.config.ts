@@ -4,7 +4,7 @@ import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { UserRole } from "@/app/generated/prisma";
-import { getUserByEmail } from "./features/user/actions/user.actions";
+import { getUserByEmail } from "./features/auth/repositories/user.repository";
 
 type TokenWithRole = JWT & { id?: string; role?: UserRole | undefined };
 type SessionWithUser = Session & {
@@ -31,13 +31,25 @@ export default {
         const email = typeof credentials?.email === "string" ? credentials.email : undefined;
         const password =
           typeof credentials?.password === "string" ? credentials.password : undefined;
-        if (!email || !password) return null;
+
+        if (!email || !password) {
+          throw new Error("VALIDATION_ERROR: Email and password are required");
+        }
 
         const user = await getUserByEmail(email);
-        if (!user || !user.password) return null;
+        if (!user || !user.password) {
+          throw new Error("INVALID_CREDENTIALS: Invalid email or password");
+        }
 
         const valid = await bcrypt.compare(password, user.password);
-        if (!valid) return null;
+        if (!valid) {
+          throw new Error("INVALID_CREDENTIALS: Invalid email or password");
+        }
+
+        // Check if email is verified
+        if (!user.emailVerified) {
+          throw new Error("EMAIL_NOT_VERIFIED: Please verify your email before signing in");
+        }
 
         return {
           id: String(user.id),

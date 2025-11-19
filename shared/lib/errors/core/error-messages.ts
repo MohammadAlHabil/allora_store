@@ -1,78 +1,15 @@
-// ==========================================
-// RESPONSE TYPES
-// ==========================================
+/**
+ * ═══════════════════════════════════════════════════════════════
+ * ERROR MESSAGES & STATUS CODES
+ * ═══════════════════════════════════════════════════════════════
+ */
 
-export interface ErrorResponse {
-  success: false;
-  error: {
-    code: ErrorCode;
-    message: string;
-    status: number;
-    context?: string;
-    details?: unknown;
-    timestamp: string;
-  };
-}
+import type { ErrorCode } from "./error-codes";
+import { ERROR_CODES } from "./error-codes";
 
-// ==========================================
-// ERROR CODES
-// ==========================================
-
-export const ERROR_CODES = {
-  // Authentication & Authorization (1xxx)
-  AUTH_ERROR: "AUTH_ERROR",
-  INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
-  INVALID_TOKEN: "INVALID_TOKEN",
-  TOKEN_EXPIRED: "TOKEN_EXPIRED",
-  EMAIL_NOT_VERIFIED: "EMAIL_NOT_VERIFIED",
-  UNAUTHORIZED: "UNAUTHORIZED",
-  FORBIDDEN: "FORBIDDEN",
-
-  // Validation (2xxx)
-  VALIDATION_ERROR: "VALIDATION_ERROR",
-  MISSING_FIELD: "MISSING_FIELD",
-  INVALID_FORMAT: "INVALID_FORMAT",
-  INVALID_EMAIL: "INVALID_EMAIL",
-  PASSWORD_TOO_WEAK: "PASSWORD_TOO_WEAK",
-
-  // Database (3xxx)
-  DATABASE_ERROR: "DATABASE_ERROR",
-  DATABASE_CONNECTION_ERROR: "DATABASE_CONNECTION_ERROR",
-  QUERY_FAILED: "QUERY_FAILED",
-  TRANSACTION_FAILED: "TRANSACTION_FAILED",
-
-  // Resources (4xxx)
-  NOT_FOUND: "NOT_FOUND",
-  CONFLICT: "CONFLICT",
-  ALREADY_EXISTS: "ALREADY_EXISTS",
-
-  // Rate Limiting (5xxx)
-  RATE_LIMIT_EXCEEDED: "RATE_LIMIT_EXCEEDED",
-  TOO_MANY_REQUESTS: "TOO_MANY_REQUESTS",
-
-  // Business Logic (6xxx)
-  INSUFFICIENT_STOCK: "INSUFFICIENT_STOCK",
-  PAYMENT_FAILED: "PAYMENT_FAILED",
-  ORDER_CANCELLED: "ORDER_CANCELLED",
-  INVALID_COUPON: "INVALID_COUPON",
-
-  // External Services (7xxx)
-  EXTERNAL_SERVICE_ERROR: "EXTERNAL_SERVICE_ERROR",
-  PAYMENT_GATEWAY_ERROR: "PAYMENT_GATEWAY_ERROR",
-  EMAIL_SERVICE_ERROR: "EMAIL_SERVICE_ERROR",
-
-  // General (9xxx)
-  INTERNAL_ERROR: "INTERNAL_ERROR",
-  UNKNOWN_ERROR: "UNKNOWN_ERROR",
-  NOT_IMPLEMENTED: "NOT_IMPLEMENTED",
-} as const;
-
-export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
-
-// ==========================================
-// ERROR MESSAGES
-// ==========================================
-
+/**
+ * Default error messages (technical)
+ */
 export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   // Auth
   [ERROR_CODES.AUTH_ERROR]: "Authentication failed",
@@ -122,10 +59,9 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   [ERROR_CODES.NOT_IMPLEMENTED]: "Feature not implemented",
 };
 
-// ==========================================
-// USER-FRIENDLY MESSAGES (for frontend)
-// ==========================================
-
+/**
+ * User-friendly messages (for frontend)
+ */
 export const USER_FRIENDLY_MESSAGES: Partial<Record<ErrorCode, string>> = {
   [ERROR_CODES.AUTH_ERROR]: "We couldn't sign you in. Please try again.",
   [ERROR_CODES.INVALID_CREDENTIALS]: "The email or password you entered is incorrect.",
@@ -136,10 +72,9 @@ export const USER_FRIENDLY_MESSAGES: Partial<Record<ErrorCode, string>> = {
   [ERROR_CODES.INTERNAL_ERROR]: "Something went wrong. We're working to fix it.",
 };
 
-// ==========================================
-// STATUS CODE MAPPING
-// ==========================================
-
+/**
+ * HTTP status code mapping
+ */
 export const ERROR_STATUS_CODES: Record<ErrorCode, number> = {
   // 400 Bad Request
   [ERROR_CODES.VALIDATION_ERROR]: 400,
@@ -182,6 +117,8 @@ export const ERROR_STATUS_CODES: Record<ErrorCode, number> = {
   [ERROR_CODES.TRANSACTION_FAILED]: 500,
   [ERROR_CODES.INTERNAL_ERROR]: 500,
   [ERROR_CODES.UNKNOWN_ERROR]: 500,
+
+  // 501 Not Implemented
   [ERROR_CODES.NOT_IMPLEMENTED]: 501,
 
   // 502 Bad Gateway
@@ -192,3 +129,20 @@ export const ERROR_STATUS_CODES: Record<ErrorCode, number> = {
   // 503 Service Unavailable
   [ERROR_CODES.PAYMENT_FAILED]: 503,
 };
+
+/**
+ * Get error message (with optional user-friendly fallback)
+ */
+export function getErrorMessage(code: ErrorCode, userFriendly = false): string {
+  if (userFriendly && USER_FRIENDLY_MESSAGES[code]) {
+    return USER_FRIENDLY_MESSAGES[code]!;
+  }
+  return ERROR_MESSAGES[code] || "An error occurred";
+}
+
+/**
+ * Get HTTP status code for error
+ */
+export function getErrorStatus(code: ErrorCode): number {
+  return ERROR_STATUS_CODES[code] || 500;
+}

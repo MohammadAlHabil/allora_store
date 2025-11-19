@@ -1,6 +1,6 @@
-import type { ErrorCode, ErrorResponse } from "@/shared/types";
-import { ERROR_CODES, ERROR_MESSAGES } from "@/shared/types";
-import { getStatusCode } from "./utils/error.utils";
+import type { ErrorCode } from "./error-codes";
+import { ERROR_CODES } from "./error-codes";
+import { ERROR_MESSAGES, ERROR_STATUS_CODES } from "./error-messages";
 
 // ==========================================
 // BASE ERROR CLASS
@@ -27,7 +27,7 @@ export class AppError extends Error {
 
     this.name = this.constructor.name;
     this.code = code;
-    this.status = status || getStatusCode(code);
+    this.status = status || ERROR_STATUS_CODES[code] || 500;
     this.context = context;
     this.details = details;
     this.isOperational = isOperational;
@@ -36,7 +36,7 @@ export class AppError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 
-  toJSON(): ErrorResponse["error"] {
+  toJSON() {
     return {
       code: this.code,
       message: this.message,
@@ -51,7 +51,6 @@ export class AppError extends Error {
 // ==========================================
 // VALIDATION ERRORS (2xxx)
 // ==========================================
-
 export class ValidationError extends AppError {
   constructor(message?: string, details?: unknown) {
     super(ERROR_CODES.VALIDATION_ERROR, message, undefined, undefined, details);

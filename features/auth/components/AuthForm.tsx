@@ -15,8 +15,8 @@ import {
   FieldDescription,
 } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
+import { Result } from "@/shared/lib/errors";
 import { cn } from "@/shared/lib/utils";
-import { ActionResponse } from "@/shared/types";
 
 type ZodSchemaType = ZodTypeAny;
 
@@ -28,7 +28,7 @@ type FieldSpec<T extends FieldValues> = {
   description?: string;
 };
 
-type SubmitAction = (formData: FormData) => Promise<ActionResponse>;
+type SubmitAction = (formData: FormData) => Promise<Result<null>>;
 
 type AuthFormProps<T extends FieldValues> = {
   schema: ZodSchemaType;
@@ -83,7 +83,7 @@ export function AuthForm<T extends FieldValues>({
   submitAction,
   showForgotPasswordLink,
 }: AuthFormProps<T>) {
-  const [state, setState] = useState<ActionResponse | undefined>(undefined);
+  const [state, setState] = useState<Result<null> | undefined>(undefined);
   const [isPending, setIsPending] = useState(false);
 
   const router = useRouter();
@@ -94,11 +94,11 @@ export function AuthForm<T extends FieldValues>({
     resolver: zodResolver(schema as any) as Resolver<T>,
   });
 
-  // Handle server-driven errors
+  // Handle server-driven field errors
   useEffect(() => {
-    if (!state || !state.fieldErrors) return;
+    if (!state || state.success || !state.error.fieldErrors) return;
 
-    Object.entries(state.fieldErrors).forEach(([name, message]) => {
+    Object.entries(state.error.fieldErrors).forEach(([name, message]) => {
       form.setError(name as Path<T>, {
         type: "server",
         message,
@@ -106,7 +106,7 @@ export function AuthForm<T extends FieldValues>({
     });
   }, [state, form]);
 
-  // Redirect logic separated
+  // Handle successful submission redirects
   useEffect(() => {
     if (!state?.success) return;
 
@@ -117,12 +117,14 @@ export function AuthForm<T extends FieldValues>({
   const onSubmit = form.handleSubmit(async () => {
     if (!formRef.current) return;
     setIsPending(true);
+
     try {
       const fd = new FormData(formRef.current);
       const res = await submitAction(fd);
       setState(res);
     } catch (err) {
-      setState({ success: false, message: (err as Error)?.message });
+      // Handle unexpected errors - should not happen with proper error handling
+      console.error("Unexpected error in form submission:", err);
     } finally {
       setIsPending(false);
     }
@@ -145,14 +147,19 @@ export function AuthForm<T extends FieldValues>({
 
         {children}
 
-        {state?.message && (
+        {/* Display global message (success or error) */}
+        {state && (
           <div
+            role={state.success ? "status" : "alert"}
+            aria-live="polite"
             className={cn(
-              "text-sm font-medium",
-              state.success ? "text-green-700" : "text-destructive"
+              "p-3 rounded-md text-sm font-medium",
+              state.success
+                ? "bg-green-50 text-green-800 border border-green-200"
+                : "bg-red-50 text-red-800 border border-red-200"
             )}
           >
-            {state.message}
+            {state.success ? state.message : state.error.message}
           </div>
         )}
 

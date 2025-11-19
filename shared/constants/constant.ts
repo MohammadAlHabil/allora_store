@@ -4,3 +4,7 @@ export const TOKEN_BYTES = 32;
 export const isTest = process.env.NODE_ENV === "test";
 export const isProd = process.env.NODE_ENV === "production";
 export const isDev = !isProd && !isTest;
+export const APP_PORT = Number(process.env.PORT ?? process.env.APP_PORT ?? 3000);
+export const APP_HOST = process.env.APP_HOST || "localhost";
+export const APP_PROTOCOL = process.env.APP_PROTOCOL || "http";
+export const APP_URL = process.env.APP_URL || `${APP_PROTOCOL}://${APP_HOST}:${APP_PORT}`;

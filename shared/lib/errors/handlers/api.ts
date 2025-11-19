@@ -1,0 +1,65 @@
+/**
+ * ═══════════════════════════════════════════════════════════════
+ * API ROUTE ERROR HANDLING
+ * ═══════════════════════════════════════════════════════════════
+ * Wraps API Route handlers with automatic error handling
+ */
+
+import { logger } from "@/shared/lib/logger";
+import { fail } from "../core/result";
+import { type Result } from "../core/types";
+import { mapToErrorDetails } from "../mappers/error-mapper";
+
+/**
+ * Wraps API Route handlers with automatic error handling
+ *
+ * @example
+ * export const GET = withApiRoute(
+ *   async (request) => {
+ *     const users = await getAllUsers()
+ *     if (!users.success) return users
+ *
+ *     return ok(users.data)
+ *   },
+ *   "GET /api/users"
+ * )
+ */
+export function withApiRoute<TData>(
+  fn: (request: Request) => Promise<Result<TData>>,
+  context?: string
+): (request: Request) => Promise<Response> {
+  return async (request: Request): Promise<Response> => {
+    try {
+      const result = await fn(request);
+
+      if (result.success) {
+        return Response.json(result, { status: 200 });
+      } else {
+        return Response.json(result, { status: result.error.status });
+      }
+    } catch (error) {
+      const errorDetails = mapToErrorDetails(error, context || "api");
+
+      // Log API errors
+      logger.error({
+        message: `API error: ${errorDetails.message}`,
+        code: errorDetails.code,
+        status: errorDetails.status,
+        context: errorDetails.context,
+      });
+
+      return Response.json(fail(errorDetails), { status: errorDetails.status });
+    }
+  };
+}
+
+/**
+ * Helper to convert Result to Response
+ */
+export function toResponse<T>(result: Result<T>, successStatus = 200): Response {
+  if (result.success) {
+    return Response.json(result, { status: successStatus });
+  } else {
+    return Response.json(result, { status: result.error.status });
+  }
+}

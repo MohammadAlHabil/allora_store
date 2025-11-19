@@ -10,24 +10,23 @@ export const logger = pino({
     req: pino.stdSerializers.req,
     res: pino.stdSerializers.res,
   },
-  transport: isDev
-    ? {
-        target: "pino-pretty",
-        options: {
-          colorize: true,
-          ignore: "pid,hostname",
-          translateTime: "SYS:standard",
-          singleLine: false,
-          messageFormat: "{levelLabel} [{context}] {msg}",
-        },
-      }
-    : undefined, // production log stays JSON (best for cloud)
+  // Disable transport in Next.js to avoid worker thread issues
+  // transport: isDev
+  //   ? {
+  //       target: "pino-pretty",
+  //       options: {
+  //         colorize: true,
+  //         ignore: "pid,hostname",
+  //         translateTime: "SYS:standard",
+  //         singleLine: false,
+  //         messageFormat: "{levelLabel} [{context}] {msg}",
+  //       },
+  //     }
+  //   : undefined, // production log stays JSON (best for cloud)
   // Production: structured JSON logs
-  formatters: !isDev
-    ? {
-        level: (label) => {
-          return { level: label };
-        },
-      }
-    : undefined,
+  formatters: {
+    level: (label) => {
+      return { level: label };
+    },
+  },
 });
