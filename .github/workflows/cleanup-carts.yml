@@ -1,0 +1,20 @@
+name: Cleanup Expired Anonymous Carts
+
+on:
+  schedule:
+    # Run daily at 2:00 AM UTC (cron format: minute hour day month day-of-week)
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Cleanup API
+        run: |
+          curl -X POST "${{ secrets.APP_URL }}/api/cart/cleanup" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.CLEANUP_SECRET }}"
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+

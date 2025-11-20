@@ -305,17 +305,30 @@ model CartItem {
 model Address {
   id          String   @id @default(cuid())
   userId      String?
-  label       String?  // e.g. home, work
+  label       String?  // e.g. home, work, office
   firstName   String?
   lastName    String?
   company     String?
-  line1       String
-  line2       String?
+  phone       String?
+  
+  // Detailed address fields (enhanced UX)
+  line1       String   // Main street/neighborhood/area
+  line2       String?  // Additional details (optional)
+  apartment   String?  // Apartment number
+  building    String?  // Building name/number
+  floor       String?  // Floor level
   city        String
-  region      String?
+  region      String?  // State/province/region
   postalCode  String
   country     String
-  phone       String?
+  
+  // Location coordinates for map integration
+  latitude    Decimal?  @db.Decimal(10, 8)
+  longitude   Decimal?  @db.Decimal(11, 8)
+  
+  // Additional delivery notes
+  additionalNotes String?  // Delivery instructions (e.g., next to mosque, behind supermarket)
+  
   isDefault   Boolean  @default(false)
 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
@@ -347,15 +360,40 @@ model Order {
 
   shippingAddressId String?
   billingAddressId  String?
+  shippingMethodId  String?
 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
   shippingAddress Address? @relation("order_shipping", fields: [shippingAddressId], references: [id], onDelete: SetNull)
   billingAddress  Address? @relation("order_billing", fields: [billingAddressId], references: [id], onDelete: SetNull)
+  shippingMethod  ShippingMethod? @relation(fields: [shippingMethodId], references: [id], onDelete: SetNull)
 
   placedAt    DateTime?
   fulfilledAt DateTime?
   cancelledAt DateTime?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+// ShippingMethod: Represents delivery methods provided by Allora Delivery
+model ShippingMethod {
+  id                  String   @id @default(cuid())
+  key                 String   @unique // e.g., "standard", "express", "pickup"
+  name                String   // Display name (e.g., "Allora Standard Delivery")
+  nameAr              String?  // Arabic name
+  description         String?  // Brief description of the method
+  descriptionAr       String?  // Arabic description
+  basePrice           Decimal  @default(0) // Base delivery cost
+  currency            String   @default("EGP")
+  isActive            Boolean  @default(true)
+  availableCountries  String[] @default(["EG"]) // ISO country codes (default: Egypt only)
+  estimatedDaysMin    Int      @default(2) // Minimum delivery days
+  estimatedDaysMax    Int      @default(4) // Maximum delivery days
+  rules               Json?    // Additional rules: weight limits, size restrictions, price adjustments
+  logoUrl             String?  // Optional logo for carrier branding
+  
+  orders Order[]
+  
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
 }

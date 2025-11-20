@@ -56,3 +56,105 @@ function safeParseToResult<T>(data: unknown, schema: ZodSchema<T>): Result<T> {
     data: result.data,
   };
 }
+
+/**
+ * Validation utilities
+ */
+
+/**
+ * Validate email format
+ */
+export function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+/**
+ * Validate quantity (must be positive integer)
+ */
+export function isValidQuantity(quantity: number): boolean {
+  return Number.isInteger(quantity) && quantity > 0;
+}
+
+/**
+ * Validate price (must be positive number)
+ */
+export function isValidPrice(price: number): boolean {
+  return typeof price === "number" && !isNaN(price) && price >= 0;
+}
+
+/**
+ * Validate cart item input
+ */
+export function validateCartItemInput(input: {
+  productId?: unknown;
+  variantId?: unknown;
+  quantity?: unknown;
+}): { isValid: boolean; errors: string[] } {
+  const errors: string[] = [];
+
+  if (!input.productId || typeof input.productId !== "string") {
+    errors.push("Product ID is required and must be a string");
+  }
+
+  if (
+    input.variantId !== null &&
+    input.variantId !== undefined &&
+    typeof input.variantId !== "string"
+  ) {
+    errors.push("Variant ID must be a string or null");
+  }
+
+  if (input.quantity === undefined || input.quantity === null) {
+    errors.push("Quantity is required");
+  } else if (!isValidQuantity(input.quantity as number)) {
+    errors.push("Quantity must be a positive integer");
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
+}
+
+/**
+ * Validate coupon code format
+ */
+export function isValidCouponCode(code: string): boolean {
+  // Coupon codes should be alphanumeric, uppercase, 3-20 characters
+  const couponRegex = /^[A-Z0-9]{3,20}$/;
+  return couponRegex.test(code.toUpperCase());
+}
+
+/**
+ * Sanitize coupon code
+ */
+export function sanitizeCouponCode(code: string): string {
+  return code
+    .trim()
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");
+}
+
+/**
+ * Validate quantity update
+ */
+export function validateQuantityUpdate(quantity: unknown): { isValid: boolean; error?: string } {
+  if (quantity === undefined || quantity === null) {
+    return { isValid: false, error: "Quantity is required" };
+  }
+
+  if (typeof quantity !== "number") {
+    return { isValid: false, error: "Quantity must be a number" };
+  }
+
+  if (!Number.isInteger(quantity)) {
+    return { isValid: false, error: "Quantity must be an integer" };
+  }
+
+  if (quantity <= 0) {
+    return { isValid: false, error: "Quantity must be greater than 0" };
+  }
+
+  return { isValid: true };
+}

@@ -100,5 +100,6 @@ export default defineConfig([
     "next-env.d.ts",
     "node_modules/**",
     "app/generated/**",
+    "deprecated/**",
   ]),
 ]);
