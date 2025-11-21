@@ -100,6 +100,7 @@ export default defineConfig([
     "next-env.d.ts",
     "node_modules/**",
     "app/generated/**",
+    "prisma/**",
     "deprecated/**",
   ]),
 ]);

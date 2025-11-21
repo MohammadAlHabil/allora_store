@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import path from "path";
 import { PrismaClient } from "../app/generated/prisma";
@@ -37,7 +38,7 @@ async function main() {
   if (fs.existsSync(seedFile)) {
     try {
       data = JSON.parse(fs.readFileSync(seedFile, "utf-8"));
-    } catch (e) {
+    } catch {
       console.warn("Failed to parse seed-data.json, falling back to per-file read");
     }
   }
