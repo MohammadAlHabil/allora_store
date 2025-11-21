@@ -1,0 +1,92 @@
+[
+  {
+    "id": "var_1",
+    "productId": "prod_1",
+    "sku": "SKU-SHIRT-001-S",
+    "title": "Small",
+    "optionValues": { "size": "S" },
+    "price": 49.99,
+    "isDefault": true
+  },
+  {
+    "id": "var_2",
+    "productId": "prod_2",
+    "sku": "SKU-SHOES-001-42",
+    "title": "Size 42",
+    "optionValues": { "size": "42" },
+    "price": 89.5
+  },
+  {
+    "id": "var_1b",
+    "productId": "prod_1",
+    "sku": "SKU-SHIRT-001-M",
+    "title": "Medium",
+    "optionValues": { "size": "M" },
+    "price": 49.99
+  },
+  {
+    "id": "var_1c",
+    "productId": "prod_1",
+    "sku": "SKU-SHIRT-001-L",
+    "title": "Large",
+    "optionValues": { "size": "L" },
+    "price": 49.99
+  },
+  {
+    "id": "var_2b",
+    "productId": "prod_2",
+    "sku": "SKU-SHOES-001-43",
+    "title": "Size 43",
+    "optionValues": { "size": "43" },
+    "price": 89.5
+  },
+  {
+    "id": "var_3",
+    "productId": "prod_3",
+    "sku": "SKU-HAT-001-OS",
+    "title": "One Size",
+    "optionValues": { "size": "OS" },
+    "price": 25.0,
+    "isDefault": true
+  },
+  {
+    "id": "var_4",
+    "productId": "prod_4",
+    "sku": "SKU-DRESS-001-S",
+    "title": "Small",
+    "optionValues": { "size": "S" },
+    "price": 129.0
+  },
+  {
+    "id": "var_5",
+    "productId": "prod_5",
+    "sku": "SKU-SKIRT-001-S",
+    "title": "Small",
+    "optionValues": { "size": "S" },
+    "price": 39.5
+  },
+  {
+    "id": "var_6",
+    "productId": "prod_6",
+    "sku": "SKU-PANTS-001-30",
+    "title": "Waist 30",
+    "optionValues": { "size": "30" },
+    "price": 59.0
+  },
+  {
+    "id": "var_7",
+    "productId": "prod_7",
+    "sku": "SKU-PERF-001-50ML",
+    "title": "50ml",
+    "optionValues": { "volume": "50ml" },
+    "price": 79.0
+  },
+  {
+    "id": "var_8",
+    "productId": "prod_8",
+    "sku": "SKU-SKIN-001-50ML",
+    "title": "50ml",
+    "optionValues": { "volume": "50ml" },
+    "price": 29.99
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "review_1",
+    "userId": "user_2",
+    "productId": "prod_1",
+    "rating": 5,
+    "title": "Great shirt",
+    "body": "Really comfortable and fits well.",
+    "approved": true
+  }
+]

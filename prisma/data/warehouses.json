@@ -1,0 +1,8 @@
+[
+  {
+    "id": "wh_1",
+    "name": "Main Warehouse",
+    "code": "MAIN",
+    "address": { "line1": "1 Warehouse Rd", "city": "Cairo", "country": "EG" }
+  }
+]

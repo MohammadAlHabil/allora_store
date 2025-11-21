@@ -1,0 +1,11 @@
+[
+  {
+    "id": "img_1",
+    "productId": "prod_1",
+    "url": "/images/products/shirt.jpg",
+    "alt": "Elegant Shirt",
+    "width": 800,
+    "height": 800,
+    "sortOrder": 0
+  }
+]

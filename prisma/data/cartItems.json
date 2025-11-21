@@ -1,0 +1,57 @@
+[
+  {
+    "id": "cart_item_1",
+    "cartId": "cart_1",
+    "productId": "prod_1",
+    "variantId": "var_1",
+    "sku": "SKU-SHIRT-001-S",
+    "title": "Elegant Shirt - S",
+    "quantity": 2,
+    "unitPrice": 49.99,
+    "totalPrice": 99.98
+  },
+  {
+    "id": "cart_item_2",
+    "cartId": "cart_anon_1",
+    "productId": "prod_2",
+    "variantId": "var_2",
+    "sku": "SKU-SHOES-001-42",
+    "title": "Classic Shoes - 42",
+    "quantity": 1,
+    "unitPrice": 89.5,
+    "totalPrice": 89.5
+  },
+  {
+    "id": "cart_item_3",
+    "cartId": "cart_anon_1",
+    "productId": "prod_3",
+    "variantId": null,
+    "sku": "SKU-HAT-001",
+    "title": "Stylish Hat",
+    "quantity": 2,
+    "unitPrice": 25.0,
+    "totalPrice": 50.0
+  },
+  {
+    "id": "cart_item_test_1",
+    "cartId": "cart_user_test",
+    "productId": "prod_1",
+    "variantId": "var_1",
+    "sku": "SKU-SHIRT-001-S",
+    "title": "Elegant Shirt - S",
+    "quantity": 1,
+    "unitPrice": 49.99,
+    "totalPrice": 49.99
+  },
+  {
+    "id": "cart_item_test_2",
+    "cartId": "cart_user_test",
+    "productId": "prod_2",
+    "variantId": "var_2",
+    "sku": "SKU-SHOES-001-42",
+    "title": "Classic Shoes - 42",
+    "quantity": 1,
+    "unitPrice": 89.5,
+    "totalPrice": 89.5
+  }
+]

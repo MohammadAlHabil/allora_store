@@ -1,0 +1,41 @@
+[
+  {
+    "id": "ship_standard",
+    "key": "standard",
+    "name": "Allora Standard Delivery",
+    "description": "Standard delivery within Egypt. Reliable and affordable.",
+    "basePrice": 30,
+    "currency": "EGP",
+    "isActive": true,
+    "availableCountries": ["EG"],
+    "estimatedDaysMin": 3,
+    "estimatedDaysMax": 5,
+    "rules": { "maxWeight": 30, "notes": "Free for orders above 500 EGP" }
+  },
+  {
+    "id": "ship_express",
+    "key": "express",
+    "name": "Allora Express Delivery",
+    "description": "Fast delivery within 1-2 business days.",
+    "basePrice": 60,
+    "currency": "EGP",
+    "isActive": true,
+    "availableCountries": ["EG"],
+    "estimatedDaysMin": 1,
+    "estimatedDaysMax": 2,
+    "rules": { "maxWeight": 20, "priority": "high" }
+  },
+  {
+    "id": "ship_same_day",
+    "key": "same-day",
+    "name": "Allora Same-Day Delivery",
+    "description": "Get your order the same day (Cairo and Giza only).",
+    "basePrice": 100,
+    "currency": "EGP",
+    "isActive": true,
+    "availableCountries": ["EG"],
+    "estimatedDaysMin": 0,
+    "estimatedDaysMax": 0,
+    "rules": { "maxWeight": 10, "regions": ["Cairo", "Giza"], "cutoffTime": "12:00 PM" }
+  }
+]

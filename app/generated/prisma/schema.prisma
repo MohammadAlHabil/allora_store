@@ -381,9 +381,7 @@ model ShippingMethod {
   id                 String   @id @default(cuid())
   key                String   @unique // e.g., "standard", "express", "pickup"
   name               String // Display name (e.g., "Allora Standard Delivery")
-  nameAr             String? // Arabic name
   description        String? // Brief description of the method
-  descriptionAr      String? // Arabic description
   basePrice          Decimal  @default(0) // Base delivery cost
   currency           String   @default("EGP")
   isActive           Boolean  @default(true)

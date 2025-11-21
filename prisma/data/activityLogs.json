@@ -1,0 +1,9 @@
+[
+  {
+    "id": "log_1",
+    "userId": "user_1",
+    "action": "USER_CREATED",
+    "resource": "User",
+    "metadata": { "createdBy": "system" }
+  }
+]

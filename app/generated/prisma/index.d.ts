@@ -21650,9 +21650,7 @@ export namespace Prisma {
     id: string | null
     key: string | null
     name: string | null
-    nameAr: string | null
     description: string | null
-    descriptionAr: string | null
     basePrice: Decimal | null
     currency: string | null
     isActive: boolean | null
@@ -21667,9 +21665,7 @@ export namespace Prisma {
     id: string | null
     key: string | null
     name: string | null
-    nameAr: string | null
     description: string | null
-    descriptionAr: string | null
     basePrice: Decimal | null
     currency: string | null
     isActive: boolean | null
@@ -21684,9 +21680,7 @@ export namespace Prisma {
     id: number
     key: number
     name: number
-    nameAr: number
     description: number
-    descriptionAr: number
     basePrice: number
     currency: number
     isActive: number
@@ -21717,9 +21711,7 @@ export namespace Prisma {
     id?: true
     key?: true
     name?: true
-    nameAr?: true
     description?: true
-    descriptionAr?: true
     basePrice?: true
     currency?: true
     isActive?: true
@@ -21734,9 +21726,7 @@ export namespace Prisma {
     id?: true
     key?: true
     name?: true
-    nameAr?: true
     description?: true
-    descriptionAr?: true
     basePrice?: true
     currency?: true
     isActive?: true
@@ -21751,9 +21741,7 @@ export namespace Prisma {
     id?: true
     key?: true
     name?: true
-    nameAr?: true
     description?: true
-    descriptionAr?: true
     basePrice?: true
     currency?: true
     isActive?: true
@@ -21857,9 +21845,7 @@ export namespace Prisma {
     id: string
     key: string
     name: string
-    nameAr: string | null
     description: string | null
-    descriptionAr: string | null
     basePrice: Decimal
     currency: string
     isActive: boolean
@@ -21895,9 +21881,7 @@ export namespace Prisma {
     id?: boolean
     key?: boolean
     name?: boolean
-    nameAr?: boolean
     description?: boolean
-    descriptionAr?: boolean
     basePrice?: boolean
     currency?: boolean
     isActive?: boolean
@@ -21916,9 +21900,7 @@ export namespace Prisma {
     id?: boolean
     key?: boolean
     name?: boolean
-    nameAr?: boolean
     description?: boolean
-    descriptionAr?: boolean
     basePrice?: boolean
     currency?: boolean
     isActive?: boolean
@@ -21935,9 +21917,7 @@ export namespace Prisma {
     id?: boolean
     key?: boolean
     name?: boolean
-    nameAr?: boolean
     description?: boolean
-    descriptionAr?: boolean
     basePrice?: boolean
     currency?: boolean
     isActive?: boolean
@@ -21954,9 +21934,7 @@ export namespace Prisma {
     id?: boolean
     key?: boolean
     name?: boolean
-    nameAr?: boolean
     description?: boolean
-    descriptionAr?: boolean
     basePrice?: boolean
     currency?: boolean
     isActive?: boolean
@@ -21969,7 +21947,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ShippingMethodOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "name" | "nameAr" | "description" | "descriptionAr" | "basePrice" | "currency" | "isActive" | "availableCountries" | "estimatedDaysMin" | "estimatedDaysMax" | "rules" | "logoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["shippingMethod"]>
+  export type ShippingMethodOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "name" | "description" | "basePrice" | "currency" | "isActive" | "availableCountries" | "estimatedDaysMin" | "estimatedDaysMax" | "rules" | "logoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["shippingMethod"]>
   export type ShippingMethodInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | ShippingMethod$ordersArgs<ExtArgs>
     _count?: boolean | ShippingMethodCountOutputTypeDefaultArgs<ExtArgs>
@@ -21986,9 +21964,7 @@ export namespace Prisma {
       id: string
       key: string
       name: string
-      nameAr: string | null
       description: string | null
-      descriptionAr: string | null
       basePrice: Prisma.Decimal
       currency: string
       isActive: boolean
@@ -22426,9 +22402,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ShippingMethod", 'String'>
     readonly key: FieldRef<"ShippingMethod", 'String'>
     readonly name: FieldRef<"ShippingMethod", 'String'>
-    readonly nameAr: FieldRef<"ShippingMethod", 'String'>
     readonly description: FieldRef<"ShippingMethod", 'String'>
-    readonly descriptionAr: FieldRef<"ShippingMethod", 'String'>
     readonly basePrice: FieldRef<"ShippingMethod", 'Decimal'>
     readonly currency: FieldRef<"ShippingMethod", 'String'>
     readonly isActive: FieldRef<"ShippingMethod", 'Boolean'>
@@ -30040,9 +30014,7 @@ export namespace Prisma {
     id: 'id',
     key: 'key',
     name: 'name',
-    nameAr: 'nameAr',
     description: 'description',
-    descriptionAr: 'descriptionAr',
     basePrice: 'basePrice',
     currency: 'currency',
     isActive: 'isActive',
@@ -31774,9 +31746,7 @@ export namespace Prisma {
     id?: StringFilter<"ShippingMethod"> | string
     key?: StringFilter<"ShippingMethod"> | string
     name?: StringFilter<"ShippingMethod"> | string
-    nameAr?: StringNullableFilter<"ShippingMethod"> | string | null
     description?: StringNullableFilter<"ShippingMethod"> | string | null
-    descriptionAr?: StringNullableFilter<"ShippingMethod"> | string | null
     basePrice?: DecimalFilter<"ShippingMethod"> | Decimal | DecimalJsLike | number | string
     currency?: StringFilter<"ShippingMethod"> | string
     isActive?: BoolFilter<"ShippingMethod"> | boolean
@@ -31794,9 +31764,7 @@ export namespace Prisma {
     id?: SortOrder
     key?: SortOrder
     name?: SortOrder
-    nameAr?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
-    descriptionAr?: SortOrderInput | SortOrder
     basePrice?: SortOrder
     currency?: SortOrder
     isActive?: SortOrder
@@ -31817,9 +31785,7 @@ export namespace Prisma {
     OR?: ShippingMethodWhereInput[]
     NOT?: ShippingMethodWhereInput | ShippingMethodWhereInput[]
     name?: StringFilter<"ShippingMethod"> | string
-    nameAr?: StringNullableFilter<"ShippingMethod"> | string | null
     description?: StringNullableFilter<"ShippingMethod"> | string | null
-    descriptionAr?: StringNullableFilter<"ShippingMethod"> | string | null
     basePrice?: DecimalFilter<"ShippingMethod"> | Decimal | DecimalJsLike | number | string
     currency?: StringFilter<"ShippingMethod"> | string
     isActive?: BoolFilter<"ShippingMethod"> | boolean
@@ -31837,9 +31803,7 @@ export namespace Prisma {
     id?: SortOrder
     key?: SortOrder
     name?: SortOrder
-    nameAr?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
-    descriptionAr?: SortOrderInput | SortOrder
     basePrice?: SortOrder
     currency?: SortOrder
     isActive?: SortOrder
@@ -31864,9 +31828,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ShippingMethod"> | string
     key?: StringWithAggregatesFilter<"ShippingMethod"> | string
     name?: StringWithAggregatesFilter<"ShippingMethod"> | string
-    nameAr?: StringNullableWithAggregatesFilter<"ShippingMethod"> | string | null
     description?: StringNullableWithAggregatesFilter<"ShippingMethod"> | string | null
-    descriptionAr?: StringNullableWithAggregatesFilter<"ShippingMethod"> | string | null
     basePrice?: DecimalWithAggregatesFilter<"ShippingMethod"> | Decimal | DecimalJsLike | number | string
     currency?: StringWithAggregatesFilter<"ShippingMethod"> | string
     isActive?: BoolWithAggregatesFilter<"ShippingMethod"> | boolean
@@ -33929,9 +33891,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
-    nameAr?: string | null
     description?: string | null
-    descriptionAr?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string
     currency?: string
     isActive?: boolean
@@ -33949,9 +33909,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
-    nameAr?: string | null
     description?: string | null
-    descriptionAr?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string
     currency?: string
     isActive?: boolean
@@ -33969,9 +33927,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    nameAr?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    descriptionAr?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -33989,9 +33945,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    nameAr?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    descriptionAr?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -34009,9 +33963,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
-    nameAr?: string | null
     description?: string | null
-    descriptionAr?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string
     currency?: string
     isActive?: boolean
@@ -34028,9 +33980,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    nameAr?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    descriptionAr?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -34047,9 +33997,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    nameAr?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    descriptionAr?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -35958,9 +35906,7 @@ export namespace Prisma {
     id?: SortOrder
     key?: SortOrder
     name?: SortOrder
-    nameAr?: SortOrder
     description?: SortOrder
-    descriptionAr?: SortOrder
     basePrice?: SortOrder
     currency?: SortOrder
     isActive?: SortOrder
@@ -35983,9 +35929,7 @@ export namespace Prisma {
     id?: SortOrder
     key?: SortOrder
     name?: SortOrder
-    nameAr?: SortOrder
     description?: SortOrder
-    descriptionAr?: SortOrder
     basePrice?: SortOrder
     currency?: SortOrder
     isActive?: SortOrder
@@ -36000,9 +35944,7 @@ export namespace Prisma {
     id?: SortOrder
     key?: SortOrder
     name?: SortOrder
-    nameAr?: SortOrder
     description?: SortOrder
-    descriptionAr?: SortOrder
     basePrice?: SortOrder
     currency?: SortOrder
     isActive?: SortOrder
@@ -41713,9 +41655,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
-    nameAr?: string | null
     description?: string | null
-    descriptionAr?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string
     currency?: string
     isActive?: boolean
@@ -41732,9 +41672,7 @@ export namespace Prisma {
     id?: string
     key: string
     name: string
-    nameAr?: string | null
     description?: string | null
-    descriptionAr?: string | null
     basePrice?: Decimal | DecimalJsLike | number | string
     currency?: string
     isActive?: boolean
@@ -42003,9 +41941,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    nameAr?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    descriptionAr?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -42022,9 +41958,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    nameAr?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    descriptionAr?: NullableStringFieldUpdateOperationsInput | string | null
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean

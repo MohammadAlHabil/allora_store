@@ -1,0 +1,146 @@
+[
+  {
+    "id": "cat_fashion",
+    "name": "Fashion",
+    "slug": "fashion",
+    "image": "/images/cat-fashion.jpg",
+    "description": "Fashion collection",
+    "parentId": null
+  },
+  {
+    "id": "cat_fashion_dresses",
+    "name": "Dresses",
+    "slug": "dresses",
+    "image": "/images/cat-fashion.jpg",
+    "description": "Dresses under Fashion",
+    "parentId": "cat_fashion"
+  },
+  {
+    "id": "cat_fashion_tops",
+    "name": "Tops",
+    "slug": "tops",
+    "image": "/images/cat-fashion.jpg",
+    "description": "Tops under Fashion",
+    "parentId": "cat_fashion"
+  },
+  {
+    "id": "cat_fashion_pants",
+    "name": "Pants",
+    "slug": "pants",
+    "image": "/images/cat-fashion.jpg",
+    "description": "Pants under Fashion",
+    "parentId": "cat_fashion"
+  },
+  {
+    "id": "cat_fashion_skirts",
+    "name": "Skirts",
+    "slug": "skirts",
+    "image": "/images/cat-fashion.jpg",
+    "description": "Skirts under Fashion",
+    "parentId": "cat_fashion"
+  },
+  {
+    "id": "cat_shoes",
+    "name": "Shoes",
+    "slug": "shoes",
+    "image": "/images/cat-shoes.jpg",
+    "description": "Shoes collection",
+    "parentId": null
+  },
+  {
+    "id": "cat_beauty",
+    "name": "Beauty",
+    "slug": "beauty",
+    "image": "/images/cat-beauty.jpg",
+    "description": "Beauty collection",
+    "parentId": null
+  },
+  {
+    "id": "cat_beauty_makeup",
+    "name": "Makeup",
+    "slug": "makeup",
+    "image": "/images/cat-beauty.jpg",
+    "description": "Makeup under Beauty",
+    "parentId": "cat_beauty"
+  },
+  {
+    "id": "cat_beauty_skincare",
+    "name": "Skincare",
+    "slug": "skincare",
+    "image": "/images/cat-beauty.jpg",
+    "description": "Skincare under Beauty",
+    "parentId": "cat_beauty"
+  },
+  {
+    "id": "cat_beauty_haircare",
+    "name": "Haircare",
+    "slug": "haircare",
+    "image": "/images/cat-beauty.jpg",
+    "description": "Haircare under Beauty",
+    "parentId": "cat_beauty"
+  },
+  {
+    "id": "cat_beauty_perfumes",
+    "name": "Perfumes",
+    "slug": "perfumes",
+    "image": "/images/cat-beauty.jpg",
+    "description": "Perfumes under Beauty",
+    "parentId": "cat_beauty"
+  },
+  {
+    "id": "cat_accessories",
+    "name": "Accessories",
+    "slug": "accessories",
+    "image": "/images/cat-accessories.jpg",
+    "description": "Accessories collection",
+    "parentId": null
+  },
+  {
+    "id": "cat_accessories_watches",
+    "name": "Watches",
+    "slug": "watches",
+    "image": "/images/cat-accessories.jpg",
+    "description": "Watches under Accessories",
+    "parentId": "cat_accessories"
+  },
+  {
+    "id": "cat_accessories_scarves",
+    "name": "Scarves",
+    "slug": "scarves",
+    "image": "/images/cat-accessories.jpg",
+    "description": "Scarves under Accessories",
+    "parentId": "cat_accessories"
+  },
+  {
+    "id": "cat_accessories_sunglasses",
+    "name": "Sunglasses",
+    "slug": "sunglasses",
+    "image": "/images/cat-accessories.jpg",
+    "description": "Sunglasses under Accessories",
+    "parentId": "cat_accessories"
+  },
+  {
+    "id": "cat_accessories_belts",
+    "name": "Belts",
+    "slug": "belts",
+    "image": "/images/cat-accessories.jpg",
+    "description": "Belts under Accessories",
+    "parentId": "cat_accessories"
+  },
+  {
+    "id": "cat_bags",
+    "name": "Bags",
+    "slug": "bags",
+    "image": "/images/cat-bags.jpg",
+    "description": "Bags collection",
+    "parentId": null
+  },
+  {
+    "id": "cat_sports",
+    "name": "Sportswear",
+    "slug": "sportswear",
+    "image": "/images/cat-sportswear.jpg",
+    "description": "Sportswear collection",
+    "parentId": null
+  }
+]

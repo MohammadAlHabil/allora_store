@@ -1,0 +1,38 @@
+[
+  {
+    "id": "user_1",
+    "name": "Alice Admin",
+    "email": "alice@example.com",
+    "password": null,
+    "phone": "+10000000001",
+    "role": "ADMIN",
+    "isActive": true
+  },
+  {
+    "id": "user_2",
+    "name": "Bob Buyer",
+    "email": "bob@example.com",
+    "password": null,
+    "phone": "+10000000002",
+    "role": "USER",
+    "isActive": true
+  },
+  {
+    "id": "user_test",
+    "name": "Test User",
+    "email": "test@example.com",
+    "password": "password123",
+    "phone": "+10000000099",
+    "role": "USER",
+    "isActive": true
+  },
+  {
+    "id": "user_admin2",
+    "name": "Admin Two",
+    "email": "admin2@example.com",
+    "password": "adminpass123",
+    "phone": "+10000000010",
+    "role": "ADMIN",
+    "isActive": true
+  }
+]

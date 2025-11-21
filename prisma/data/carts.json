@@ -1,0 +1,17 @@
+[
+  {
+    "id": "cart_1",
+    "userId": "user_2",
+    "token": null
+  },
+  {
+    "id": "cart_anon_1",
+    "userId": null,
+    "token": "anon_tok_1"
+  },
+  {
+    "id": "cart_user_test",
+    "userId": "user_test",
+    "token": null
+  }
+]

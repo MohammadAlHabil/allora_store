@@ -310,7 +310,7 @@ model Address {
   lastName    String?
   company     String?
   phone       String?
-  
+
   // Detailed address fields (enhanced UX)
   line1       String   // Main street/neighborhood/area
   line2       String?  // Additional details (optional)
@@ -321,14 +321,14 @@ model Address {
   region      String?  // State/province/region
   postalCode  String
   country     String
-  
+
   // Location coordinates for map integration
   latitude    Decimal?  @db.Decimal(10, 8)
   longitude   Decimal?  @db.Decimal(11, 8)
-  
+
   // Additional delivery notes
   additionalNotes String?  // Delivery instructions (e.g., next to mosque, behind supermarket)
-  
+
   isDefault   Boolean  @default(false)
 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
@@ -380,9 +380,7 @@ model ShippingMethod {
   id                  String   @id @default(cuid())
   key                 String   @unique // e.g., "standard", "express", "pickup"
   name                String   // Display name (e.g., "Allora Standard Delivery")
-  nameAr              String?  // Arabic name
   description         String?  // Brief description of the method
-  descriptionAr       String?  // Arabic description
   basePrice           Decimal  @default(0) // Base delivery cost
   currency            String   @default("EGP")
   isActive            Boolean  @default(true)
@@ -391,9 +389,9 @@ model ShippingMethod {
   estimatedDaysMax    Int      @default(4) // Maximum delivery days
   rules               Json?    // Additional rules: weight limits, size restrictions, price adjustments
   logoUrl             String?  // Optional logo for carrier branding
-  
+
   orders Order[]
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
 }

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "acct_1",
+    "userId": "user_1",
+    "type": "credentials",
+    "provider": "local",
+    "providerAccountId": "alice_local",
+    "refresh_token": null,
+    "access_token": null
+  }
+]
