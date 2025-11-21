@@ -155,81 +155,173 @@ function buildCategories(): CategorySeed[] {
 }
 
 // --------------------- PRODUCTS ---------------------
-// Helper: get an array of product image URLs for a given category.
-// Uses faker.image.urlLoremFlickr when available, falling back to picsum.photos.
-// function getProductImages(categoryName?: string, count = 2): string[] {
-//   const images: string[] = [];
-
-//   for (let k = 0; k < count; k++) {
-//     try {
-//       // Some categories are multi-word; loremflickr accepts a category string.
-//       const cat = categoryName
-//         ? categoryName
-//         : faker.helpers.arrayElement([ "fashion", "shoes", "beauty", "accessories", "bags", "sportswear",
-//     "dresses", "tops", "pants", "skirts",
-//     "makeup", "skincare", "haircare", "perfumes",
-//     "watches", "scarves", "sunglasses", "belts"]);
-//       // faker.image.urlLoremFlickr returns a URL for an image matching the category
-//       images.push(faker.image.urlLoremFlickr({ width: 900, height: 1200, category: cat }));
-
-//     } catch {
-//       // Fallback: deterministic picsum seed
-//       images.push(
-//         `https://picsum.photos/seed/${categoryName ?? faker.string.uuid()}-${k}/900/1200`
-//       );
-//     }
-//   }
-
-//   return images;
-// }
-// Picsum helper functions
-function picsum(category: string, index: number, w = 900, h = 1200) {
-  const seed = `${category.toLowerCase().replace(/\s+/g, "-")}-${index}`;
-  return `https://picsum.photos/seed/${seed}/${w}/${h}`;
-}
-
-function getPicsumImages(category: string, count = 3): string[] {
+// Helper: get Unsplash images based on category with real working photo IDs
+function getUnsplashImages(category: string, productIndex: number, count = 2): string[] {
   const images: string[] = [];
-  for (let i = 0; i < count; i++) {
-    images.push(picsum(category, i));
+
+  // Real Unsplash photo IDs mapped by category - these are verified working URLs
+  const categoryPhotoIds: Record<string, string[]> = {
+    // Fashion & Clothing
+    Dresses: [
+      "1539533018865-21b91283b553",
+      "1595777457583-95e059d581b8",
+      "1515372039744-b8f02a3ae446",
+    ],
+    Tops: [
+      "1618932260643-eee4a2f652a6",
+      "1434389677669-e08b4cac3105",
+      "1485968579580-b6d095142e6e",
+    ],
+    Pants: [
+      "1624378439575-d88b830d70ad",
+      "1473691955023-da1c49c95c78",
+      "1506629082955-511b1aa562c8",
+    ],
+    Skirts: [
+      "1583496661160-fb5886a0aaaa",
+      "1583496661160-fb5886a0aaaa",
+      "1485968579580-b6d095142e6e",
+    ],
+
+    // Shoes
+    Shoes: ["1460353581641-37baddab0fa2", "1549298916-b41d501d3772", "1543163521-1bd2c6935523"],
+
+    // Beauty
+    Makeup: [
+      "1512496015851-a90fb38ba796",
+      "1522335789203-aabd1fc54bc9",
+      "1596462502278-27bfdc403348",
+    ],
+    Skincare: [
+      "1570194065650-d99fb4b14169",
+      "1556228578-0d85b1a4d571",
+      "1608248597279-f99d160bfcbc",
+    ],
+    Haircare: [
+      "1522338140262-f46f5913618f",
+      "1527799820374-dcf8d9d4a388",
+      "1519699047591-1f1c6a64c2ac",
+    ],
+    Perfumes: [
+      "1541643600914-78b084683601",
+      "1588405748880-12d1d2a59926",
+      "1595425970377-c9703cf48b6d",
+    ],
+
+    // Accessories
+    Watches: [
+      "1523275335684-37898b6baf30",
+      "1524805444758-089113d48a6d",
+      "1508685096489-7aacd43bd3b1",
+    ],
+    Scarves: [
+      "1591047643423-2dc2b4e31869",
+      "1610652520814-8a4e5cb9c8e3",
+      "1457545195570-67f207084966",
+    ],
+    Sunglasses: [
+      "1511499767150-a48a237f0083",
+      "1473496169904-658ba7c44d8a",
+      "1506634572416-48cdfe530110",
+    ],
+    Belts: ["1624222247344-550fb60583c2", "1553062407-98eeb64c6309", "1594223274512-fc4a0b2e86f7"],
+
+    // Bags
+    Bags: ["1590874103328-eac38a683ce7", "1548036328-c9fa89d128fa", "1564422179731-5f20e0a6f3a2"],
+
+    // Sportswear
+    Sportswear: [
+      "1556906781-9a412961c28c",
+      "1515886657613-9d3515b1e089",
+      "1618354691373-d851c5c3a990",
+    ],
+  };
+
+  // Get photo IDs for this category, or use fashion as fallback
+  const photoIds = categoryPhotoIds[category] ||
+    categoryPhotoIds["Dresses"] || [
+      "1523275335684-37898b6baf30",
+      "1515372039744-b8f02a3ae446",
+      "1595777457583-95e059d581b8",
+    ];
+
+  for (let k = 0; k < count; k++) {
+    // Cycle through available photos for this category
+    const photoIndex = (productIndex + k) % photoIds.length;
+    const photoId = photoIds[photoIndex];
+
+    // Use exact Unsplash format: https://images.unsplash.com/photo-{id}?w=800
+    images.push(`https://images.unsplash.com/photo-${photoId}?w=800`);
   }
+
   return images;
 }
 
 function buildProducts(categories: CategorySeed[]): ProductSeed[] {
-  // leaf categories are those with a parentId (subcategories)
-  const leafCategories = categories.filter((c) => c.parentId !== null);
-
   const products: ProductSeed[] = [];
+  const productNames = [
+    "Elegant",
+    "Classic",
+    "Modern",
+    "Vintage",
+    "Luxury",
+    "Premium",
+    "Stylish",
+    "Chic",
+    "Designer",
+    "Trendy",
+    "Essential",
+    "Signature",
+    "Deluxe",
+    "Elite",
+    "Exclusive",
+    "Royal",
+    "Ultimate",
+    "Perfect",
+    "Beautiful",
+    "Gorgeous",
+    "Stunning",
+    "Amazing",
+    "Fabulous",
+    "Wonderful",
+    "Sophisticated",
+    "Refined",
+    "Exquisite",
+    "Graceful",
+    "Radiant",
+    "Timeless",
+  ];
 
-  leafCategories.forEach((cat, i) => {
-    for (let j = 0; j < 8; j++) {
-      const id = `prod_${i}_${j}`;
-      const price = Number(faker.commerce.price({ min: 20, max: 300 }));
-      const basePrice = Number(faker.commerce.price({ min: 20, max: 300 }));
-      products.push({
-        id,
-        name: faker.commerce.productName(),
-        slug: `${id}-${faker.string.alpha(6).toLowerCase()}`,
-        description: faker.commerce.productDescription(),
-        shortDesc: faker.commerce.productAdjective(),
-        price,
-        basePrice,
-        sku: `SKU-${faker.string.numeric(6)}`,
-        categoryId: cat.id,
-        // include two product images (uses faker.image.urlLoremFlickr by category when available)
-        // images: getProductImages(cat.name, 2),
-        images: getPicsumImages(cat.name, 2),
-      });
-    }
-  });
+  // Generate exactly 30 products distributed across all categories
+  for (let i = 0; i < 30; i++) {
+    const cat = faker.helpers.arrayElement(categories.filter((c) => c.parentId !== null));
+    const productAdjective = faker.helpers.arrayElement(productNames);
+    const productType = faker.commerce.productName().split(" ").pop(); // Get last word as product type
+
+    const id = `prod_${i + 1}`;
+    const basePrice = Number(faker.commerce.price({ min: 25, max: 350 }));
+    const price = basePrice;
+
+    products.push({
+      id,
+      name: `${productAdjective} ${productType}`,
+      slug: `${id}-${faker.string.alpha(6).toLowerCase()}`,
+      description: faker.commerce.productDescription(),
+      shortDesc: faker.commerce.productAdjective(),
+      price,
+      basePrice,
+      sku: `SKU-${faker.string.numeric(8)}`,
+      categoryId: cat.id,
+      images: getUnsplashImages(cat.name, i, 2),
+    });
+  }
 
   return products;
 }
 
 // --------------------- USERS ---------------------
 function buildUsers(): UserSeed[] {
-  return Array.from({ length: 40 }, (_, i) => ({
+  return Array.from({ length: 5 }, (_, i) => ({
     id: `user_${i + 1}`,
     name: faker.person.fullName(),
     email: faker.internet.email(),

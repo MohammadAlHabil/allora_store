@@ -18,6 +18,8 @@ import { UserRole } from "@/features/auth/types";
 interface ExtendedUser extends DefaultUser {
   id: string;
   role?: UserRole;
+  name?: string | null;
+  email?: string | null;
 }
 
 declare module "next-auth" {

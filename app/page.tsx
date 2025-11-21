@@ -9,9 +9,9 @@ export default function Home() {
 
       <FeaturedCategories />
 
-      <ProductGrid type="new" title="New Arrivals" />
+      <ProductGrid title="New Arrivals" apiEndpoint="/api/products/new-arrivals" />
 
-      <ProductGrid type="best" title="Best Sellers" />
+      <ProductGrid title="Best Sellers" apiEndpoint="/api/products/best-sellers" />
     </main>
   );
 }

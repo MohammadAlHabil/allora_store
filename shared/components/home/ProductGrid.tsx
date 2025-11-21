@@ -20,38 +20,33 @@ type Product = {
 };
 
 export default function ProductCarousel({
-  type = "new",
   title,
+  apiEndpoint,
 }: {
-  type?: string;
   title?: string;
+  apiEndpoint: string;
 }) {
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // ref to swiper instance so prev/next buttons can control it
   const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
-    let mounted = true;
-
-    async function load() {
+    async function fetchProducts() {
       try {
-        const r = await fetch(`/api/products?type=${type}`);
-        const data = await r.json();
-        if (mounted) setProducts(data);
-      } catch {
-        if (mounted) setProducts([]);
+        setLoading(true);
+        const response = await fetch(apiEndpoint);
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
       } finally {
-        if (mounted) setLoading(false);
+        setLoading(false);
       }
     }
 
-    load();
-    return () => {
-      mounted = false;
-    };
-  }, [type]);
+    fetchProducts();
+  }, [apiEndpoint]);
 
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-8 py-12 relative">
@@ -62,7 +57,7 @@ export default function ProductCarousel({
       <button
         onClick={() => swiperRef.current?.slidePrev()}
         aria-label="Previous"
-        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 duration-200"
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background border border-border shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 duration-200"
       >
         ←
       </button>
@@ -70,7 +65,7 @@ export default function ProductCarousel({
       <button
         onClick={() => swiperRef.current?.slideNext()}
         aria-label="Next"
-        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 duration-200"
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background border border-border shadow-lg rounded-full w-10 h-10 flex items-center justify-center hover:scale-105 duration-200"
       >
         →
       </button>
@@ -87,7 +82,7 @@ export default function ProductCarousel({
             1024: { slidesPerView: 4 },
           }}
         >
-          {loading
+          {loading || !products || products.length === 0
             ? Array.from({ length: 6 }).map((_, i) => (
                 <SwiperSlide key={i} className="w-auto">
                   <div className="bg-card rounded-2xl p-4">
@@ -95,7 +90,7 @@ export default function ProductCarousel({
                   </div>
                 </SwiperSlide>
               ))
-            : (products ?? []).map((p) => (
+            : products.map((p) => (
                 <SwiperSlide key={p.id} className="w-auto">
                   <div className="px-1">
                     <ProductCard product={p} />

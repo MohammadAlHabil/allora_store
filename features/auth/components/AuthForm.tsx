@@ -126,7 +126,7 @@ export function AuthForm<T extends FieldValues>({
 
   return (
     <FormProvider {...form}>
-      <form action={action} className="space-y-4">
+      <form action={action} className="space-y-6">
         {fields.map((field) => (
           <RenderField key={String(field.name)} spec={field} />
         ))}

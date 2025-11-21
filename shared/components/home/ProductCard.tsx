@@ -1,5 +1,6 @@
 "use client";
 
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/shared/components/ui/button";
@@ -18,7 +19,18 @@ export default function ProductCard({ product }: { product: Product }) {
     <article className="bg-card rounded-2xl shadow-sm overflow-hidden">
       <Link href={`/product/${product.slug}`} className="block">
         <div className="relative h-56 w-full bg-gray-100">
-          {/* <Image src={product.image} alt={product.name} fill className="object-cover" /> */}
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 33vw, 25vw"
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "/images/banner.png";
+            }}
+          />
         </div>
         <div className="p-4">
           <h3 className="font-medium  mb-1">{product.name}</h3>
@@ -29,7 +41,12 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
       </Link>
       <div className="p-4 pt-0">
-        <Button className="w-full" size="sm" onClick={() => alert("Added to cart")}>
+        <Button
+          className="w-full flex items-center gap-2"
+          size="sm"
+          onClick={() => alert("Added to cart")}
+        >
+          <ShoppingCart className="w-4 h-4" />
           Add to cart
         </Button>
       </div>

@@ -7,7 +7,7 @@ import GoogleLoginButton from "./GoogleLoginButton";
 
 export function SignInForm() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <AuthForm
         schema={SignInSchema}
         submitAction={signInAction}
