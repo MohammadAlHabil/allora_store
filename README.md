@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Allora Store — Project README
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Allora Store is a production-ready e-commerce application built with Next.js (App Router), React 19, Prisma, and Stripe. The repository follows a feature-based architecture and provides domain modules for products, cart, checkout, orders, authentication, and shared UI/logic.
+
+## Table of contents
+
+- Quick start
+- Project layout
+- Main user flows (where to find code)
+- Key features & tech highlights
+- Environment & security notes
+- Documentation & next steps
+
+## Quick start
+
+Prerequisites
+
+- Node 18+ (recommended)
+- pnpm (preferred) or npm/yarn
+
+Install and run (development):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build and run production:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm build
+pnpm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Useful scripts (see `package.json`):
 
-## Learn More
+```bash
+pnpm lint        # run ESLint
+pnpm format      # run Prettier
+pnpm seed        # run Prisma seed script
+pnpm generate    # generate test data
+pnpm dev:clear   # clear .next then run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project layout
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/                # Next.js App Router pages, layouts and routes
+features/           # feature domains (products, checkout, orders, auth, cart, wishlist)
+shared/             # shared components, libs, UI primitives, services
+prisma/             # Prisma schema, seeds, generate-data scripts
+public/             # static assets
+docs/               # consolidated documentation (docs/en/ and docs/archive/)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Where to look
 
-## Deploy on Vercel
+- Pages/routes: `app/products`, `app/cart`, `app/checkout`, `app/orders`, etc.
+- Feature code: `features/<domain>/` (components, hooks, services, repositories, types)
+- Shared utilities: `shared/lib` (errors, logger, helpers)
+- Database & seeds: `prisma/` (schema.prisma, seed.ts)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Main user flows (quick pointers)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Browse & search products: `app/products/page.tsx` and `features/products/hooks/useProducts.ts`
+- Product detail page: `app/products/[slug]/page.tsx` and `features/products/components/*` (see `docs/en/PRODUCT_PAGE_GUIDE.md`)
+- Cart: `app/cart/page.tsx` and `features/cart`
+- Checkout (multi-step & persistence): `app/checkout/CheckoutPageContent.tsx` and `features/checkout` (`docs/en/features/checkout/CHECKOUT_STATE_PERSISTENCE.md`)
+- Authentication & profile: `app/(auth)/` and `app/profile/page.tsx`
+- Orders: `app/orders` and `features/orders` (`docs/en/features/orders/README.md`)
+
+## Key features & technical highlights
+
+- React 19 + Next.js 16 (App Router)
+- TypeScript across the codebase
+- Prisma ORM, seed scripts, and DB helpers
+- React Query for caching and optimistic updates
+- Stripe integration for payments
+- Centralized error handling & logging in `shared/lib`
+- Accessibility-minded UI and mobile-first design
+
+## Environment & security notes
+
+Environment variables commonly required (examples):
+
+- `DATABASE_URL` — Prisma connection string
+- `NEXTAUTH_URL` and `NEXTAUTH_SECRET` — authentication
+- `STRIPE_SECRET_KEY` and `STRIPE_PUBLISHABLE_KEY` — Stripe
+- `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` — email
+
+Security considerations:
+
+- Do not store raw payment card data in the repository or server. Use Stripe best practices.
+- Keep secrets in environment variables or your deployment provider's secret store.
+
+## Documentation & next steps
+
+All user- and developer-facing docs are consolidated under `docs/en/`. Key docs:
+
+- `docs/en/PRODUCT_PAGE_GUIDE.md`
+- `docs/en/features/checkout/CHECKOUT_STATE_PERSISTENCE.md`
+- `docs/en/SELECTION_PERSISTENCE_FIX.md`
+- `docs/en/error.md` and `docs/en/shared/lib/errors/README.md`
+- `docs/en/features/orders/README.md`
+
+Suggested next actions (I can perform these on request):
+
+1. Move remaining in-place docs to `docs/en/` for a single source of truth.
+2. Add `CONTRIBUTING.md` and `DEVELOPER_GUIDE.md` under `docs/en/`.
+3. Run Prettier on docs and commit changes.
+
+If you want me to proceed with any of the above, tell me which action to run next.
