@@ -25,7 +25,7 @@ export function useCheckoutFlow() {
     useSameAddress: true,
   });
 
-  const steps: CheckoutStep[] = ["address", "shipping", "payment", "review", "confirmation"];
+  const steps: CheckoutStep[] = ["address", "shipping", "payment", "confirmation"];
 
   const updateFormData = (data: Partial<CheckoutFormData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
@@ -63,6 +63,6 @@ export function useCheckoutFlow() {
     goToStep,
     resetCheckout,
     canGoBack: currentStep !== "address",
-    isLastStep: currentStep === "review",
+    isLastStep: currentStep === "payment",
   };
 }

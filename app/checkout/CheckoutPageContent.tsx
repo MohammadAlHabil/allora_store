@@ -2,9 +2,11 @@
 
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
+import { toast } from "sonner";
 import { useCart } from "@/features/cart/hooks";
-import { AddressStep, ShippingMethodStep } from "@/features/checkout/components";
+import { AddressStep, ShippingMethodStep, PaymentMethodStep } from "@/features/checkout/components";
 import { useCheckoutFlow, useCreateOrder } from "@/features/checkout/hooks";
 import type { AddressResponse } from "@/features/checkout/types/address.types";
 import { Button } from "@/shared/components/ui/button";
@@ -15,9 +17,10 @@ import { Button } from "@/shared/components/ui/button";
  */
 export function CheckoutPageContent() {
   const router = useRouter();
+  const { data: session } = useSession();
   const { items, total } = useCart();
   const { mutate: createOrder, isPending } = useCreateOrder();
-  const { currentStep, formData, nextStep, previousStep, canGoBack, isLastStep } =
+  const { currentStep, formData, updateFormData, nextStep, previousStep, canGoBack, isLastStep } =
     useCheckoutFlow();
 
   const [selectedAddress, setSelectedAddress] = useState<AddressResponse | null>(null);
@@ -68,24 +71,22 @@ export function CheckoutPageContent() {
             step={1}
             label="Address"
             isActive={currentStep === "address"}
-            isCompleted={["shipping", "payment", "review"].includes(currentStep)}
+            isCompleted={["shipping", "payment"].includes(currentStep)}
           />
           <div className="flex-1 h-0.5 bg-border mx-2" />
           <StepIndicator
             step={2}
             label="Shipping"
             isActive={currentStep === "shipping"}
-            isCompleted={["payment", "review"].includes(currentStep)}
+            isCompleted={["payment"].includes(currentStep)}
           />
           <div className="flex-1 h-0.5 bg-border mx-2" />
           <StepIndicator
             step={3}
             label="Payment"
             isActive={currentStep === "payment"}
-            isCompleted={currentStep === "review"}
+            isCompleted={false}
           />
-          <div className="flex-1 h-0.5 bg-border mx-2" />
-          <StepIndicator step={4} label="Review" isActive={currentStep === "review"} />
         </div>
       </div>
 
@@ -96,7 +97,24 @@ export function CheckoutPageContent() {
           <div className="bg-card rounded-lg border p-6">
             {currentStep === "address" && (
               <AddressStep
-                onAddressSelected={setSelectedAddress}
+                onAddressSelected={(address) => {
+                  setSelectedAddress(address);
+                  // Convert AddressResponse to CheckoutAddress
+                  const checkoutAddress = {
+                    id: address.id,
+                    firstName: address.firstName || "",
+                    lastName: address.lastName || "",
+                    email: session?.user?.email || "",
+                    phone: address.phone || "",
+                    street: address.line1,
+                    city: address.city,
+                    state: address.region || "",
+                    zipCode: address.postalCode,
+                    country: address.country,
+                    isDefault: address.isDefault,
+                  };
+                  updateFormData({ shippingAddress: checkoutAddress });
+                }}
                 selectedAddressId={selectedAddress?.id}
               />
             )}
@@ -107,6 +125,7 @@ export function CheckoutPageContent() {
                 onMethodSelected={(methodId, cost) => {
                   setSelectedMethodId(methodId);
                   setShippingCost(cost);
+                  updateFormData({ shippingMethodId: methodId }); // Update form data
                 }}
                 selectedMethodId={selectedMethodId}
               />
@@ -115,20 +134,61 @@ export function CheckoutPageContent() {
             {currentStep === "payment" && (
               <div>
                 <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
-                <p className="text-muted-foreground">
-                  This is a placeholder. Payment method selection will be implemented here.
+                <p className="text-muted-foreground mb-4">
+                  Select how you would like to pay for your order.
                 </p>
-                {/* TODO: Implement PaymentMethodSelector component */}
-              </div>
-            )}
+                <PaymentMethodStep
+                  selected={formData.paymentMethod}
+                  onSelect={(method) => {
+                    updateFormData({ paymentMethod: method });
+                  }}
+                  orderAmount={total + shippingCost + total * 0.1}
+                  billingCountry={
+                    (formData.useSameAddress
+                      ? formData.shippingAddress?.country
+                      : formData.billingAddress?.country) || undefined
+                  }
+                  onPlaceOrder={(paymentIntentId?: string) => {
+                    // Create order immediately after payment confirmation
+                    console.log("🔵 onPlaceOrder called", {
+                      paymentIntentId,
+                      shippingAddress: formData.shippingAddress,
+                      paymentMethod: formData.paymentMethod,
+                      shippingMethodId: formData.shippingMethodId,
+                    });
 
-            {currentStep === "review" && (
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Review Order</h2>
-                <p className="text-muted-foreground">
-                  This is a placeholder. Order review will be implemented here.
-                </p>
-                {/* TODO: Implement OrderReview component */}
+                    if (
+                      formData.shippingAddress &&
+                      formData.paymentMethod &&
+                      formData.shippingMethodId
+                    ) {
+                      console.log("✅ All conditions met, creating order...");
+                      createOrder(
+                        {
+                          shippingAddress: formData.shippingAddress,
+                          billingAddress: formData.useSameAddress
+                            ? undefined
+                            : formData.billingAddress,
+                          shippingMethodId: formData.shippingMethodId,
+                          paymentMethod: formData.paymentMethod,
+                          paymentIntentId,
+                          notes: formData.notes,
+                        },
+                        {
+                          onSuccess: (order) => {
+                            // Show success message
+                            toast.success("Order placed successfully!", {
+                              description: `Order #${order.orderNumber} has been created.`,
+                            });
+                            // Redirect to confirmation page
+                            router.push(`/orders/${order.id}`);
+                          },
+                        }
+                      );
+                    }
+                  }}
+                  isProcessingOrder={isPending}
+                />
               </div>
             )}
 
@@ -141,26 +201,27 @@ export function CheckoutPageContent() {
                 </Button>
               )}
 
-              <Button
-                className="ml-auto"
-                onClick={handleSubmit}
-                disabled={
-                  isPending ||
-                  (currentStep === "address" && !selectedAddress) ||
-                  (currentStep === "shipping" && !selectedMethodId)
-                }
-              >
-                {isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processing...
-                  </>
-                ) : isLastStep ? (
-                  "Place Order"
-                ) : (
-                  "Continue"
-                )}
-              </Button>
+              {/* Show the main navigation button only when NOT on the last step */}
+              {!isLastStep && (
+                <Button
+                  className="ml-auto"
+                  onClick={handleSubmit}
+                  disabled={
+                    isPending ||
+                    (currentStep === "address" && !selectedAddress) ||
+                    (currentStep === "shipping" && !selectedMethodId)
+                  }
+                >
+                  {isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Continue"
+                  )}
+                </Button>
+              )}
             </div>
           </div>
         </div>

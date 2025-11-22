@@ -147,9 +147,10 @@ export type ProductType = (typeof ProductType)[keyof typeof ProductType]
 
 export const OrderStatus: {
   DRAFT: 'DRAFT',
-  PENDING: 'PENDING',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
   PAID: 'PAID',
   CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED',
   FULFILLED: 'FULFILLED',
   PARTIALLY_FULFILLED: 'PARTIALLY_FULFILLED',
   REFUNDED: 'REFUNDED'
@@ -20205,6 +20206,8 @@ export namespace Prisma {
     taxAmount: Decimal | null
     discountAmount: Decimal | null
     total: Decimal | null
+    reservationExpiresAt: Date | null
+    paidAt: Date | null
     shippingAddressId: string | null
     billingAddressId: string | null
     shippingMethodId: string | null
@@ -20227,6 +20230,8 @@ export namespace Prisma {
     taxAmount: Decimal | null
     discountAmount: Decimal | null
     total: Decimal | null
+    reservationExpiresAt: Date | null
+    paidAt: Date | null
     shippingAddressId: string | null
     billingAddressId: string | null
     shippingMethodId: string | null
@@ -20250,6 +20255,8 @@ export namespace Prisma {
     discountAmount: number
     total: number
     metadata: number
+    reservationExpiresAt: number
+    paidAt: number
     shippingAddressId: number
     billingAddressId: number
     shippingMethodId: number
@@ -20290,6 +20297,8 @@ export namespace Prisma {
     taxAmount?: true
     discountAmount?: true
     total?: true
+    reservationExpiresAt?: true
+    paidAt?: true
     shippingAddressId?: true
     billingAddressId?: true
     shippingMethodId?: true
@@ -20312,6 +20321,8 @@ export namespace Prisma {
     taxAmount?: true
     discountAmount?: true
     total?: true
+    reservationExpiresAt?: true
+    paidAt?: true
     shippingAddressId?: true
     billingAddressId?: true
     shippingMethodId?: true
@@ -20335,6 +20346,8 @@ export namespace Prisma {
     discountAmount?: true
     total?: true
     metadata?: true
+    reservationExpiresAt?: true
+    paidAt?: true
     shippingAddressId?: true
     billingAddressId?: true
     shippingMethodId?: true
@@ -20445,6 +20458,8 @@ export namespace Prisma {
     discountAmount: Decimal
     total: Decimal
     metadata: JsonValue | null
+    reservationExpiresAt: Date | null
+    paidAt: Date | null
     shippingAddressId: string | null
     billingAddressId: string | null
     shippingMethodId: string | null
@@ -20487,6 +20502,8 @@ export namespace Prisma {
     discountAmount?: boolean
     total?: boolean
     metadata?: boolean
+    reservationExpiresAt?: boolean
+    paidAt?: boolean
     shippingAddressId?: boolean
     billingAddressId?: boolean
     shippingMethodId?: boolean
@@ -20517,6 +20534,8 @@ export namespace Prisma {
     discountAmount?: boolean
     total?: boolean
     metadata?: boolean
+    reservationExpiresAt?: boolean
+    paidAt?: boolean
     shippingAddressId?: boolean
     billingAddressId?: boolean
     shippingMethodId?: boolean
@@ -20544,6 +20563,8 @@ export namespace Prisma {
     discountAmount?: boolean
     total?: boolean
     metadata?: boolean
+    reservationExpiresAt?: boolean
+    paidAt?: boolean
     shippingAddressId?: boolean
     billingAddressId?: boolean
     shippingMethodId?: boolean
@@ -20571,6 +20592,8 @@ export namespace Prisma {
     discountAmount?: boolean
     total?: boolean
     metadata?: boolean
+    reservationExpiresAt?: boolean
+    paidAt?: boolean
     shippingAddressId?: boolean
     billingAddressId?: boolean
     shippingMethodId?: boolean
@@ -20581,7 +20604,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "paymentStatus" | "shippingStatus" | "currency" | "subtotal" | "shippingCost" | "taxAmount" | "discountAmount" | "total" | "metadata" | "shippingAddressId" | "billingAddressId" | "shippingMethodId" | "placedAt" | "fulfilledAt" | "cancelledAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "paymentStatus" | "shippingStatus" | "currency" | "subtotal" | "shippingCost" | "taxAmount" | "discountAmount" | "total" | "metadata" | "reservationExpiresAt" | "paidAt" | "shippingAddressId" | "billingAddressId" | "shippingMethodId" | "placedAt" | "fulfilledAt" | "cancelledAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Order$itemsArgs<ExtArgs>
     payments?: boolean | Order$paymentsArgs<ExtArgs>
@@ -20627,6 +20650,8 @@ export namespace Prisma {
       discountAmount: Prisma.Decimal
       total: Prisma.Decimal
       metadata: Prisma.JsonValue | null
+      reservationExpiresAt: Date | null
+      paidAt: Date | null
       shippingAddressId: string | null
       billingAddressId: string | null
       shippingMethodId: string | null
@@ -21076,6 +21101,8 @@ export namespace Prisma {
     readonly discountAmount: FieldRef<"Order", 'Decimal'>
     readonly total: FieldRef<"Order", 'Decimal'>
     readonly metadata: FieldRef<"Order", 'Json'>
+    readonly reservationExpiresAt: FieldRef<"Order", 'DateTime'>
+    readonly paidAt: FieldRef<"Order", 'DateTime'>
     readonly shippingAddressId: FieldRef<"Order", 'String'>
     readonly billingAddressId: FieldRef<"Order", 'String'>
     readonly shippingMethodId: FieldRef<"Order", 'String'>
@@ -24106,6 +24133,8 @@ export namespace Prisma {
     currency: string | null
     status: $Enums.PaymentStatus | null
     method: string | null
+    webhookEventId: string | null
+    processedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -24119,6 +24148,8 @@ export namespace Prisma {
     currency: string | null
     status: $Enums.PaymentStatus | null
     method: string | null
+    webhookEventId: string | null
+    processedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -24133,6 +24164,8 @@ export namespace Prisma {
     status: number
     method: number
     rawResponse: number
+    webhookEventId: number
+    processedAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -24156,6 +24189,8 @@ export namespace Prisma {
     currency?: true
     status?: true
     method?: true
+    webhookEventId?: true
+    processedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -24169,6 +24204,8 @@ export namespace Prisma {
     currency?: true
     status?: true
     method?: true
+    webhookEventId?: true
+    processedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -24183,6 +24220,8 @@ export namespace Prisma {
     status?: true
     method?: true
     rawResponse?: true
+    webhookEventId?: true
+    processedAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -24284,6 +24323,8 @@ export namespace Prisma {
     status: $Enums.PaymentStatus
     method: string | null
     rawResponse: JsonValue | null
+    webhookEventId: string | null
+    processedAt: Date | null
     createdAt: Date
     updatedAt: Date | null
     _count: PaymentCountAggregateOutputType | null
@@ -24317,6 +24358,8 @@ export namespace Prisma {
     status?: boolean
     method?: boolean
     rawResponse?: boolean
+    webhookEventId?: boolean
+    processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     order?: boolean | Payment$orderArgs<ExtArgs>
@@ -24332,6 +24375,8 @@ export namespace Prisma {
     status?: boolean
     method?: boolean
     rawResponse?: boolean
+    webhookEventId?: boolean
+    processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     order?: boolean | Payment$orderArgs<ExtArgs>
@@ -24347,6 +24392,8 @@ export namespace Prisma {
     status?: boolean
     method?: boolean
     rawResponse?: boolean
+    webhookEventId?: boolean
+    processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     order?: boolean | Payment$orderArgs<ExtArgs>
@@ -24362,11 +24409,13 @@ export namespace Prisma {
     status?: boolean
     method?: boolean
     rawResponse?: boolean
+    webhookEventId?: boolean
+    processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "provider" | "providerPaymentId" | "amount" | "currency" | "status" | "method" | "rawResponse" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "provider" | "providerPaymentId" | "amount" | "currency" | "status" | "method" | "rawResponse" | "webhookEventId" | "processedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | Payment$orderArgs<ExtArgs>
   }
@@ -24392,6 +24441,8 @@ export namespace Prisma {
       status: $Enums.PaymentStatus
       method: string | null
       rawResponse: Prisma.JsonValue | null
+      webhookEventId: string | null
+      processedAt: Date | null
       createdAt: Date
       updatedAt: Date | null
     }, ExtArgs["result"]["payment"]>
@@ -24827,6 +24878,8 @@ export namespace Prisma {
     readonly status: FieldRef<"Payment", 'PaymentStatus'>
     readonly method: FieldRef<"Payment", 'String'>
     readonly rawResponse: FieldRef<"Payment", 'Json'>
+    readonly webhookEventId: FieldRef<"Payment", 'String'>
+    readonly processedAt: FieldRef<"Payment", 'DateTime'>
     readonly createdAt: FieldRef<"Payment", 'DateTime'>
     readonly updatedAt: FieldRef<"Payment", 'DateTime'>
   }
@@ -29997,6 +30050,8 @@ export namespace Prisma {
     discountAmount: 'discountAmount',
     total: 'total',
     metadata: 'metadata',
+    reservationExpiresAt: 'reservationExpiresAt',
+    paidAt: 'paidAt',
     shippingAddressId: 'shippingAddressId',
     billingAddressId: 'billingAddressId',
     shippingMethodId: 'shippingMethodId',
@@ -30058,6 +30113,8 @@ export namespace Prisma {
     status: 'status',
     method: 'method',
     rawResponse: 'rawResponse',
+    webhookEventId: 'webhookEventId',
+    processedAt: 'processedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -31608,6 +31665,8 @@ export namespace Prisma {
     discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     metadata?: JsonNullableFilter<"Order">
+    reservationExpiresAt?: DateTimeNullableFilter<"Order"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     shippingAddressId?: StringNullableFilter<"Order"> | string | null
     billingAddressId?: StringNullableFilter<"Order"> | string | null
     shippingMethodId?: StringNullableFilter<"Order"> | string | null
@@ -31637,6 +31696,8 @@ export namespace Prisma {
     discountAmount?: SortOrder
     total?: SortOrder
     metadata?: SortOrderInput | SortOrder
+    reservationExpiresAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
     shippingAddressId?: SortOrderInput | SortOrder
     billingAddressId?: SortOrderInput | SortOrder
     shippingMethodId?: SortOrderInput | SortOrder
@@ -31669,6 +31730,8 @@ export namespace Prisma {
     discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     metadata?: JsonNullableFilter<"Order">
+    reservationExpiresAt?: DateTimeNullableFilter<"Order"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     shippingAddressId?: StringNullableFilter<"Order"> | string | null
     billingAddressId?: StringNullableFilter<"Order"> | string | null
     shippingMethodId?: StringNullableFilter<"Order"> | string | null
@@ -31698,6 +31761,8 @@ export namespace Prisma {
     discountAmount?: SortOrder
     total?: SortOrder
     metadata?: SortOrderInput | SortOrder
+    reservationExpiresAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
     shippingAddressId?: SortOrderInput | SortOrder
     billingAddressId?: SortOrderInput | SortOrder
     shippingMethodId?: SortOrderInput | SortOrder
@@ -31729,6 +31794,8 @@ export namespace Prisma {
     discountAmount?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     metadata?: JsonNullableWithAggregatesFilter<"Order">
+    reservationExpiresAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
     shippingAddressId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     billingAddressId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     shippingMethodId?: StringNullableWithAggregatesFilter<"Order"> | string | null
@@ -31952,6 +32019,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     method?: StringNullableFilter<"Payment"> | string | null
     rawResponse?: JsonNullableFilter<"Payment">
+    webhookEventId?: StringNullableFilter<"Payment"> | string | null
+    processedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     order?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
@@ -31967,6 +32036,8 @@ export namespace Prisma {
     status?: SortOrder
     method?: SortOrderInput | SortOrder
     rawResponse?: SortOrderInput | SortOrder
+    webhookEventId?: SortOrderInput | SortOrder
+    processedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     order?: OrderOrderByWithRelationInput
@@ -31974,6 +32045,7 @@ export namespace Prisma {
 
   export type PaymentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    provider_providerPaymentId?: PaymentProviderProviderPaymentIdCompoundUniqueInput
     AND?: PaymentWhereInput | PaymentWhereInput[]
     OR?: PaymentWhereInput[]
     NOT?: PaymentWhereInput | PaymentWhereInput[]
@@ -31985,10 +32057,12 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     method?: StringNullableFilter<"Payment"> | string | null
     rawResponse?: JsonNullableFilter<"Payment">
+    webhookEventId?: StringNullableFilter<"Payment"> | string | null
+    processedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     order?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
-  }, "id">
+  }, "id" | "provider_providerPaymentId">
 
   export type PaymentOrderByWithAggregationInput = {
     id?: SortOrder
@@ -32000,6 +32074,8 @@ export namespace Prisma {
     status?: SortOrder
     method?: SortOrderInput | SortOrder
     rawResponse?: SortOrderInput | SortOrder
+    webhookEventId?: SortOrderInput | SortOrder
+    processedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     _count?: PaymentCountOrderByAggregateInput
@@ -32022,6 +32098,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
     method?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     rawResponse?: JsonNullableWithAggregatesFilter<"Payment">
+    webhookEventId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    processedAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
   }
@@ -33734,6 +33812,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -33760,6 +33840,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
     shippingMethodId?: string | null
@@ -33784,6 +33866,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -33810,6 +33894,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33835,6 +33921,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
     shippingMethodId?: string | null
@@ -33857,6 +33945,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -33877,6 +33967,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34121,6 +34213,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     order?: OrderCreateNestedOneWithoutPaymentsInput
@@ -34136,6 +34230,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -34149,6 +34245,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     order?: OrderUpdateOneWithoutPaymentsNestedInput
@@ -34164,6 +34262,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -34178,6 +34278,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -34191,6 +34293,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -34205,6 +34309,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -35794,6 +35900,8 @@ export namespace Prisma {
     discountAmount?: SortOrder
     total?: SortOrder
     metadata?: SortOrder
+    reservationExpiresAt?: SortOrder
+    paidAt?: SortOrder
     shippingAddressId?: SortOrder
     billingAddressId?: SortOrder
     shippingMethodId?: SortOrder
@@ -35824,6 +35932,8 @@ export namespace Prisma {
     taxAmount?: SortOrder
     discountAmount?: SortOrder
     total?: SortOrder
+    reservationExpiresAt?: SortOrder
+    paidAt?: SortOrder
     shippingAddressId?: SortOrder
     billingAddressId?: SortOrder
     shippingMethodId?: SortOrder
@@ -35846,6 +35956,8 @@ export namespace Prisma {
     taxAmount?: SortOrder
     discountAmount?: SortOrder
     total?: SortOrder
+    reservationExpiresAt?: SortOrder
+    paidAt?: SortOrder
     shippingAddressId?: SortOrder
     billingAddressId?: SortOrder
     shippingMethodId?: SortOrder
@@ -36032,6 +36144,11 @@ export namespace Prisma {
     isNot?: OrderWhereInput | null
   }
 
+  export type PaymentProviderProviderPaymentIdCompoundUniqueInput = {
+    provider: string
+    providerPaymentId: string
+  }
+
   export type PaymentCountOrderByAggregateInput = {
     id?: SortOrder
     orderId?: SortOrder
@@ -36042,6 +36159,8 @@ export namespace Prisma {
     status?: SortOrder
     method?: SortOrder
     rawResponse?: SortOrder
+    webhookEventId?: SortOrder
+    processedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -36059,6 +36178,8 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     method?: SortOrder
+    webhookEventId?: SortOrder
+    processedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -36072,6 +36193,8 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     method?: SortOrder
+    webhookEventId?: SortOrder
+    processedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -38475,6 +38598,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -38499,6 +38624,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
     shippingMethodId?: string | null
@@ -38771,6 +38898,8 @@ export namespace Prisma {
     discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     metadata?: JsonNullableFilter<"Order">
+    reservationExpiresAt?: DateTimeNullableFilter<"Order"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     shippingAddressId?: StringNullableFilter<"Order"> | string | null
     billingAddressId?: StringNullableFilter<"Order"> | string | null
     shippingMethodId?: StringNullableFilter<"Order"> | string | null
@@ -41211,6 +41340,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -41236,6 +41367,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     billingAddressId?: string | null
     shippingMethodId?: string | null
     placedAt?: Date | string | null
@@ -41269,6 +41402,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -41294,6 +41429,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     shippingMethodId?: string | null
     placedAt?: Date | string | null
@@ -41455,6 +41592,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -41468,6 +41607,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -41735,6 +41876,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     method?: StringNullableFilter<"Payment"> | string | null
     rawResponse?: JsonNullableFilter<"Payment">
+    webhookEventId?: StringNullableFilter<"Payment"> | string | null
+    processedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
   }
@@ -41983,6 +42126,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -42008,6 +42153,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
     placedAt?: Date | string | null
@@ -42057,6 +42204,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -42082,6 +42231,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
     shippingMethodId?: string | null
@@ -42219,6 +42370,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -42244,6 +42397,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42377,6 +42532,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -42402,6 +42559,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
     shippingMethodId?: string | null
@@ -42441,6 +42600,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -42466,6 +42627,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43141,6 +43304,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
     shippingMethodId?: string | null
@@ -43345,6 +43510,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -43369,6 +43536,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43393,6 +43562,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44146,6 +44317,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     billingAddressId?: string | null
     shippingMethodId?: string | null
     placedAt?: Date | string | null
@@ -44168,6 +44341,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     shippingMethodId?: string | null
     placedAt?: Date | string | null
@@ -44189,6 +44364,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44214,6 +44391,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44238,6 +44417,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44259,6 +44440,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44284,6 +44467,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44308,6 +44493,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44340,6 +44527,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -44395,6 +44584,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -44408,6 +44599,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -44421,6 +44614,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -44438,6 +44633,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
     placedAt?: Date | string | null
@@ -44459,6 +44656,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44484,6 +44683,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44508,6 +44709,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

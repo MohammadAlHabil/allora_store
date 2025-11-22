@@ -238,5 +238,17 @@
     "incoming": 7,
     "reorderThreshold": 5,
     "isTracked": true
+  },
+  {
+    "id": "inv_digital_1",
+    "sku": "INV-EBOOK-001",
+    "productId": "prod_digital_1",
+    "variantId": null,
+    "warehouseId": "wh_1",
+    "quantity": 999999,
+    "reserved": 0,
+    "incoming": 0,
+    "reorderThreshold": 0,
+    "isTracked": false
   }
 ]

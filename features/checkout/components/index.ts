@@ -5,3 +5,4 @@ export * from "./AddressForm";
 export * from "./AddressList";
 export * from "./AddressStep";
 export * from "./ShippingMethodStep";
+export * from "./PaymentMethodStep";

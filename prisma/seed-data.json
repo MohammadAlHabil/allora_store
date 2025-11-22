@@ -172,11 +172,7 @@
         "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?w=800",
         "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800"
       ],
-      "variantIds": [
-        "var_1",
-        "var_1b",
-        "var_1c"
-      ]
+      "variantIds": ["var_1", "var_1b", "var_1c"]
     },
     {
       "id": "prod_2",
@@ -192,10 +188,7 @@
         "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800",
         "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800"
       ],
-      "variantIds": [
-        "var_2",
-        "var_2b"
-      ]
+      "variantIds": ["var_2", "var_2b"]
     },
     {
       "id": "prod_3",
@@ -211,9 +204,7 @@
         "https://images.unsplash.com/photo-1591047643423-2dc2b4e31869?w=800",
         "https://images.unsplash.com/photo-1610652520814-8a4e5cb9c8e3?w=800"
       ],
-      "variantIds": [
-        "var_3"
-      ]
+      "variantIds": ["var_3"]
     },
     {
       "id": "prod_4",
@@ -229,9 +220,7 @@
         "https://images.unsplash.com/photo-1539533018865-21b91283b553?w=800",
         "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800"
       ],
-      "variantIds": [
-        "var_4"
-      ]
+      "variantIds": ["var_4"]
     },
     {
       "id": "prod_5",
@@ -247,9 +236,7 @@
         "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=800",
         "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800"
       ],
-      "variantIds": [
-        "var_5"
-      ]
+      "variantIds": ["var_5"]
     },
     {
       "id": "prod_6",
@@ -265,9 +252,7 @@
         "https://images.unsplash.com/photo-1624378439575-d88b830d70ad?w=800",
         "https://images.unsplash.com/photo-1473691955023-da1c49c95c78?w=800"
       ],
-      "variantIds": [
-        "var_6"
-      ]
+      "variantIds": ["var_6"]
     },
     {
       "id": "prod_7",
@@ -283,9 +268,7 @@
         "https://images.unsplash.com/photo-1541643600914-78b084683601?w=800",
         "https://images.unsplash.com/photo-1588405748880-12d1d2a59926?w=800"
       ],
-      "variantIds": [
-        "var_7"
-      ]
+      "variantIds": ["var_7"]
     },
     {
       "id": "prod_8",
@@ -301,9 +284,7 @@
         "https://images.unsplash.com/photo-1570194065650-d99fb4b14169?w=800",
         "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800"
       ],
-      "variantIds": [
-        "var_8"
-      ]
+      "variantIds": ["var_8"]
     },
     {
       "id": "prod_9",
@@ -640,9 +621,7 @@
       "basePrice": 30,
       "currency": "EGP",
       "isActive": true,
-      "availableCountries": [
-        "EG"
-      ],
+      "availableCountries": ["EG"],
       "estimatedDaysMin": 3,
       "estimatedDaysMax": 5,
       "rules": {
@@ -658,9 +637,7 @@
       "basePrice": 60,
       "currency": "EGP",
       "isActive": true,
-      "availableCountries": [
-        "EG"
-      ],
+      "availableCountries": ["EG"],
       "estimatedDaysMin": 1,
       "estimatedDaysMax": 2,
       "rules": {
@@ -676,17 +653,12 @@
       "basePrice": 100,
       "currency": "EGP",
       "isActive": true,
-      "availableCountries": [
-        "EG"
-      ],
+      "availableCountries": ["EG"],
       "estimatedDaysMin": 0,
       "estimatedDaysMax": 0,
       "rules": {
         "maxWeight": 10,
-        "regions": [
-          "Cairo",
-          "Giza"
-        ],
+        "regions": ["Cairo", "Giza"],
         "cutoffTime": "12:00 PM"
       }
     }
@@ -995,6 +967,18 @@
       "incoming": 7,
       "reorderThreshold": 5,
       "isTracked": true
+    },
+    {
+      "id": "inv_digital_1",
+      "sku": "INV-EBOOK-001",
+      "productId": "prod_digital_1",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 999999,
+      "reserved": 0,
+      "incoming": 0,
+      "reorderThreshold": 0,
+      "isTracked": false
     }
   ],
   "coupons": [
@@ -1130,7 +1114,7 @@
     {
       "id": "order_1",
       "userId": "user_2",
-      "status": "PENDING",
+      "status": "PENDING_PAYMENT",
       "paymentStatus": "PENDING",
       "shippingStatus": "PENDING",
       "currency": "USD",

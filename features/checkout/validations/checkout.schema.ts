@@ -7,7 +7,7 @@ export const checkoutAddressSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
-  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Please enter a valid phone number"),
+  phone: z.string().min(1, "Phone number is required"),
   street: z.string().min(5, "Street address must be at least 5 characters"),
   city: z.string().min(2, "City must be at least 2 characters"),
   state: z.string().min(2, "State/Province must be at least 2 characters"),
@@ -26,7 +26,7 @@ export const shippingMethodSchema = z.object({
  * Payment method validation schema
  */
 export const paymentMethodSchema = z.object({
-  paymentMethod: z.enum(["CREDIT_CARD", "DEBIT_CARD", "PAYPAL", "CASH_ON_DELIVERY"]),
+  paymentMethod: z.enum(["CREDIT_CARD", "CASH_ON_DELIVERY"]),
 });
 
 /**
@@ -37,7 +37,7 @@ export const checkoutFormSchema = z.object({
   billingAddress: checkoutAddressSchema.optional(),
   useSameAddress: z.boolean().default(true),
   shippingMethodId: z.string().min(1, "Please select a shipping method"),
-  paymentMethod: z.enum(["CREDIT_CARD", "DEBIT_CARD", "PAYPAL", "CASH_ON_DELIVERY"]),
+  paymentMethod: z.enum(["CREDIT_CARD", "CASH_ON_DELIVERY"]),
   notes: z.string().max(500, "Notes must be less than 500 characters").optional(),
 });
 
@@ -51,7 +51,8 @@ export const createOrderSchema = z
     shippingAddress: checkoutAddressSchema.optional(),
     billingAddress: checkoutAddressSchema.optional(),
     shippingMethodId: z.string().min(1, "Shipping method is required"),
-    paymentMethod: z.enum(["CREDIT_CARD", "DEBIT_CARD", "PAYPAL", "CASH_ON_DELIVERY"]),
+    paymentMethod: z.enum(["CREDIT_CARD", "CASH_ON_DELIVERY"]),
+    paymentIntentId: z.string().optional(),
     couponCode: z.string().optional(),
     notes: z.string().max(500).optional(),
   })

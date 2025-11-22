@@ -100,3 +100,91 @@ export async function sendResetPasswordEmail(email: string, token: string) {
     html: `<p>Click <a href="${buildUrl("reset", token)}">here</a> to reset your password. This link expires in 1 hour.</p>`,
   });
 }
+
+export async function sendOrderConfirmationEmail(
+  email: string,
+  orderData: {
+    orderNumber: string;
+    orderId: string;
+    total: number;
+    currency: string;
+    items: Array<{
+      title: string;
+      quantity: number;
+      unitPrice: number;
+    }>;
+    shippingAddress?: {
+      firstName?: string | null;
+      lastName?: string | null;
+      line1?: string | null;
+      city?: string | null;
+      region?: string | null;
+      postalCode?: string | null;
+      country?: string | null;
+    } | null;
+  }
+) {
+  const itemsHtml = orderData.items
+    .map(
+      (item) => `
+      <tr>
+        <td style="padding: 8px; border-bottom: 1px solid #eee;">${item.title}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">${item.quantity}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">${orderData.currency} ${item.unitPrice.toFixed(2)}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right;">${orderData.currency} ${(item.quantity * item.unitPrice).toFixed(2)}</td>
+      </tr>
+    `
+    )
+    .join("");
+
+  const shippingHtml = orderData.shippingAddress
+    ? `
+      <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+        <h3 style="margin-top: 0;">Shipping Address</h3>
+        <p style="margin: 5px 0;">${orderData.shippingAddress.firstName || ""} ${orderData.shippingAddress.lastName || ""}</p>
+        <p style="margin: 5px 0;">${orderData.shippingAddress.line1 || ""}</p>
+        <p style="margin: 5px 0;">${orderData.shippingAddress.city || ""}, ${orderData.shippingAddress.region || ""} ${orderData.shippingAddress.postalCode || ""}</p>
+        <p style="margin: 5px 0;">${orderData.shippingAddress.country || ""}</p>
+      </div>
+    `
+    : "";
+
+  return sendMail({
+    to: "semaamousa99@gmail.com",
+    subject: `Order Confirmation - ${orderData.orderNumber}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 10px;">Order Confirmed!</h1>
+        <p>Thank you for your order. Your order has been confirmed and will be processed soon.</p>
+
+        <div style="margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 5px;">
+          <p style="margin: 5px 0;"><strong>Order Number:</strong> ${orderData.orderNumber}</p>
+          <p style="margin: 5px 0;"><strong>Order ID:</strong> ${orderData.orderId}</p>
+          <p style="margin: 5px 0;"><strong>Total:</strong> ${orderData.currency} ${orderData.total.toFixed(2)}</p>
+        </div>
+
+        <h2 style="color: #333; margin-top: 30px;">Order Items</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background: #f0f0f0;">
+              <th style="padding: 8px; text-align: left; border-bottom: 2px solid #ddd;">Item</th>
+              <th style="padding: 8px; text-align: center; border-bottom: 2px solid #ddd;">Qty</th>
+              <th style="padding: 8px; text-align: right; border-bottom: 2px solid #ddd;">Price</th>
+              <th style="padding: 8px; text-align: right; border-bottom: 2px solid #ddd;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsHtml}
+          </tbody>
+        </table>
+
+        ${shippingHtml}
+
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+          <p>You can view your order details at <a href="${APP_URL}/orders/${orderData.orderId}" style="color: #4CAF50;">My Orders</a></p>
+          <p style="font-size: 12px; margin-top: 20px;">If you have any questions, please contact our support team.</p>
+        </div>
+      </div>
+    `,
+  });
+}

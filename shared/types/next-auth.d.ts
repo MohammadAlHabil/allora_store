@@ -17,6 +17,7 @@ import { UserRole } from "@/app/generated/prisma";
 
 interface ExtendedUser extends DefaultUser {
   id: string;
+  email?: string | null;
   role?: UserRole;
 }
 

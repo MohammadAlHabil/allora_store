@@ -1,4 +1,4 @@
-export type CheckoutStep = "address" | "shipping" | "payment" | "review" | "confirmation";
+export type CheckoutStep = "address" | "shipping" | "payment" | "confirmation";
 
 export type ShippingMethod = {
   id: string;
@@ -8,7 +8,7 @@ export type ShippingMethod = {
   estimatedDays: string;
 };
 
-export type PaymentMethod = "CREDIT_CARD" | "DEBIT_CARD" | "PAYPAL" | "CASH_ON_DELIVERY";
+export type PaymentMethod = "CREDIT_CARD" | "CASH_ON_DELIVERY";
 
 export type CheckoutAddress = {
   id?: string;
@@ -50,6 +50,7 @@ export type CreateOrderInput = {
   billingAddress?: CheckoutAddress;
   shippingMethodId: string;
   paymentMethod: PaymentMethod;
+  paymentIntentId?: string; // Stripe PaymentIntent ID (for card payments)
   couponCode?: string;
   notes?: string;
 };

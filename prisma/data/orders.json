@@ -2,7 +2,7 @@
   {
     "id": "order_1",
     "userId": "user_2",
-    "status": "PENDING",
+    "status": "PENDING_PAYMENT",
     "paymentStatus": "PENDING",
     "shippingStatus": "PENDING",
     "currency": "USD",

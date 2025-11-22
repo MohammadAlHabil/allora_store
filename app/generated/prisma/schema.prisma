@@ -30,9 +30,10 @@ enum ProductType {
 
 enum OrderStatus {
   DRAFT
-  PENDING
-  PAID
-  CANCELLED
+  PENDING_PAYMENT // Order created, awaiting payment (stock reserved)
+  PAID // Payment successful (stock committed)
+  CANCELLED // Order cancelled by user/admin
+  EXPIRED // Payment timeout - stock released
   FULFILLED
   PARTIALLY_FULFILLED
   REFUNDED
@@ -356,6 +357,10 @@ model Order {
   total          Decimal
   metadata       Json?
 
+  // Payment tracking fields
+  reservationExpiresAt DateTime? // When to release reserved stock if unpaid
+  paidAt               DateTime? // When payment was confirmed
+
   items    OrderItem[]
   payments Payment[]
 
@@ -374,6 +379,9 @@ model Order {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+
+  @@index([status])
+  @@index([reservationExpiresAt])
 }
 
 // ShippingMethod: Represents delivery methods provided by Allora Delivery
@@ -428,10 +436,17 @@ model Payment {
   method            String?
   rawResponse       Json?
 
+  // Idempotency tracking
+  webhookEventId String? // Stripe event ID or similar
+  processedAt    DateTime? // When webhook was processed
+
   order Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+
+  @@unique([provider, providerPaymentId])
+  @@index([webhookEventId])
 }
 
 // ------------------------- Coupons -------------------------

@@ -2,6 +2,7 @@
 import fs from "fs";
 import path from "path";
 import { PrismaClient } from "../app/generated/prisma";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 const dataDir = path.join(__dirname, "data");
@@ -27,6 +28,24 @@ function slugify(str: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 200);
+}
+
+function mapOrderStatus(input?: any) {
+  if (!input && input !== 0) return undefined;
+  const s = String(input).toUpperCase();
+  // map old value "PENDING" to new enum name "PENDING_PAYMENT"
+  if (s === "PENDING") return "PENDING_PAYMENT";
+  const allowed = new Set([
+    "DRAFT",
+    "PENDING_PAYMENT",
+    "PAID",
+    "CANCELLED",
+    "EXPIRED",
+    "FULFILLED",
+    "PARTIALLY_FULFILLED",
+    "REFUNDED",
+  ]);
+  return allowed.has(s) ? s : undefined;
 }
 
 async function main() {
@@ -185,14 +204,25 @@ async function main() {
 
     // Inventories - upsert to handle variant uniqueness
     if (Array.isArray(data.inventories) && data.inventories.length) {
+      let seededCount = 0;
       for (const inv of data.inventories) {
         try {
+          // Skip inventories that reference non-existent products
+          if (inv.productId && inv.productId.startsWith("prod_digital")) {
+            console.warn(
+              `Skipping inventory ${inv.id} - references non-existent product ${inv.productId}`
+            );
+            continue;
+          }
           await prisma.inventory.upsert({ where: { id: inv.id }, update: inv, create: inv });
+          seededCount++;
         } catch (e: any) {
           console.warn("inventory upsert failed for", inv.id, e?.message || e);
         }
       }
-      console.log(`Seeded ${data.inventories.length} inventories`);
+      console.log(
+        `Seeded ${seededCount} inventories (skipped ${data.inventories.length - seededCount})`
+      );
     }
 
     // Shipping methods
@@ -215,7 +245,44 @@ async function main() {
       console.log(`Seeded ${data.shippingMethods.length} shipping methods`);
     }
 
-    // Accounts / Sessions / VerificationTokens
+    // Users (hash passwords before inserting/updating) - MUST come before Accounts - MUST come before Accounts
+    if (Array.isArray(data.users)) {
+      for (const u of data.users) {
+        // clone to avoid mutating original data
+        const userPayload: any = { ...u };
+
+        // If a plaintext password is provided, hash it. Avoid double-hashing
+        // by checking for bcrypt hash prefix ($2a$ / $2b$ / $2y$).
+        if (typeof userPayload.password === "string" && userPayload.password.length) {
+          const pw: string = userPayload.password;
+          if (!pw.startsWith("$2a$") && !pw.startsWith("$2b$") && !pw.startsWith("$2y$")) {
+            userPayload.password = bcrypt.hashSync(pw, 12);
+          }
+        }
+
+        // remove any ephemeral fields that shouldn't be stored
+        if (userPayload.plainPassword) delete userPayload.plainPassword;
+
+        if (userPayload.email) {
+          await prisma.user.upsert({
+            where: { email: userPayload.email },
+            update: userPayload,
+            create: userPayload,
+          });
+        } else if (userPayload.id) {
+          await prisma.user.upsert({
+            where: { id: userPayload.id },
+            update: userPayload,
+            create: userPayload,
+          });
+        } else {
+          await prisma.user.create({ data: userPayload });
+        }
+      }
+      console.log(`Seeded ${data.users.length} users`);
+    }
+
+    // Accounts / Sessions / VerificationTokens (after Users)
     if (Array.isArray(data.accounts) && data.accounts.length)
       await prisma.account.createMany({ data: data.accounts, skipDuplicates: true });
     if (Array.isArray(data.sessions) && data.sessions.length)
@@ -236,20 +303,6 @@ async function main() {
         });
       }
       console.log(`Seeded ${data.coupons.length} coupons`);
-    }
-
-    // Users
-    if (Array.isArray(data.users)) {
-      for (const u of data.users) {
-        if (u.email) {
-          await prisma.user.upsert({ where: { email: u.email }, update: { ...u }, create: u });
-        } else if (u.id) {
-          await prisma.user.upsert({ where: { id: u.id }, update: { ...u }, create: u });
-        } else {
-          await prisma.user.create({ data: u });
-        }
-      }
-      console.log(`Seeded ${data.users.length} users`);
     }
 
     // Addresses
@@ -290,14 +343,37 @@ async function main() {
       console.log(`Seeded ${data.cartItems.length} cart items`);
     }
 
-    // Orders
+    // Orders (normalize enum values to match current Prisma schema)
     if (Array.isArray(data.orders)) {
       for (const o of data.orders) {
-        await prisma.order.upsert({
-          where: { id: o.id },
-          update: { ...o, subtotal: String(o.subtotal ?? 0), total: String(o.total ?? 0) },
-          create: { ...o, subtotal: String(o.subtotal ?? 0), total: String(o.total ?? 0) },
-        });
+        const updateData: any = {
+          ...o,
+          subtotal: String(o.subtotal ?? 0),
+          total: String(o.total ?? 0),
+        };
+        const createData: any = {
+          ...o,
+          subtotal: String(o.subtotal ?? 0),
+          total: String(o.total ?? 0),
+        };
+
+        const mappedStatus = mapOrderStatus(o.status);
+        if (mappedStatus) {
+          updateData.status = mappedStatus;
+          createData.status = mappedStatus;
+        } else {
+          // remove invalid status to let DB default apply
+          delete updateData.status;
+          delete createData.status;
+        }
+
+        // ensure paymentStatus and shippingStatus are strings (they usually match enums)
+        if (o.paymentStatus) updateData.paymentStatus = String(o.paymentStatus);
+        if (o.paymentStatus) createData.paymentStatus = String(o.paymentStatus);
+        if (o.shippingStatus) updateData.shippingStatus = String(o.shippingStatus);
+        if (o.shippingStatus) createData.shippingStatus = String(o.shippingStatus);
+
+        await prisma.order.upsert({ where: { id: o.id }, update: updateData, create: createData });
       }
       console.log(`Seeded ${data.orders.length} orders`);
     }

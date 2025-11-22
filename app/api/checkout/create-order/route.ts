@@ -17,21 +17,27 @@ export const POST = withApiRoute(async (request: Request) => {
 
   // Parse and validate request body
   const body = await req.json();
+  console.log("🔵 Create Order API - Request body:", JSON.stringify(body, null, 2));
+
   try {
     const validatedInput = createOrderSchema.parse(body);
+    console.log("✅ Validation passed, creating order...");
 
     // Create order
     const order = await createOrder(session.user.id, validatedInput);
+    console.log("✅ Order created successfully:", order.id);
 
     return NextResponse.json(order, { status: 201 });
   } catch (error: unknown) {
     if (error instanceof ZodError) {
+      console.log("❌ Validation failed:", JSON.stringify(error.errors, null, 2));
       return NextResponse.json(
         { message: "Invalid input data", errors: error.errors || [] },
         { status: 400 }
       );
     }
 
+    console.log("❌ Unexpected error:", error);
     throw error;
   }
 });

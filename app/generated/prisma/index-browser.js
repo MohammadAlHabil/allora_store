@@ -320,6 +320,8 @@ exports.Prisma.OrderScalarFieldEnum = {
   discountAmount: 'discountAmount',
   total: 'total',
   metadata: 'metadata',
+  reservationExpiresAt: 'reservationExpiresAt',
+  paidAt: 'paidAt',
   shippingAddressId: 'shippingAddressId',
   billingAddressId: 'billingAddressId',
   shippingMethodId: 'shippingMethodId',
@@ -372,6 +374,8 @@ exports.Prisma.PaymentScalarFieldEnum = {
   status: 'status',
   method: 'method',
   rawResponse: 'rawResponse',
+  webhookEventId: 'webhookEventId',
+  processedAt: 'processedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -461,9 +465,10 @@ exports.ProductType = exports.$Enums.ProductType = {
 
 exports.OrderStatus = exports.$Enums.OrderStatus = {
   DRAFT: 'DRAFT',
-  PENDING: 'PENDING',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
   PAID: 'PAID',
   CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED',
   FULFILLED: 'FULFILLED',
   PARTIALLY_FULFILLED: 'PARTIALLY_FULFILLED',
   REFUNDED: 'REFUNDED'

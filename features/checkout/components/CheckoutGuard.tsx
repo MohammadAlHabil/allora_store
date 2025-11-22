@@ -30,7 +30,7 @@ export function CheckoutGuard({ children }: { children: React.ReactNode }) {
     if (!isValidating && (isError || (validation && !validation.canProceed))) {
       const reason = validation?.reason || "Your cart is not ready for checkout";
       toast.error(reason);
-      router.push("/my-pages/cart");
+      router.push("/cart");
     }
   }, [isValidating, isError, validation, router]);
 
