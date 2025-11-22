@@ -8,6 +8,7 @@ import { WishlistButton } from "@/features/wishlist";
 import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
 import type { WishlistProduct } from "@/features/wishlist/types/wishlist.types";
 import { Button } from "@/shared/components/ui/button";
+import { formatPrice } from "@/shared/lib/utils/formatters";
 
 export default function WishlistPage() {
   const { data: wishlist, isLoading } = useWishlist();
@@ -101,7 +102,7 @@ export default function WishlistPage() {
                     <h3 className="font-semibold mb-2 line-clamp-2">{product.name}</h3>
                     <div className="flex items-center justify-between">
                       <span className="text-xl font-bold text-primary">
-                        ${Number(product.basePrice).toFixed(2)}
+                        {formatPrice(Number(product.basePrice))}
                       </span>
                     </div>
                   </div>

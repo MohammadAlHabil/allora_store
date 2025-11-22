@@ -8,6 +8,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/components/ui/dialog";
 import { Input } from "@/shared/components/ui/input";
 import { VisuallyHidden } from "@/shared/components/ui/visually-hidden";
+import { formatPrice } from "@/shared/lib/utils/formatters";
 
 interface SearchResult {
   products: {
@@ -246,7 +247,7 @@ export default function SearchDialog({ open, onOpenChange }: SearchDialogProps) 
                           )}
                         </div>
                         <div className="text-sm font-semibold text-right">
-                          ${product.basePrice.toFixed(2)}
+                          {formatPrice(Number(product.basePrice))}
                         </div>
                       </button>
                     ))}

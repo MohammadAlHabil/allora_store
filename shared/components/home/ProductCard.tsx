@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AddToCartButton } from "@/features/cart/components/AddToCartButton";
 import { WishlistButton } from "@/features/wishlist";
+import { formatPrice } from "@/shared/lib/utils/formatters";
 
 type Product = {
   id: string;
@@ -56,7 +57,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
-              <span className="text-lg font-bold text-primary">${product.price.toFixed(2)}</span>
+              <span className="text-lg font-bold text-primary">{formatPrice(product.price)}</span>
               {product.rating ? (
                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
                   <span className="text-yellow-500">★</span>
