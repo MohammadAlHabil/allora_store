@@ -27,11 +27,12 @@ export type CartResponse = {
   updatedAt: Date | null;
 };
 
-export type AddToCartInput = {
+export interface AddToCartInput {
   productId: string;
   variantId?: string | null;
   quantity: number;
-};
+  productName?: string; // Optional product name for toast messages
+}
 
 export type UpdateCartItemInput = {
   quantity: number;

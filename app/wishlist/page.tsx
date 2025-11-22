@@ -111,7 +111,11 @@ export default function WishlistPage() {
                 <div className="p-4 pt-0 flex items-center justify-between gap-2">
                   {/* Add to Cart Button */}
                   {product.isAvailable && !product.isArchived ? (
-                    <AddToCartButton productId={product.id} />
+                    <AddToCartButton
+                      productId={product.id}
+                      productName={product.name}
+                      expandDirection="right"
+                    />
                   ) : (
                     <Button
                       disabled

@@ -45,13 +45,13 @@ export function CartItem({
 
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity <= 0) {
-      removeItem(item.id);
+      removeItem({ itemId: item.id, productName: item.title });
       return;
     }
 
     setLocalQuantity(newQuantity);
     updateQuantity(
-      { itemId: item.id, input: { quantity: newQuantity } },
+      { itemId: item.id, input: { quantity: newQuantity }, productName: item.title },
       {
         onError: () => {
           // Revert on error
@@ -80,7 +80,7 @@ export function CartItem({
   };
 
   const handleRemove = () => {
-    removeItem(item.id);
+    removeItem({ itemId: item.id, productName: item.title });
   };
 
   const isLoading = isUpdating || isRemoving;

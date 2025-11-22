@@ -52,7 +52,9 @@ export function useCart() {
   };
 
   const removeItem = (itemId: string) => {
-    removeItemMutation.mutate(itemId);
+    const item = items.find((i) => i.id === itemId);
+    const productName = item?.title;
+    removeItemMutation.mutate({ itemId, productName });
   };
 
   const updateQuantity = (itemId: string, quantity: number) => {
@@ -60,14 +62,13 @@ export function useCart() {
       removeItem(itemId);
       return;
     }
-    updateQuantityMutation.mutate({ itemId, input: { quantity } });
+    const item = items.find((i) => i.id === itemId);
+    const productName = item?.title;
+    updateQuantityMutation.mutate({ itemId, input: { quantity }, productName });
   };
 
   const clearCart = () => {
-    // Clear all items one by one
-    items.forEach((item) => {
-      removeItemMutation.mutate(item.id);
-    });
+    items.forEach((item) => removeItem(item.id));
   };
 
   return {

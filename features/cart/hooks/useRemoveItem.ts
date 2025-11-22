@@ -11,8 +11,18 @@ type RemoveItemResponse = {
   cart: CartResponse;
 };
 
+type RemoveItemVariables = {
+  itemId: string;
+  productName?: string; // Optional product name for toast messages
+};
+
 type UseRemoveItemOptions = Omit<
-  UseMutationOptions<RemoveItemResponse, Error, string, { previousCart: CartResponse | undefined }>,
+  UseMutationOptions<
+    RemoveItemResponse,
+    Error,
+    RemoveItemVariables,
+    { previousCart: CartResponse | undefined }
+  >,
   "mutationFn"
 >;
 
@@ -36,8 +46,8 @@ export function useRemoveItem(options?: UseRemoveItemOptions) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: removeCartItem,
-    onMutate: async (itemId) => {
+    mutationFn: ({ itemId }: RemoveItemVariables) => removeCartItem(itemId),
+    onMutate: async ({ itemId }) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: cartQueryKeys.cart() });
 
@@ -57,15 +67,16 @@ export function useRemoveItem(options?: UseRemoveItemOptions) {
       // Return context with the snapshot
       return { previousCart };
     },
-    onSuccess: (data, itemId, context) => {
+    onSuccess: (data, variables, context) => {
       // Update React Query cache with server response
       queryClient.setQueryData<CartResponse>(cartQueryKeys.cart(), data.cart);
 
       // Invalidate queries to ensure sync
       queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
 
-      // Show success toast
-      toast.success("Item removed from cart");
+      // Show success toast with product name
+      const productName = variables.productName || "Item";
+      toast.success(`${productName} removed from cart`);
     },
     onError: (error, itemId, context) => {
       // Rollback to previous cart state

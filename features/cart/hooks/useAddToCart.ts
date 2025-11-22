@@ -59,8 +59,9 @@ export function useAddToCart(options?: UseAddToCartOptions) {
       // Invalidate and refetch cart query (to ensure sync)
       queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
 
-      // Show success toast
-      toast.success("Item added to cart");
+      // Show success toast with product name
+      const productName = variables.productName || "Product";
+      toast.success(`${productName} added to cart`);
     },
     onError: (error, variables, context) => {
       // Rollback to previous cart state

@@ -17,6 +17,7 @@ import type { AddToCartInput } from "../types";
 
 export interface AddToCartButtonProps {
   productId: string;
+  productName?: string; // Optional product name for toast messages
   variantId?: string | null;
   disabled?: boolean;
   className?: string;
@@ -26,6 +27,7 @@ export interface AddToCartButtonProps {
   variant?: "default" | "outline" | "secondary" | "destructive" | "ghost" | "link";
   isAvailable?: boolean;
   isArchived?: boolean;
+  expandDirection?: "left" | "right"; // Direction for desktop expanded controls
 }
 
 /**
@@ -39,6 +41,7 @@ export interface AddToCartButtonProps {
  */
 export function AddToCartButton({
   productId,
+  productName,
   variantId = null,
   disabled = false,
   className,
@@ -48,6 +51,7 @@ export function AddToCartButton({
   variant = "default",
   isAvailable = true,
   isArchived = false,
+  expandDirection = "left",
 }: AddToCartButtonProps) {
   const [quantity, setQuantity] = useState(defaultQuantity);
   const [isHovered, setIsHovered] = useState(false);
@@ -78,6 +82,7 @@ export function AddToCartButton({
       productId,
       variantId,
       quantity,
+      productName, // Pass product name for toast
     };
 
     addItem(input, {
@@ -97,6 +102,7 @@ export function AddToCartButton({
       updateQuantity({
         itemId: cartItem.id,
         input: { quantity: cartQuantity + 1 },
+        productName,
       });
     } else {
       setQuantity((prev) => {
@@ -112,6 +118,7 @@ export function AddToCartButton({
         updateQuantity({
           itemId: cartItem.id,
           input: { quantity: cartQuantity - 1 },
+          productName,
         });
       }
     } else {
@@ -120,8 +127,8 @@ export function AddToCartButton({
   };
 
   const handleRemove = () => {
-    if (cartItem) {
-      removeItem(cartItem.id);
+    if (cartItem?.id) {
+      removeItem({ itemId: cartItem.id, productName });
     }
   };
 
@@ -132,6 +139,7 @@ export function AddToCartButton({
         updateQuantity({
           itemId: cartItem.id,
           input: { quantity: value },
+          productName,
         });
       } else {
         setQuantity(value);
@@ -251,7 +259,8 @@ export function AddToCartButton({
           {/* Expanded state: Controls (shown on hover) */}
           <div
             className={cn(
-              "absolute top-0 left-0 flex items-center gap-1.5 transition-all duration-200",
+              "absolute top-0 flex items-center gap-1.5 transition-all duration-200",
+              expandDirection === "left" ? "right-0" : "left-0",
               isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
             )}
           >

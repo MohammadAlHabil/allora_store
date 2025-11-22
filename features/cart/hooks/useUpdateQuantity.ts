@@ -9,6 +9,7 @@ import { cartQueryKeys } from "./cart.query-keys";
 type UpdateQuantityVariables = {
   itemId: string;
   input: UpdateCartItemInput;
+  productName?: string; // Optional product name for toast messages
 };
 
 type UpdateQuantityResponse = {
@@ -82,8 +83,9 @@ export function useUpdateQuantity(options?: UseUpdateQuantityOptions) {
       // Invalidate queries to ensure sync
       queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
 
-      // Show success toast
-      toast.success("Cart updated");
+      // Show success toast with product name and quantity
+      const productName = variables.productName || "Product";
+      toast.success(`${productName} quantity updated to ${variables.input.quantity}`);
     },
     onError: (error, variables, context) => {
       // Rollback to previous cart state
