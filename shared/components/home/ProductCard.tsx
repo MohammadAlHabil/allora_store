@@ -3,6 +3,7 @@
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { WishlistButton } from "@/features/wishlist";
 import { Button } from "@/shared/components/ui/button";
 
 type Product = {
@@ -31,6 +32,12 @@ export default function ProductCard({ product }: { product: Product }) {
               target.src = "/images/banner.png";
             }}
           />
+          {/* Wishlist Button */}
+          <div className="absolute top-2 right-2 z-10">
+            <div className="bg-white/80 backdrop-blur-sm rounded-full shadow-md">
+              <WishlistButton productId={product.id} size="icon" variant="ghost" iconSize={18} />
+            </div>
+          </div>
         </div>
         <div className="p-4">
           <h3 className="font-medium  mb-1">{product.name}</h3>

@@ -415,6 +415,7 @@ exports.Prisma.WishlistItemScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   productId: 'productId',
+  token: 'token',
   createdAt: 'createdAt'
 };
 

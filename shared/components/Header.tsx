@@ -4,6 +4,7 @@ import { ShoppingCart, User, LogOut, Menu, Search, Heart } from "lucide-react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useWishlistCount } from "@/features/wishlist/hooks/useWishlist";
 import { Button } from "@/shared/components/ui/button";
 import {
   DropdownMenu,
@@ -20,6 +21,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartItemsCount] = useState(0); // TODO: Connect to actual cart state
+  const { data: wishlistCount } = useWishlistCount();
 
   // Debug log to see session changes
   useEffect(() => {
@@ -87,9 +89,14 @@ export default function Header() {
             </Button>
 
             {/* Wishlist */}
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" className="relative" asChild>
               <Link href="/wishlist">
                 <Heart className="h-5 w-5" />
+                {wishlistCount && wishlistCount > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                    {wishlistCount}
+                  </span>
+                )}
                 <span className="sr-only">Wishlist</span>
               </Link>
             </Button>

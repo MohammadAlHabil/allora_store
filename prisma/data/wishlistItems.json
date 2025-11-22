@@ -13,5 +13,25 @@
     "id": "wl_test_2",
     "userId": "user_test",
     "productId": "prod_13"
+  },
+  {
+    "id": "wl_anon_1",
+    "token": "anonymous_token_abc123",
+    "productId": "prod_5"
+  },
+  {
+    "id": "wl_anon_2",
+    "token": "anonymous_token_abc123",
+    "productId": "prod_7"
+  },
+  {
+    "id": "wl_anon_3",
+    "token": "anonymous_token_xyz789",
+    "productId": "prod_3"
+  },
+  {
+    "id": "wl_user_2",
+    "userId": "user_2",
+    "productId": "prod_8"
   }
 ]

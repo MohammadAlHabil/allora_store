@@ -27669,6 +27669,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     productId: string | null
+    token: string | null
     createdAt: Date | null
   }
 
@@ -27676,6 +27677,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     productId: string | null
+    token: string | null
     createdAt: Date | null
   }
 
@@ -27683,6 +27685,7 @@ export namespace Prisma {
     id: number
     userId: number
     productId: number
+    token: number
     createdAt: number
     _all: number
   }
@@ -27692,6 +27695,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     productId?: true
+    token?: true
     createdAt?: true
   }
 
@@ -27699,6 +27703,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     productId?: true
+    token?: true
     createdAt?: true
   }
 
@@ -27706,6 +27711,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     productId?: true
+    token?: true
     createdAt?: true
     _all?: true
   }
@@ -27784,8 +27790,9 @@ export namespace Prisma {
 
   export type WishlistItemGroupByOutputType = {
     id: string
-    userId: string
+    userId: string | null
     productId: string
+    token: string | null
     createdAt: Date
     _count: WishlistItemCountAggregateOutputType | null
     _min: WishlistItemMinAggregateOutputType | null
@@ -27810,8 +27817,9 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     productId?: boolean
+    token?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | WishlistItem$userArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["wishlistItem"]>
 
@@ -27819,8 +27827,9 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     productId?: boolean
+    token?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | WishlistItem$userArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["wishlistItem"]>
 
@@ -27828,8 +27837,9 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     productId?: boolean
+    token?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | WishlistItem$userArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["wishlistItem"]>
 
@@ -27837,33 +27847,35 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     productId?: boolean
+    token?: boolean
     createdAt?: boolean
   }
 
-  export type WishlistItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "productId" | "createdAt", ExtArgs["result"]["wishlistItem"]>
+  export type WishlistItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "productId" | "token" | "createdAt", ExtArgs["result"]["wishlistItem"]>
   export type WishlistItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | WishlistItem$userArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }
   export type WishlistItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | WishlistItem$userArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }
   export type WishlistItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | WishlistItem$userArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }
 
   export type $WishlistItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WishlistItem"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
       product: Prisma.$ProductPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
+      userId: string | null
       productId: string
+      token: string | null
       createdAt: Date
     }, ExtArgs["result"]["wishlistItem"]>
     composites: {}
@@ -28259,7 +28271,7 @@ export namespace Prisma {
    */
   export interface Prisma__WishlistItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends WishlistItem$userArgs<ExtArgs> = {}>(args?: Subset<T, WishlistItem$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -28293,6 +28305,7 @@ export namespace Prisma {
     readonly id: FieldRef<"WishlistItem", 'String'>
     readonly userId: FieldRef<"WishlistItem", 'String'>
     readonly productId: FieldRef<"WishlistItem", 'String'>
+    readonly token: FieldRef<"WishlistItem", 'String'>
     readonly createdAt: FieldRef<"WishlistItem", 'DateTime'>
   }
     
@@ -28687,6 +28700,25 @@ export namespace Prisma {
      * Limit how many WishlistItems to delete.
      */
     limit?: number
+  }
+
+  /**
+   * WishlistItem.user
+   */
+  export type WishlistItem$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -30163,6 +30195,7 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     productId: 'productId',
+    token: 'token',
     createdAt: 'createdAt'
   };
 
@@ -32298,17 +32331,19 @@ export namespace Prisma {
     OR?: WishlistItemWhereInput[]
     NOT?: WishlistItemWhereInput | WishlistItemWhereInput[]
     id?: StringFilter<"WishlistItem"> | string
-    userId?: StringFilter<"WishlistItem"> | string
+    userId?: StringNullableFilter<"WishlistItem"> | string | null
     productId?: StringFilter<"WishlistItem"> | string
+    token?: StringNullableFilter<"WishlistItem"> | string | null
     createdAt?: DateTimeFilter<"WishlistItem"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }
 
   export type WishlistItemOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     productId?: SortOrder
+    token?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     product?: ProductOrderByWithRelationInput
@@ -32319,17 +32354,19 @@ export namespace Prisma {
     AND?: WishlistItemWhereInput | WishlistItemWhereInput[]
     OR?: WishlistItemWhereInput[]
     NOT?: WishlistItemWhereInput | WishlistItemWhereInput[]
-    userId?: StringFilter<"WishlistItem"> | string
+    userId?: StringNullableFilter<"WishlistItem"> | string | null
     productId?: StringFilter<"WishlistItem"> | string
+    token?: StringNullableFilter<"WishlistItem"> | string | null
     createdAt?: DateTimeFilter<"WishlistItem"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }, "id">
 
   export type WishlistItemOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
     productId?: SortOrder
+    token?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: WishlistItemCountOrderByAggregateInput
     _max?: WishlistItemMaxOrderByAggregateInput
@@ -32341,8 +32378,9 @@ export namespace Prisma {
     OR?: WishlistItemScalarWhereWithAggregatesInput[]
     NOT?: WishlistItemScalarWhereWithAggregatesInput | WishlistItemScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"WishlistItem"> | string
-    userId?: StringWithAggregatesFilter<"WishlistItem"> | string
+    userId?: StringNullableWithAggregatesFilter<"WishlistItem"> | string | null
     productId?: StringWithAggregatesFilter<"WishlistItem"> | string
+    token?: StringNullableWithAggregatesFilter<"WishlistItem"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"WishlistItem"> | Date | string
   }
 
@@ -34532,48 +34570,55 @@ export namespace Prisma {
 
   export type WishlistItemCreateInput = {
     id?: string
+    token?: string | null
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutWishlistItemsInput
+    user?: UserCreateNestedOneWithoutWishlistItemsInput
     product: ProductCreateNestedOneWithoutWishlistItemsInput
   }
 
   export type WishlistItemUncheckedCreateInput = {
     id?: string
-    userId: string
+    userId?: string | null
     productId: string
+    token?: string | null
     createdAt?: Date | string
   }
 
   export type WishlistItemUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutWishlistItemsNestedInput
+    user?: UserUpdateOneWithoutWishlistItemsNestedInput
     product?: ProductUpdateOneRequiredWithoutWishlistItemsNestedInput
   }
 
   export type WishlistItemUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WishlistItemCreateManyInput = {
     id?: string
-    userId: string
+    userId?: string | null
     productId: string
+    token?: string | null
     createdAt?: Date | string
   }
 
   export type WishlistItemUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WishlistItemUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     productId?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -36341,6 +36386,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     productId?: SortOrder
+    token?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -36348,6 +36394,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     productId?: SortOrder
+    token?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -36355,6 +36402,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     productId?: SortOrder
+    token?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -38028,10 +38076,12 @@ export namespace Prisma {
     connect?: ProductWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutWishlistItemsNestedInput = {
+  export type UserUpdateOneWithoutWishlistItemsNestedInput = {
     create?: XOR<UserCreateWithoutWishlistItemsInput, UserUncheckedCreateWithoutWishlistItemsInput>
     connectOrCreate?: UserCreateOrConnectWithoutWishlistItemsInput
     upsert?: UserUpsertWithoutWishlistItemsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWishlistItemsInput, UserUpdateWithoutWishlistItemsInput>, UserUncheckedUpdateWithoutWishlistItemsInput>
   }
@@ -38712,6 +38762,7 @@ export namespace Prisma {
 
   export type WishlistItemCreateWithoutUserInput = {
     id?: string
+    token?: string | null
     createdAt?: Date | string
     product: ProductCreateNestedOneWithoutWishlistItemsInput
   }
@@ -38719,6 +38770,7 @@ export namespace Prisma {
   export type WishlistItemUncheckedCreateWithoutUserInput = {
     id?: string
     productId: string
+    token?: string | null
     createdAt?: Date | string
   }
 
@@ -38991,8 +39043,9 @@ export namespace Prisma {
     OR?: WishlistItemScalarWhereInput[]
     NOT?: WishlistItemScalarWhereInput | WishlistItemScalarWhereInput[]
     id?: StringFilter<"WishlistItem"> | string
-    userId?: StringFilter<"WishlistItem"> | string
+    userId?: StringNullableFilter<"WishlistItem"> | string | null
     productId?: StringFilter<"WishlistItem"> | string
+    token?: StringNullableFilter<"WishlistItem"> | string | null
     createdAt?: DateTimeFilter<"WishlistItem"> | Date | string
   }
 
@@ -39675,13 +39728,15 @@ export namespace Prisma {
 
   export type WishlistItemCreateWithoutProductInput = {
     id?: string
+    token?: string | null
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutWishlistItemsInput
+    user?: UserCreateNestedOneWithoutWishlistItemsInput
   }
 
   export type WishlistItemUncheckedCreateWithoutProductInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    token?: string | null
     createdAt?: Date | string
   }
 
@@ -43339,6 +43394,7 @@ export namespace Prisma {
   export type WishlistItemCreateManyUserInput = {
     id?: string
     productId: string
+    token?: string | null
     createdAt?: Date | string
   }
 
@@ -43638,6 +43694,7 @@ export namespace Prisma {
 
   export type WishlistItemUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutWishlistItemsNestedInput
   }
@@ -43645,12 +43702,14 @@ export namespace Prisma {
   export type WishlistItemUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WishlistItemUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -43831,7 +43890,8 @@ export namespace Prisma {
 
   export type WishlistItemCreateManyProductInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    token?: string | null
     createdAt?: Date | string
   }
 
@@ -44080,19 +44140,22 @@ export namespace Prisma {
 
   export type WishlistItemUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutWishlistItemsNestedInput
+    user?: UserUpdateOneWithoutWishlistItemsNestedInput
   }
 
   export type WishlistItemUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WishlistItemUncheckedUpdateManyWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    token?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
