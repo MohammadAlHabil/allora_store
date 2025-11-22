@@ -17,7 +17,7 @@ import { auth } from "@/auth";
 import { validateCheckout } from "@/features/checkout/services/checkout.service";
 import { withApiRoute } from "@/shared/lib/errors/handlers/api";
 
-export const GET = withApiRoute(async (request: Request) => {
+export const GET = withApiRoute(async () => {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -57,7 +57,10 @@ export const GET = withApiRoute(async (request: Request) => {
           variant: item.variant,
         })),
       },
-      stockResults: validation.stockResults,
+      stockResults: validation.stockResults.map((result) => ({
+        ...result,
+        title: result.title || "Unknown Product",
+      })),
       errors: validation.errors,
     });
   } catch (error: unknown) {

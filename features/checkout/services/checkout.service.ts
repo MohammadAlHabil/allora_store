@@ -46,6 +46,8 @@ export async function validateCheckout(userId: string) {
               name: true,
               slug: true,
               type: true,
+              basePrice: true,
+              images: true,
             },
           },
           variant: true,
@@ -77,19 +79,76 @@ export async function validateCheckout(userId: string) {
 
   const stockResults = await checkStockAvailability(stockItems);
 
-  // Find any items that are not available
-  const unavailableItems = stockResults.filter((result: StockCheckResult) => !result.isAvailable);
+  // Enrich results with product names and images from cart
+  const enrichedResults = stockResults.map((result: StockCheckResult) => {
+    const cartItem = cart.items.find(
+      (item) => item.productId === result.productId && item.variantId === result.variantId
+    );
 
-  return {
-    isValid: unavailableItems.length === 0,
-    cart,
-    stockResults,
-    unavailableItems,
-    errors: unavailableItems.map((item: StockCheckResult) => ({
+    // Get image from variant or product
+    const image = cartItem?.product.images?.[0]?.url;
+    // If variant has specific images, we could use them here if available in the schema
+    // For now, defaulting to product image
+
+    return {
+      ...result,
+      title: result.title || cartItem?.product.name || "Unknown Product",
+      image,
+    };
+  });
+
+  // Find any items that are not available
+  const unavailableItems = enrichedResults.filter(
+    (result: StockCheckResult) => !result.isAvailable
+  );
+
+  // Check for price changes
+  const priceIssues: {
+    message: string;
+    code: string;
+    field: string;
+    image?: string;
+  }[] = [];
+
+  cart.items.forEach((item) => {
+    const currentPrice = item.variant
+      ? parseFloat((item.variant.price || item.product.basePrice).toString())
+      : parseFloat(item.product.basePrice.toString());
+
+    const cartPrice = parseFloat(item.unitPrice.toString());
+
+    console.log(`💰 Price Check for ${item.title}:`, {
+      currentPrice,
+      cartPrice,
+      diff: currentPrice - cartPrice,
+      isMatch: currentPrice === cartPrice,
+    });
+
+    if (currentPrice !== cartPrice) {
+      priceIssues.push({
+        message: `Price changed for ${item.title} (was ${cartPrice}, now ${currentPrice})`,
+        code: "PRICE_CHANGED",
+        field: item.sku,
+        image: item.product.images?.[0]?.url,
+      });
+    }
+  });
+
+  const allErrors = [
+    ...unavailableItems.map((item: StockCheckResult) => ({
       message: item.reason || "Item not available",
       code: "OUT_OF_STOCK",
       field: item.sku,
     })),
+    ...priceIssues,
+  ];
+
+  return {
+    isValid: unavailableItems.length === 0 && priceIssues.length === 0,
+    cart,
+    stockResults: enrichedResults,
+    unavailableItems,
+    errors: allErrors,
   };
 }
 

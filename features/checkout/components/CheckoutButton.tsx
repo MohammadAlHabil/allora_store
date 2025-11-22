@@ -1,9 +1,9 @@
-"use client";
-
-import { ShoppingCart } from "lucide-react";
+import { Loader2, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { CheckoutAlertModal } from "@/features/checkout/components/CheckoutAlertModal";
+import { useCheckoutValidation } from "@/features/checkout/hooks/useCheckoutValidation";
 import { Button } from "@/shared/components/ui/button";
 
 /**
@@ -12,6 +12,7 @@ import { Button } from "@/shared/components/ui/button";
  * - Redirects to sign-in if not authenticated
  * - Redirects to checkout page if authenticated
  * - Validates cart is not empty
+ * - Validates stock availability before proceeding
  */
 export function CheckoutButton({
   disabled = false,
@@ -23,8 +24,10 @@ export function CheckoutButton({
   const router = useRouter();
   const { data: session, status } = useSession();
   const isLoading = status === "loading";
+  const { validateCheckout, isValidating, issues, generalErrors, showModal, setShowModal } =
+    useCheckoutValidation();
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     // Check if cart is empty
     if (cartItemCount === 0) {
       toast.error("Your cart is empty", {
@@ -43,19 +46,36 @@ export function CheckoutButton({
       return;
     }
 
-    // Proceed to checkout
-    router.push("/checkout");
+    // Validate checkout (stock, etc.)
+    const isValid = await validateCheckout();
+    if (isValid) {
+      // Proceed to checkout
+      router.push("/checkout");
+    }
   };
 
   return (
-    <Button
-      onClick={handleCheckout}
-      disabled={disabled || isLoading || cartItemCount === 0}
-      className="w-full"
-      size="lg"
-    >
-      <ShoppingCart className="mr-2 h-5 w-5" />
-      Proceed to Checkout
-    </Button>
+    <>
+      <Button
+        onClick={handleCheckout}
+        disabled={disabled || isLoading || isValidating || cartItemCount === 0}
+        className="w-full"
+        size="lg"
+      >
+        {isValidating ? (
+          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+        ) : (
+          <ShoppingCart className="mr-2 h-5 w-5" />
+        )}
+        {isValidating ? "Validating..." : "Proceed to Checkout"}
+      </Button>
+
+      <CheckoutAlertModal
+        open={showModal}
+        onOpenChange={setShowModal}
+        issues={issues}
+        generalErrors={generalErrors}
+      />
+    </>
   );
 }

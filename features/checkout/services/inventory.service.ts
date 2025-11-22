@@ -32,6 +32,8 @@ export type StockCheckResult = {
   isAvailable: boolean;
   isTracked: boolean;
   reason?: string;
+  title?: string;
+  image?: string;
 };
 
 /**
@@ -124,6 +126,7 @@ export async function checkStockAvailability(
       productId: item.productId,
       variantId: item.variantId || null,
       sku: inventory.sku,
+      title: inventory.product.name,
       requestedQty: item.quantity,
       availableQty: available,
       isAvailable,
