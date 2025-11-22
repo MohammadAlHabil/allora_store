@@ -2,6 +2,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
+import { ExpressCheckoutProvider } from "@/features/checkout/hooks/useExpressCheckout";
 import Breadcrumb from "@/shared/components/Breadcrumb";
 import Footer from "@/shared/components/Footer";
 import Header from "@/shared/components/Header";
@@ -35,19 +36,21 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <SessionProvider refetchInterval={0} refetchOnWindowFocus={true}>
           <QueryProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <Header />
-              <Breadcrumb />
-              <main className="min-h-screen">{children}</main>
-              <Footer />
-              <Toaster richColors position="top-center" />
-            </ThemeProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
+            <ExpressCheckoutProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Header />
+                <Breadcrumb />
+                <main className="min-h-screen">{children}</main>
+                <Footer />
+                <Toaster richColors position="top-center" />
+              </ThemeProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </ExpressCheckoutProvider>
           </QueryProvider>
         </SessionProvider>
       </body>

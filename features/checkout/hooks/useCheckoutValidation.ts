@@ -20,6 +20,7 @@ interface StockResult {
   requestedQty: number;
   availableQty: number;
   isAvailable: boolean;
+  reason?: string;
   title?: string;
   image?: string;
 }

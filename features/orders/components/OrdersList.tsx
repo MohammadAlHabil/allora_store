@@ -1,7 +1,9 @@
 "use client";
 
 import { AlertCircle, Package } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
+
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import { Button } from "@/shared/components/ui/button";
 import { useOrders } from "../hooks";
@@ -155,7 +157,7 @@ function EmptyState({
         history!
       </p>
       <Button asChild>
-        <a href="/products">Browse Products</a>
+        <Link href="/products">Browse Products</Link>
       </Button>
     </div>
   );

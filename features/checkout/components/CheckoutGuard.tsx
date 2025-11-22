@@ -17,7 +17,9 @@ export function CheckoutGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  const { data: validation, isLoading: isValidating, isError } = useCheckoutValidation();
+  // Initialize checkout validation hook
+  useCheckoutValidation();
+
   // Call effects unconditionally (Rules of Hooks) but run logic conditionally inside
   useEffect(() => {
     if (status !== "loading" && !session?.user) {
@@ -27,15 +29,11 @@ export function CheckoutGuard({ children }: { children: React.ReactNode }) {
   }, [status, session, router]);
 
   useEffect(() => {
-    if (!isValidating && (isError || (validation && !validation.canProceed))) {
-      const reason = validation?.reason || "Your cart is not ready for checkout";
-      toast.error(reason);
-      router.push("/cart");
-    }
-  }, [isValidating, isError, validation, router]);
+    // Validation logic removed - handled by useCheckoutValidation internally
+  }, []);
 
-  // If session is loading or validation is loading, show a loading state
-  if (status === "loading" || isValidating) {
+  // If session is loading, show a loading state
+  if (status === "loading") {
     return (
       <div className="flex items-center justify-center py-12">
         <Loader2 className="h-6 w-6 animate-spin" />
@@ -45,9 +43,6 @@ export function CheckoutGuard({ children }: { children: React.ReactNode }) {
 
   // If not authenticated, don't render children (effect will navigate)
   if (!session?.user) return null;
-
-  // If validation failed or indicates cannot proceed, don't render children (effect will navigate)
-  if (isError || (validation && !validation.canProceed)) return null;
 
   // All good — render children
   return <>{children}</>;
