@@ -4,7 +4,7 @@ import { SignInWithCartMerge } from "@/features/auth/components/SignInWithCartMe
 
 export default function SignInPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="flex items-center justify-center py-30">
       <div className="w-full max-w-md p-8 border rounded-lg">
         <h1 className="text-2xl mb-4">Login</h1>
         {/* <SignInForm /> */}

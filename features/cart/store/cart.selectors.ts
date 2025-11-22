@@ -23,13 +23,13 @@ export const selectCartItems = (state: CartStateShape) =>
 export const selectCartLoading = (state: CartStateShape) => state?.cart?.isLoading ?? false;
 export const selectCartError = (state: CartStateShape) => state?.cart?.error ?? null;
 
-export const selectCartItemCount = (state: AnyState) =>
+export const selectCartItemCount = (state: CartStateShape) =>
   (selectCartItems(state) || []).reduce(
     (total: number, item: CartItem) => total + (item.quantity || 0),
     0
   );
 
-export const selectCartTotal = (state: AnyState) =>
+export const selectCartTotal = (state: CartStateShape) =>
   (selectCartItems(state) || []).reduce(
     (total: number, item: CartItem) => total + (item.totalPrice || 0),
     0
@@ -37,14 +37,15 @@ export const selectCartTotal = (state: AnyState) =>
 
 export const selectCartSubtotal = selectCartTotal;
 
-export const selectIsCartEmpty = (state: AnyState) => (selectCartItems(state) || []).length === 0;
+export const selectIsCartEmpty = (state: CartStateShape) =>
+  (selectCartItems(state) || []).length === 0;
 
-export const selectCartItemById = (itemId: string) => (state: AnyState) =>
+export const selectCartItemById = (itemId: string) => (state: CartStateShape) =>
   (selectCartItems(state) || []).find((item: CartItem) => item.id === itemId);
 
 export const selectCartItemByProduct =
   (productId: string, variantId: string | null = null) =>
-  (state: AnyState) =>
+  (state: CartStateShape) =>
     (selectCartItems(state) || []).find(
       (item: CartItem) => item.productId === productId && item.variantId === variantId
     );

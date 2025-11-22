@@ -16,9 +16,12 @@ import { withApiRoute } from "@/shared/lib/errors/handlers/api";
 /**
  * PUT - Update existing address
  */
-export const PUT = withApiRoute(async (request: Request, context: { params: { id: string } }) => {
-  const { params } = context;
-  const resolvedParams = params;
+export const PUT = withApiRoute(async (request: Request, ctx?: Record<string, unknown>) => {
+  const params =
+    ctx && typeof ctx === "object" && "params" in ctx
+      ? ((ctx as { params?: { id: string } }).params ?? {})
+      : {};
+  const resolvedParams = params as { id: string };
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -49,16 +52,17 @@ export const PUT = withApiRoute(async (request: Request, context: { params: { id
 /**
  * DELETE - Delete address
  */
-export const DELETE = withApiRoute(
-  async (request: Request, context: { params: { id: string } }) => {
-    const { params } = context;
-    const resolvedParams = params;
-    const session = await auth();
+export const DELETE = withApiRoute(async (request: Request, ctx?: Record<string, unknown>) => {
+  const params =
+    ctx && typeof ctx === "object" && "params" in ctx
+      ? ((ctx as { params?: { id: string } }).params ?? {})
+      : {};
+  const resolvedParams = params as { id: string };
+  const session = await auth();
 
-    if (!session?.user?.id) {
-      throw new UnauthorizedError("Please sign in to delete address");
-    }
-
-    return await deleteUserAddress(resolvedParams.id, session.user.id);
+  if (!session?.user?.id) {
+    throw new UnauthorizedError("Please sign in to delete address");
   }
-);
+
+  return await deleteUserAddress(resolvedParams.id, session.user.id);
+});

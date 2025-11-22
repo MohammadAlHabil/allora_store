@@ -12,8 +12,11 @@ import { withApiRoute } from "@/shared/lib/errors/handlers/api";
 /**
  * POST - Set address as default
  */
-export const POST = withApiRoute(async (request: Request, context: { params: { id: string } }) => {
-  const { params } = context;
+export const POST = withApiRoute(async (request: Request, ctx?: Record<string, unknown>) => {
+  const params =
+    ctx && typeof ctx === "object" && "params" in ctx
+      ? ((ctx as { params?: { id: string } }).params ?? {})
+      : {};
 
   const session = await auth();
 
@@ -21,5 +24,6 @@ export const POST = withApiRoute(async (request: Request, context: { params: { i
     throw new UnauthorizedError("Please sign in to set default address");
   }
 
-  return await setUserDefaultAddress(params.id, session.user.id);
+  const id = (params as { id?: string }).id;
+  return await setUserDefaultAddress(id!, session.user.id);
 });

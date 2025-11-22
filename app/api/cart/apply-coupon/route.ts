@@ -8,9 +8,10 @@ import { isValidCouponCode, sanitizeCouponCode } from "@/shared/lib/utils/valida
  * POST /api/cart/apply-coupon
  * Apply coupon code to cart
  */
-export const POST = withApiRoute(async (request: NextRequest) => {
-  const cartContext = await getCartContext(request);
-  const body = await request.json();
+export const POST = withApiRoute(async (request: Request) => {
+  const req = request as unknown as NextRequest;
+  const cartContext = await getCartContext(req);
+  const body = await req.json();
 
   // Validate input
   const { code, action } = body;

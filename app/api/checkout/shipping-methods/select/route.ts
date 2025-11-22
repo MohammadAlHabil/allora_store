@@ -10,6 +10,7 @@ import {
   calculateShippingCost,
 } from "@/features/checkout/services/shipping.service";
 import { selectShippingMethodSchema } from "@/features/checkout/validations/shipping.schema";
+import { ok } from "@/shared/lib/errors";
 import { UnauthorizedError } from "@/shared/lib/errors/core/AppError";
 import { ERROR_CODES } from "@/shared/lib/errors/core/error-codes";
 import { fail } from "@/shared/lib/errors/core/result";
@@ -61,11 +62,8 @@ export const POST = withApiRoute(async (request: Request) => {
   }
 
   // Return both validation and cost calculation
-  return {
-    success: true,
-    data: {
-      method: validationResult.data.method,
-      cost: costResult.data,
-    },
-  };
+  return ok({
+    method: validationResult.data.method,
+    cost: costResult.data,
+  });
 });

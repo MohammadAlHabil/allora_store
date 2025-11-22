@@ -1,7 +1,7 @@
 import { Decimal } from "@prisma/client/runtime/library";
+import { NotFoundError, ValidationError } from "@/shared/lib/errors";
 import { parseDecimal, formatPrice } from "@/shared/lib/utils/formatters";
 import * as couponRepo from "../repositories/coupon.repository";
-import { NotFoundError, ValidationError } from "@/shared/lib/utils/errors";
 
 /**
  * Coupon Service

@@ -7,7 +7,7 @@
 
 import { logger } from "@/shared/lib/logger";
 import { fail } from "../core/result";
-import { type Result } from "../core/types";
+import { type Result, type ErrorDetails } from "../core/types";
 import { mapToErrorDetails } from "../mappers/error-mapper";
 
 /**
@@ -45,7 +45,8 @@ export function withApiRoute<TData>(
       if ((result as Result<TData>).success) {
         return Response.json(result, { status: 200 });
       } else {
-        return Response.json(result, { status: (result as Result<TData>).error.status });
+        const failure = result as { success: false; error: ErrorDetails };
+        return Response.json(failure, { status: failure.error.status });
       }
     } catch (error) {
       const errorDetails = mapToErrorDetails(error as unknown, context || "api");

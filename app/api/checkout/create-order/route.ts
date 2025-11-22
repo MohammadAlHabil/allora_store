@@ -30,9 +30,9 @@ export const POST = withApiRoute(async (request: Request) => {
     return NextResponse.json(order, { status: 201 });
   } catch (error: unknown) {
     if (error instanceof ZodError) {
-      console.log("❌ Validation failed:", JSON.stringify(error.errors, null, 2));
+      console.log("❌ Validation failed:", JSON.stringify(error.issues, null, 2));
       return NextResponse.json(
-        { message: "Invalid input data", errors: error.errors || [] },
+        { message: "Invalid input data", errors: error.issues || [] },
         { status: 400 }
       );
     }

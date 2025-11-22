@@ -15,10 +15,27 @@ import { ShippingMethodResponse, ShippingCostCalculation } from "../types/shippi
  * Serialize Decimal fields to numbers for JSON responses
  */
 function serializeShippingMethod(method: PrismaShippingMethod): ShippingMethodResponse {
+  const rulesVal = (method as unknown as { rules?: unknown }).rules;
+
+  let parsedRules: Record<string, unknown> | null = null;
+  if (rulesVal == null) {
+    parsedRules = null;
+  } else if (typeof rulesVal === "string") {
+    try {
+      parsedRules = JSON.parse(rulesVal);
+    } catch {
+      parsedRules = null;
+    }
+  } else if (typeof rulesVal === "object") {
+    parsedRules = rulesVal as Record<string, unknown>;
+  }
+
+  const methodRecord = method as unknown as Record<string, unknown>;
   return {
-    ...method,
+    ...methodRecord,
     basePrice: Number(method.basePrice),
-  };
+    rules: parsedRules,
+  } as ShippingMethodResponse;
 }
 
 /**
@@ -66,7 +83,7 @@ export async function getAvailableShippingMethods(
     const normalized = normalizeCountry(address.country);
 
     // Get shipping methods available for the address country (try normalized code first)
-    const methods = await findShippingMethodsByCountry(normalized);
+    const methods = await findShippingMethodsByCountry(normalized || "");
 
     if (methods.length === 0) {
       return fail({
@@ -117,10 +134,8 @@ export async function calculateShippingCost(
     }
 
     // Check if method is available for country
-    const isAvailable = await isShippingMethodAvailableForCountry(
-      methodId,
-      normalizeCountry(address.country)
-    );
+    const countryCode = normalizeCountry(address.country) || "";
+    const isAvailable = await isShippingMethodAvailableForCountry(methodId, countryCode);
     if (!isAvailable) {
       return fail({
         code: ERROR_CODES.VALIDATION_ERROR,
@@ -197,10 +212,8 @@ export async function validateShippingMethodSelection(
       throw new NotFoundError("Address");
     }
 
-    const isAvailable = await isShippingMethodAvailableForCountry(
-      methodId,
-      normalizeCountry(address.country)
-    );
+    const countryCode = normalizeCountry(address.country) || "";
+    const isAvailable = await isShippingMethodAvailableForCountry(methodId, countryCode);
 
     if (!isAvailable) {
       return fail({

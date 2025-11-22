@@ -19,6 +19,8 @@ interface ExtendedUser extends DefaultUser {
   id: string;
   email?: string | null;
   role?: UserRole;
+  name?: string | null;
+  email?: string | null;
 }
 
 declare module "next-auth" {

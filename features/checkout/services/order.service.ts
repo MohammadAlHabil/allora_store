@@ -92,7 +92,7 @@ export async function createPendingOrder(
       billingAddressId: data.billingAddressId,
       shippingMethodId: data.shippingMethodId,
       reservationExpiresAt,
-      metadata: data.metadata,
+      metadata: data.metadata as Prisma.InputJsonValue | undefined,
       placedAt: new Date(),
     },
     include: {

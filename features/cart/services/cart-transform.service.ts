@@ -8,12 +8,18 @@
  */
 import type { Cart, CartItem } from "@/app/generated/prisma";
 
+// Local helper types to represent optional relations returned by Prisma when include is used
+type ProductImage = { url?: string } | undefined;
+type ProductWithImages = { images?: ProductImage[] } | undefined;
+type CartItemWithProduct = CartItem & { product?: ProductWithImages };
+type CartWithItems = Cart & { items?: CartItemWithProduct[] };
+
 /**
  * Transform cart item for API response
  */
 export function transformCartItem(item: CartItem) {
-  // Get first product image if available
-  const productImage = item.product?.images?.[0]?.url || null;
+  // Get first product image if available (guarding optional relation)
+  const productImage = (item as CartItemWithProduct).product?.images?.[0]?.url || null;
 
   return {
     id: item.id,
@@ -34,11 +40,13 @@ export function transformCartItem(item: CartItem) {
  * Transform cart for API response
  */
 export function transformCart(cart: Cart) {
+  const items = (cart as CartWithItems).items?.map(transformCartItem) || [];
+
   return {
     id: cart.id,
     userId: cart.userId,
     expiresAt: cart.expiresAt,
-    items: cart.items.map(transformCartItem),
+    items,
     createdAt: cart.createdAt,
     updatedAt: cart.updatedAt,
   };

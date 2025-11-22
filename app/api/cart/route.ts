@@ -15,8 +15,9 @@ import { validateCartItemInput } from "@/shared/lib/utils/validation";
  * GET /api/cart
  * Get current user's cart (authenticated or anonymous)
  */
-export const GET = withApiRoute(async (request: NextRequest) => {
-  const cartContext = await getCartContext(request);
+export const GET = withApiRoute(async (request: Request) => {
+  const req = request as unknown as NextRequest;
+  const cartContext = await getCartContext(req);
   const cart = await getCartWithItems(cartContext.cartId);
   const response = ok(transformCart(cart));
 
@@ -39,9 +40,10 @@ export const GET = withApiRoute(async (request: NextRequest) => {
  * POST /api/cart
  * Add item to cart
  */
-export const POST = withApiRoute(async (request: NextRequest) => {
-  const cartContext = await getCartContext(request);
-  const body = await request.json();
+export const POST = withApiRoute(async (request: Request) => {
+  const req = request as unknown as NextRequest;
+  const cartContext = await getCartContext(req);
+  const body = await req.json();
 
   // Validate input
   const validation = validateCartItemInput(body);
