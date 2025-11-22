@@ -7973,6 +7973,7 @@ export namespace Prisma {
     name: string | null
     slug: string | null
     description: string | null
+    imageUrl: string | null
     parentId: string | null
     sortOrder: number | null
     isActive: boolean | null
@@ -7985,6 +7986,7 @@ export namespace Prisma {
     name: string | null
     slug: string | null
     description: string | null
+    imageUrl: string | null
     parentId: string | null
     sortOrder: number | null
     isActive: boolean | null
@@ -7997,6 +7999,7 @@ export namespace Prisma {
     name: number
     slug: number
     description: number
+    imageUrl: number
     parentId: number
     sortOrder: number
     isActive: number
@@ -8019,6 +8022,7 @@ export namespace Prisma {
     name?: true
     slug?: true
     description?: true
+    imageUrl?: true
     parentId?: true
     sortOrder?: true
     isActive?: true
@@ -8031,6 +8035,7 @@ export namespace Prisma {
     name?: true
     slug?: true
     description?: true
+    imageUrl?: true
     parentId?: true
     sortOrder?: true
     isActive?: true
@@ -8043,6 +8048,7 @@ export namespace Prisma {
     name?: true
     slug?: true
     description?: true
+    imageUrl?: true
     parentId?: true
     sortOrder?: true
     isActive?: true
@@ -8142,6 +8148,7 @@ export namespace Prisma {
     name: string
     slug: string
     description: string | null
+    imageUrl: string | null
     parentId: string | null
     sortOrder: number
     isActive: boolean
@@ -8173,6 +8180,7 @@ export namespace Prisma {
     name?: boolean
     slug?: boolean
     description?: boolean
+    imageUrl?: boolean
     parentId?: boolean
     sortOrder?: boolean
     isActive?: boolean
@@ -8189,6 +8197,7 @@ export namespace Prisma {
     name?: boolean
     slug?: boolean
     description?: boolean
+    imageUrl?: boolean
     parentId?: boolean
     sortOrder?: boolean
     isActive?: boolean
@@ -8202,6 +8211,7 @@ export namespace Prisma {
     name?: boolean
     slug?: boolean
     description?: boolean
+    imageUrl?: boolean
     parentId?: boolean
     sortOrder?: boolean
     isActive?: boolean
@@ -8215,6 +8225,7 @@ export namespace Prisma {
     name?: boolean
     slug?: boolean
     description?: boolean
+    imageUrl?: boolean
     parentId?: boolean
     sortOrder?: boolean
     isActive?: boolean
@@ -8222,7 +8233,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "parentId" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "imageUrl" | "parentId" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     children?: boolean | Category$childrenArgs<ExtArgs>
     parent?: boolean | Category$parentArgs<ExtArgs>
@@ -8248,6 +8259,7 @@ export namespace Prisma {
       name: string
       slug: string
       description: string | null
+      imageUrl: string | null
       parentId: string | null
       sortOrder: number
       isActive: boolean
@@ -8683,6 +8695,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Category", 'String'>
     readonly slug: FieldRef<"Category", 'String'>
     readonly description: FieldRef<"Category", 'String'>
+    readonly imageUrl: FieldRef<"Category", 'String'>
     readonly parentId: FieldRef<"Category", 'String'>
     readonly sortOrder: FieldRef<"Category", 'Int'>
     readonly isActive: FieldRef<"Category", 'Boolean'>
@@ -29907,6 +29920,7 @@ export namespace Prisma {
     name: 'name',
     slug: 'slug',
     description: 'description',
+    imageUrl: 'imageUrl',
     parentId: 'parentId',
     sortOrder: 'sortOrder',
     isActive: 'isActive',
@@ -30778,6 +30792,7 @@ export namespace Prisma {
     name?: StringFilter<"Category"> | string
     slug?: StringFilter<"Category"> | string
     description?: StringNullableFilter<"Category"> | string | null
+    imageUrl?: StringNullableFilter<"Category"> | string | null
     parentId?: StringNullableFilter<"Category"> | string | null
     sortOrder?: IntFilter<"Category"> | number
     isActive?: BoolFilter<"Category"> | boolean
@@ -30793,6 +30808,7 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     description?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
@@ -30811,6 +30827,7 @@ export namespace Prisma {
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     name?: StringFilter<"Category"> | string
     description?: StringNullableFilter<"Category"> | string | null
+    imageUrl?: StringNullableFilter<"Category"> | string | null
     parentId?: StringNullableFilter<"Category"> | string | null
     sortOrder?: IntFilter<"Category"> | number
     isActive?: BoolFilter<"Category"> | boolean
@@ -30826,6 +30843,7 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     description?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
@@ -30846,6 +30864,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Category"> | string
     slug?: StringWithAggregatesFilter<"Category"> | string
     description?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"Category"> | string | null
     parentId?: StringNullableWithAggregatesFilter<"Category"> | string | null
     sortOrder?: IntWithAggregatesFilter<"Category"> | number
     isActive?: BoolWithAggregatesFilter<"Category"> | boolean
@@ -32829,6 +32848,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -32843,6 +32863,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     sortOrder?: number
     isActive?: boolean
@@ -32857,6 +32878,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32871,6 +32893,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -32885,6 +32908,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     sortOrder?: number
     isActive?: boolean
@@ -32897,6 +32921,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32908,6 +32933,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -35156,6 +35182,7 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     description?: SortOrder
+    imageUrl?: SortOrder
     parentId?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
@@ -35172,6 +35199,7 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     description?: SortOrder
+    imageUrl?: SortOrder
     parentId?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
@@ -35184,6 +35212,7 @@ export namespace Prisma {
     name?: SortOrder
     slug?: SortOrder
     description?: SortOrder
+    imageUrl?: SortOrder
     parentId?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
@@ -39314,6 +39343,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -39327,6 +39357,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -39350,6 +39381,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -39363,6 +39395,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     sortOrder?: number
     isActive?: boolean
@@ -39422,6 +39455,7 @@ export namespace Prisma {
     name?: StringFilter<"Category"> | string
     slug?: StringFilter<"Category"> | string
     description?: StringNullableFilter<"Category"> | string | null
+    imageUrl?: StringNullableFilter<"Category"> | string | null
     parentId?: StringNullableFilter<"Category"> | string | null
     sortOrder?: IntFilter<"Category"> | number
     isActive?: BoolFilter<"Category"> | boolean
@@ -39445,6 +39479,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39458,6 +39493,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -40452,6 +40488,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -40465,6 +40502,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     parentId?: string | null
     sortOrder?: number
     isActive?: boolean
@@ -40561,6 +40599,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40574,6 +40613,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
@@ -43742,6 +43782,7 @@ export namespace Prisma {
     name: string
     slug: string
     description?: string | null
+    imageUrl?: string | null
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -43759,6 +43800,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43772,6 +43814,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43785,6 +43828,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

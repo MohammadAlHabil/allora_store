@@ -139,6 +139,7 @@ model Category {
   name        String
   slug        String      @unique
   description String?
+  imageUrl    String?     // Category image URL
   parentId    String?
   children    Category[]  @relation("CategoryChildren")
   parent      Category?   @relation("CategoryChildren", fields: [parentId], references: [id], onDelete: SetNull)

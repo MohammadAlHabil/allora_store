@@ -14,6 +14,7 @@ export async function GET() {
         id: true,
         name: true,
         slug: true,
+        // imageUrl: true, // TODO: Add after running migration
         _count: {
           select: {
             products: true,

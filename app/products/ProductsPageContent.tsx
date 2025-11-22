@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, SlidersHorizontal, X, Grid3x3, LayoutGrid, Package } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useCategories } from "@/features/products/hooks/useCategories";
 import { useAllProducts } from "@/features/products/hooks/useProducts";
@@ -25,10 +26,13 @@ import { useDebounce } from "@/shared/lib/hooks/useDebounce";
 type SortOption = "featured" | "price-asc" | "price-desc" | "name-asc" | "name-desc" | "rating";
 
 export default function ProductsPageContent() {
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "";
+
   const [searchInput, setSearchInput] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("featured");
   const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [gridView, setGridView] = useState<"3" | "4">("3");
 
