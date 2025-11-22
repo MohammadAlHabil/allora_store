@@ -57,6 +57,17 @@ export const createOrderSchema = z
     paymentIntentId: z.string().optional(),
     couponCode: z.string().optional(),
     notes: z.string().max(500).optional(),
+    // Express checkout
+    expressCheckoutItem: z
+      .object({
+        productId: z.string(),
+        productName: z.string(),
+        variantId: z.string().nullable(),
+        quantity: z.number().int().positive(),
+        unitPrice: z.number().positive(),
+        sku: z.string().optional(),
+      })
+      .optional(),
   })
   .refine((data) => data.shippingAddressId || data.shippingAddress, {
     message: "Either shipping address ID or address data is required",

@@ -1,13 +1,15 @@
 "use client";
 
 import { ChevronLeft, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useState, useEffect, useLayoutEffect } from "react";
 import { toast } from "sonner";
 import { useCart } from "@/features/cart/hooks";
 import { AddressStep, ShippingMethodStep, PaymentMethodStep } from "@/features/checkout/components";
+import { ExpressCheckoutSummary } from "@/features/checkout/components/ExpressCheckoutSummary";
 import { useCheckoutFlow, useCreateOrder } from "@/features/checkout/hooks";
+import { useExpressCheckout } from "@/features/checkout/hooks/useExpressCheckout";
 import type { AddressResponse } from "@/features/checkout/types/address.types";
 import { Button } from "@/shared/components/ui/button";
 
@@ -17,8 +19,10 @@ import { Button } from "@/shared/components/ui/button";
  */
 export function CheckoutPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: session } = useSession();
   const { items, total } = useCart();
+  const { expressItem, clearExpressItem } = useExpressCheckout();
   const { mutate: createOrder, isPending } = useCreateOrder();
   const {
     currentStep,
@@ -31,6 +35,9 @@ export function CheckoutPageContent() {
     isHydrated,
     resetCheckout,
   } = useCheckoutFlow();
+
+  // Check if in express mode
+  const isExpressMode = searchParams.get("mode") === "express" && expressItem !== null;
 
   const [selectedAddress, setSelectedAddress] = useState<AddressResponse | null>(null);
   const [selectedMethodId, setSelectedMethodId] = useState<string | undefined>();
@@ -99,9 +106,25 @@ export function CheckoutPageContent() {
           shippingMethodId: formData.shippingMethodId,
           paymentMethod: formData.paymentMethod,
           notes: formData.notes,
+          // Pass express item if in express mode
+          expressCheckoutItem:
+            isExpressMode && expressItem
+              ? {
+                  productId: expressItem.productId,
+                  productName: expressItem.productName,
+                  variantId: expressItem.variantId,
+                  quantity: expressItem.quantity,
+                  unitPrice: expressItem.unitPrice,
+                  sku: expressItem.sku,
+                }
+              : undefined,
         },
         {
           onSuccess: (order) => {
+            // Clear express item if in express mode
+            if (isExpressMode) {
+              clearExpressItem();
+            }
             // Redirect to confirmation page
             router.push(`/orders/${order.id}`);
             // Clear checkout state after navigation starts
@@ -235,9 +258,25 @@ export function CheckoutPageContent() {
                           paymentMethod: formData.paymentMethod,
                           paymentIntentId,
                           notes: formData.notes,
+                          // Pass express item if in express mode
+                          expressCheckoutItem:
+                            isExpressMode && expressItem
+                              ? {
+                                  productId: expressItem.productId,
+                                  productName: expressItem.productName,
+                                  variantId: expressItem.variantId,
+                                  quantity: expressItem.quantity,
+                                  unitPrice: expressItem.unitPrice,
+                                  sku: expressItem.sku,
+                                }
+                              : undefined,
                         },
                         {
                           onSuccess: (order) => {
+                            // Clear express item if in express mode
+                            if (isExpressMode) {
+                              clearExpressItem();
+                            }
                             // Show success message
                             toast.success("Order placed successfully!", {
                               description: `Order #${order.orderNumber} has been created.`,
@@ -292,43 +331,47 @@ export function CheckoutPageContent() {
 
         {/* Order summary sidebar */}
         <div className="lg:col-span-1">
-          <div className="bg-card rounded-lg border p-6 sticky top-4">
-            <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+          {isExpressMode ? (
+            <ExpressCheckoutSummary />
+          ) : (
+            <div className="bg-card rounded-lg border p-6 sticky top-4">
+              <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
-            {/* Cart items */}
-            <div className="space-y-3 mb-4">
-              {items.map((item) => (
-                <div key={item.id} className="flex gap-3">
-                  <div className="flex-1">
-                    <p className="font-medium text-sm">{item.title}</p>
-                    <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
+              {/* Cart items */}
+              <div className="space-y-3 mb-4">
+                {items.map((item) => (
+                  <div key={item.id} className="flex gap-3">
+                    <div className="flex-1">
+                      <p className="font-medium text-sm">{item.title}</p>
+                      <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
+                    </div>
+                    <p className="font-medium">
+                      ${parseFloat(item.totalPrice.toString()).toFixed(2)}
+                    </p>
                   </div>
-                  <p className="font-medium">
-                    ${parseFloat(item.totalPrice.toString()).toFixed(2)}
-                  </p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
-            <div className="border-t pt-4 space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Subtotal</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>Shipping</span>
-                <span>{shippingCost > 0 ? `${shippingCost} EGP` : "TBD"}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>Tax</span>
-                <span>${(total * 0.1).toFixed(2)}</span>
-              </div>
-              <div className="border-t pt-2 flex justify-between font-semibold">
-                <span>Total</span>
-                <span>${(total + shippingCost + total * 0.1).toFixed(2)}</span>
+              <div className="border-t pt-4 space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span>Subtotal</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span>Shipping</span>
+                  <span>{shippingCost > 0 ? `${shippingCost} EGP` : "TBD"}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span>Tax</span>
+                  <span>${(total * 0.1).toFixed(2)}</span>
+                </div>
+                <div className="border-t pt-2 flex justify-between font-semibold">
+                  <span>Total</span>
+                  <span>${(total + shippingCost + total * 0.1).toFixed(2)}</span>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

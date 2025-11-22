@@ -109,8 +109,8 @@ export async function validateCheckout(userId: string) {
     code: string;
     field: string;
     image?: string;
-    productId?: string;
-    variantId?: string | null;
+    productId: string;
+    variantId: string | null;
   }[] = [];
 
   cart.items.forEach((item) => {
@@ -363,18 +363,85 @@ export async function getUserAddresses(userId: string) {
  * @returns Order response
  */
 export async function createOrder(userId: string, input: CreateOrderInput): Promise<OrderResponse> {
-  // First validate checkout (including stock check)
-  const validation = await validateCheckout(userId);
+  // Check if this is express checkout (single product purchase)
+  const isExpressCheckout = !!input.expressCheckoutItem;
 
-  if (!validation.isValid) {
-    throw new Error(
-      `Cannot proceed to checkout: ${validation.errors
-        .map((e: { message?: string }) => e.message)
-        .join(", ")}`
+  let cart: Awaited<ReturnType<typeof validateCheckout>>["cart"] | undefined;
+  let orderItems;
+
+  if (isExpressCheckout && input.expressCheckoutItem) {
+    // Express checkout: Create order from single product
+    console.log(
+      "🚀 Express Checkout Mode - Creating order from express item:",
+      input.expressCheckoutItem
     );
-  }
 
-  const cart = validation.cart;
+    // Validate product and variant exist
+    const product = await prisma.product.findUnique({
+      where: { id: input.expressCheckoutItem.productId },
+      include: {
+        variants: {
+          where: input.expressCheckoutItem.variantId
+            ? { id: input.expressCheckoutItem.variantId }
+            : undefined,
+          include: { inventory: true },
+        },
+      },
+    });
+
+    if (!product || !product.isAvailable) {
+      throw new Error("Product is not available");
+    }
+
+    // Check stock for the variant or product
+    const variant = input.expressCheckoutItem.variantId
+      ? product.variants.find((v) => v.id === input.expressCheckoutItem!.variantId)
+      : null;
+
+    const inventory = variant?.inventory;
+    const availableQty = inventory
+      ? Math.max(0, (inventory.quantity || 0) - (inventory.reserved || 0))
+      : 0;
+
+    if (inventory && availableQty < input.expressCheckoutItem.quantity) {
+      throw new Error(`Only ${availableQty} units available for this product`);
+    }
+
+    // Create order items array for express checkout
+    orderItems = [
+      {
+        productId: input.expressCheckoutItem.productId,
+        variantId: input.expressCheckoutItem.variantId,
+        sku: input.expressCheckoutItem.sku || product.sku || `PROD-${product.id}`,
+        title: input.expressCheckoutItem.productName,
+        quantity: input.expressCheckoutItem.quantity,
+        unitPrice: input.expressCheckoutItem.unitPrice,
+      },
+    ];
+  } else {
+    // Regular checkout: Validate cart and use cart items
+    const validation = await validateCheckout(userId);
+
+    if (!validation.isValid) {
+      throw new Error(
+        `Cannot proceed to checkout: ${validation.errors
+          .map((e: { message?: string }) => e.message)
+          .join(", ")}`
+      );
+    }
+
+    cart = validation.cart;
+
+    // Create order items from cart
+    orderItems = cart.items.map((item) => ({
+      productId: item.productId,
+      variantId: item.variantId,
+      sku: item.sku,
+      title: item.title,
+      quantity: item.quantity,
+      unitPrice: parseFloat(item.unitPrice.toString()),
+    }));
+  }
 
   // Get user details for email
   const user = await prisma.user.findUnique({
@@ -478,10 +545,7 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
   const shippingCost = shippingMethod ? parseFloat(shippingMethod.basePrice.toString()) : 0;
 
   // Calculate tax (simplified - you can make this more sophisticated)
-  const subtotal = cart.items.reduce(
-    (sum, item) => sum + parseFloat(item.totalPrice.toString()),
-    0
-  );
+  const subtotal = orderItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
   const taxRate = 0.1; // 10% tax
   const taxAmount = subtotal * taxRate;
 
@@ -496,8 +560,8 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
   // Increase timeout to 15 seconds for complex operations (inventory, order, payment, cart)
   const order = await prisma.$transaction(
     async (tx) => {
-      // 1. Reserve stock for cart items
-      const stockItems: CartItemForStock[] = cart.items.map((item) => ({
+      // 1. Reserve stock for items
+      const stockItems: CartItemForStock[] = orderItems.map((item) => ({
         productId: item.productId,
         variantId: item.variantId,
         quantity: item.quantity,
@@ -508,14 +572,7 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
       // 2. Create order
       const newOrder = await createPendingOrder(tx, {
         userId,
-        items: cart.items.map((item) => ({
-          productId: item.productId,
-          variantId: item.variantId,
-          sku: item.sku,
-          title: item.title,
-          quantity: item.quantity,
-          unitPrice: parseFloat(item.unitPrice.toString()),
-        })),
+        items: orderItems,
         shippingAddressId,
         billingAddressId,
         shippingMethodId: input.shippingMethodId,
@@ -532,12 +589,11 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
         },
       });
 
-      // 3. For COD: Commit stock immediately but keep status as PENDING_PAYMENT
-      // Payment will be collected on delivery
-      if (isCOD) {
-        await commitStock(tx, stockItems);
+      // 3. Commit stock and create payment
+      await commitStock(tx, stockItems);
 
-        // Order status remains PENDING_PAYMENT until delivery
+      if (isCOD) {
+        // For COD: Payment will be collected on delivery
         await tx.order.update({
           where: { id: newOrder.id },
           data: {
@@ -558,13 +614,8 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
             method: "CASH_ON_DELIVERY",
           },
         });
-      }
-      // For Stripe: Stock will be committed by webhook or by immediate confirmation
-      else if (hasPaymentIntent) {
-        // Stock already reserved, will be committed by webhook
-        // Or we can commit it immediately since payment was confirmed
-        await commitStock(tx, stockItems);
-
+      } else if (hasPaymentIntent) {
+        // For Stripe: Payment confirmed
         await tx.order.update({
           where: { id: newOrder.id },
           data: {
@@ -587,12 +638,36 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
             processedAt: new Date(),
           },
         });
+      } else {
+        // For other payment methods: Mark as pending
+        await tx.order.update({
+          where: { id: newOrder.id },
+          data: {
+            status: "PENDING_PAYMENT",
+            paymentStatus: "PENDING",
+            reservationExpiresAt: null, // Stock committed
+          },
+        });
+
+        await tx.payment.create({
+          data: {
+            orderId: newOrder.id,
+            provider: input.paymentMethod === "CREDIT_CARD" ? "card" : "other",
+            providerPaymentId: `ORDER-${newOrder.id}`,
+            amount: newOrder.total,
+            currency: newOrder.currency,
+            status: "PENDING",
+            method: input.paymentMethod === "CREDIT_CARD" ? "card" : "other",
+          },
+        });
       }
 
-      // 4. Clear cart items (order is now the source of truth)
-      await tx.cartItem.deleteMany({
-        where: { cartId: cart.id },
-      });
+      // 4. Clear cart items ONLY for regular checkout (not express)
+      if (!isExpressCheckout && cart) {
+        await tx.cartItem.deleteMany({
+          where: { cartId: cart.id },
+        });
+      }
 
       return newOrder;
     },

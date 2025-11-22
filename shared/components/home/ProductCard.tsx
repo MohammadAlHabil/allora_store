@@ -17,7 +17,7 @@ type Product = {
 export default function ProductCard({ product }: { product: Product }) {
   return (
     <article className="group relative bg-card rounded-2xl border overflow-hidden transition-all duration-300 hover:shadow-sm hover:border-primary/20">
-      <Link href={`/product/${product.slug}`} className="block">
+      <Link href={`/products/${product.slug}`} className="block">
         {/* Image Container */}
         <div className="relative h-56 w-full bg-gray-100 overflow-hidden">
           <Image

@@ -54,6 +54,15 @@ export type CreateOrderInput = {
   paymentIntentId?: string; // Stripe PaymentIntent ID (for card payments)
   couponCode?: string;
   notes?: string;
+  // Express checkout
+  expressCheckoutItem?: {
+    productId: string;
+    productName: string;
+    variantId: string | null;
+    quantity: number;
+    unitPrice: number;
+    sku?: string;
+  };
 };
 
 export type OrderResponse = {
