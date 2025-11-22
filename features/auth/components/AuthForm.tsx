@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useForm, FormProvider, Resolver, Path, FieldValues, Controller } from "react-hook-form";
 import { ZodTypeAny } from "zod";
@@ -17,6 +18,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { Result } from "@/shared/lib/errors";
 import { cn } from "@/shared/lib/utils";
+import { useSessionRefresh } from "../hooks/useSessionRefresh";
 
 type ZodSchemaType = ZodTypeAny;
 
@@ -87,6 +89,8 @@ export function AuthForm<T extends FieldValues>({
   const [isPending, setIsPending] = useState(false);
 
   const router = useRouter();
+  const { update } = useSession();
+  const { refreshSession } = useSessionRefresh();
   const formRef = useRef<HTMLFormElement | null>(null);
 
   const form = useForm<T>({
@@ -110,9 +114,17 @@ export function AuthForm<T extends FieldValues>({
   useEffect(() => {
     if (!state?.success) return;
 
-    if (submitLabel === "Sign In") router.push("/");
+    if (submitLabel === "Sign In") {
+      // Force session refresh after successful sign-in using both methods
+      Promise.all([update(), refreshSession()]).then(() => {
+        // Small delay to ensure session is fully updated
+        setTimeout(() => {
+          router.push("/");
+        }, 150);
+      });
+    }
     if (submitLabel === "Reset Password") router.push("/signin");
-  }, [state, router, submitLabel]);
+  }, [state, router, submitLabel, update, refreshSession]);
 
   const onSubmit = form.handleSubmit(async () => {
     if (!formRef.current) return;

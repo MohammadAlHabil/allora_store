@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCart, User, LogOut, Menu, Search } from "lucide-react";
+import { ShoppingCart, User, LogOut, Menu, Search, Heart } from "lucide-react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -20,6 +20,11 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartItemsCount] = useState(0); // TODO: Connect to actual cart state
+
+  // Debug log to see session changes
+  useEffect(() => {
+    console.log("Session status:", status, "Session:", session);
+  }, [session, status]);
 
   // Keyboard shortcut for search (Cmd+K / Ctrl+K)
   useEffect(() => {
@@ -82,12 +87,12 @@ export default function Header() {
             </Button>
 
             {/* Wishlist */}
-            {/* <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild>
               <Link href="/wishlist">
                 <Heart className="h-5 w-5" />
                 <span className="sr-only">Wishlist</span>
               </Link>
-            </Button> */}
+            </Button>
 
             {/* Cart */}
             <Button variant="ghost" size="icon" className="relative" asChild>

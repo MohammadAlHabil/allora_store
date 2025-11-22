@@ -41,11 +41,27 @@ export const signInAction = withAction(async (formData: FormData): Promise<Resul
 
   try {
     // NextAuth will handle validation via authorize function in auth.config.ts
-    await signIn("credentials", {
+    const result = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
+
+    // Check if there was an error during sign in
+    if (result?.error) {
+      // Handle specific error cases
+      if (result.error.includes("EMAIL_NOT_VERIFIED")) {
+        throw new ValidationError(
+          "Please verify your email before signing in. Check your inbox for the verification link."
+        );
+      }
+
+      if (result.error.includes("INVALID_CREDENTIALS")) {
+        throw new InvalidCredentialsError();
+      }
+
+      throw new ValidationError("Authentication failed. Please try again.");
+    }
 
     return ok(null, "Signed in successfully");
   } catch (error) {
