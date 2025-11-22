@@ -97,7 +97,13 @@ export async function GET(request: Request) {
           },
           categories: {
             include: {
-              category: true,
+              category: {
+                select: {
+                  id: true,
+                  name: true,
+                  slug: true,
+                },
+              },
             },
           },
         },
