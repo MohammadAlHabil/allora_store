@@ -99,7 +99,7 @@ export function CouponInput({
   if (appliedCode) {
     return (
       <Card className={className}>
-        <CardContent className="pt-6">
+        <CardContent>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Ticket className="h-4 w-4 text-green-600 dark:text-green-400" />
@@ -127,7 +127,7 @@ export function CouponInput({
 
   return (
     <Card className={className}>
-      <CardContent className="pt-6">
+      <CardContent>
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Ticket className="h-4 w-4 text-muted-foreground" />
@@ -144,7 +144,7 @@ export function CouponInput({
               onChange={(e) => setCode(e.target.value.toUpperCase())}
               onKeyDown={handleKeyDown}
               disabled={disabled || isApplying}
-              className="flex-1 uppercase"
+              className="flex-1 uppercase h-[45px]"
               aria-label="Coupon code"
             />
             <Button
@@ -152,6 +152,7 @@ export function CouponInput({
               onClick={handleApply}
               disabled={disabled || isApplying || !code.trim()}
               variant="outline"
+              className="h-[45px]"
             >
               {isApplying ? (
                 <>

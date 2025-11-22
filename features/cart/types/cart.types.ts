@@ -10,6 +10,7 @@ export type CartItemResponse = {
   variantId: string | null;
   sku: string;
   title: string;
+  slug: string;
   quantity: number;
   unitPrice: number;
   totalPrice: number;

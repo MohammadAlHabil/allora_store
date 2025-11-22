@@ -52,8 +52,7 @@ export function CheckoutAlertModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <div className="flex items-center gap-2 text-destructive mb-2">
-            <AlertTriangle className="h-6 w-6" />
+          <div className="flex items-center gap-2 mb-2">
             <DialogTitle className="text-xl">Cannot Proceed to Checkout</DialogTitle>
           </div>
           <DialogDescription>

@@ -234,7 +234,7 @@ export default function CartPage() {
           <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1fr_420px]">
             {/* Cart Items Section */}
             <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
-              <Card className="shadow-lg border bg-card/80 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300 pt-0">
+              <Card className="shadow-sm border bg-card/80 backdrop-blur-sm hover:shadow-md transition-shadow duration-300 pt-0">
                 <CardHeader className="border-b bg-gradient-to-r from-primary/5 via-primary/5 to-transparent pt-6">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-2xl font-bold">Your Items</CardTitle>
@@ -307,7 +307,7 @@ export default function CartPage() {
             {/* Sidebar - Coupon & Summary */}
             <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
               {/* Coupon Input */}
-              <Card className="shadow-lg border bg-gradient-to-br from-primary/5 via-primary/5 to-transparent hover:shadow-xl transition-shadow duration-300">
+              <Card className="shadow-sm border bg-gradient-to-br from-primary/5 via-primary/5 to-transparent hover:shadow-md transition-shadow duration-300">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-lg font-bold">
                     <Gift className="h-5 w-5 text-primary" />
@@ -325,7 +325,7 @@ export default function CartPage() {
               </Card>
 
               {/* Cart Summary */}
-              <Card className="shadow-xl border-2 border-primary/10 sticky top-4 bg-card/90 backdrop-blur-sm hover:shadow-2xl transition-shadow duration-300 pt-0">
+              <Card className="shadow-sm border-2 border-primary/10 sticky top-4 bg-card/90 backdrop-blur-sm hover:shadow-md transition-shadow duration-300 pt-0">
                 <CardHeader className="border-b bg-gradient-to-r from-primary/5 via-primary/5 to-transparent pt-6">
                   <CardTitle className="text-xl font-bold">Order Summary</CardTitle>
                 </CardHeader>

@@ -20,14 +20,18 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  const currentImage = images[selectedIndex] || null;
+  const displayImages =
+    images.length > 0
+      ? images
+      : [{ id: "placeholder", url: "/images/placeholder.png", alt: "Product placeholder" }];
+  const currentImage = displayImages[selectedIndex];
 
   const handlePrevious = () => {
-    setSelectedIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setSelectedIndex((prev) => (prev === 0 ? displayImages.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setSelectedIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setSelectedIndex((prev) => (prev === displayImages.length - 1 ? 0 : prev + 1));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -35,13 +39,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
     if (e.key === "ArrowRight") handleNext();
   };
 
-  if (!currentImage) {
-    return (
-      <div className="aspect-square w-full rounded-lg bg-muted flex items-center justify-center">
-        <p className="text-muted-foreground">No images available</p>
-      </div>
-    );
-  }
+  if (!currentImage) return null;
 
   return (
     <div className="space-y-4">
@@ -51,7 +49,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
         onKeyDown={handleKeyDown}
         tabIndex={0}
         role="button"
-        aria-label={`Product image ${selectedIndex + 1} of ${images.length}`}
+        aria-label={`Product image ${selectedIndex + 1} of ${displayImages.length}`}
       >
         <Image
           src={currentImage.url}
@@ -68,7 +66,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
         />
 
         {/* Navigation arrows */}
-        {images.length > 1 && (
+        {displayImages.length > 1 && (
           <>
             <Button
               variant="ghost"
@@ -107,17 +105,17 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
         </div>
 
         {/* Image counter */}
-        {images.length > 1 && (
+        {displayImages.length > 1 && (
           <div className="absolute bottom-4 left-4 bg-black/50 text-white rounded-md px-3 py-1.5 text-sm">
-            {selectedIndex + 1} / {images.length}
+            {selectedIndex + 1} / {displayImages.length}
           </div>
         )}
       </div>
 
       {/* Thumbnail images */}
-      {images.length > 1 && (
+      {displayImages.length > 1 && (
         <div className="grid grid-cols-5 gap-2">
-          {images.map((image, index) => (
+          {displayImages.map((image, index) => (
             <button
               key={image.id}
               onClick={() => setSelectedIndex(index)}

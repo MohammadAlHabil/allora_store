@@ -1,7 +1,9 @@
 "use client";
 
 import { Plus, Minus, Trash2, Loader2, Package } from "lucide-react";
-import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Separator } from "@/shared/components/ui/separator";
@@ -42,6 +44,14 @@ export function CartItem({
   const [localQuantity, setLocalQuantity] = useState(item.quantity);
   const { mutate: updateQuantity, isPending: isUpdating } = useUpdateQuantity();
   const { mutate: removeItem, isPending: isRemoving } = useRemoveItem();
+  const [imgSrc, setImgSrc] = useState(imageUrl || "/images/placeholder.png");
+
+  // Update imgSrc when imageUrl prop changes
+  useEffect(() => {
+    if (imageUrl) {
+      setImgSrc(imageUrl);
+    }
+  }, [imageUrl]);
 
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity <= 0) {
@@ -91,11 +101,16 @@ export function CartItem({
         {showImage && (
           <div className="relative h-24 w-24 md:h-28 md:w-28 flex-shrink-0 overflow-hidden rounded-lg border-2 border-border/50 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 group">
             {imageUrl ? (
-              <img
-                src={imageUrl}
-                alt={item.title}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-              />
+              <Link href={`/products/${item.slug}`}>
+                <Image
+                  src={imgSrc}
+                  alt={item.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  sizes="(max-width: 768px) 96px, 112px"
+                  onError={() => setImgSrc("/images/placeholder.png")}
+                />
+              </Link>
             ) : (
               <div className="h-full w-full bg-gradient-to-br from-muted via-muted to-muted/50 flex items-center justify-center">
                 <Package className="h-8 w-8 md:h-10 md:w-10 text-muted-foreground/50" />
@@ -106,7 +121,9 @@ export function CartItem({
 
         <div className="flex-1 space-y-3">
           <div>
-            <h3 className="text-sm font-medium leading-tight">{item.title}</h3>
+            <Link href={`/products/${item.slug}`} className="hover:underline">
+              <h3 className="text-sm font-medium leading-tight">{item.title}</h3>
+            </Link>
             {item.variantId && (
               <p className="text-xs text-muted-foreground mt-1">Variant: {item.variantId}</p>
             )}

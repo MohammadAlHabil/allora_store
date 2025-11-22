@@ -10,7 +10,7 @@ import type { Cart, CartItem } from "@/app/generated/prisma";
 
 // Local helper types to represent optional relations returned by Prisma when include is used
 type ProductImage = { url?: string } | undefined;
-type ProductWithImages = { images?: ProductImage[] } | undefined;
+type ProductWithImages = { images?: ProductImage[]; slug: string } | undefined;
 type CartItemWithProduct = CartItem & { product?: ProductWithImages };
 type CartWithItems = Cart & { items?: CartItemWithProduct[] };
 
@@ -27,6 +27,7 @@ export function transformCartItem(item: CartItem) {
     variantId: item.variantId,
     sku: item.sku,
     title: item.title,
+    slug: (item as CartItemWithProduct).product?.slug || "",
     quantity: item.quantity,
     unitPrice: parseFloat(item.unitPrice.toString()),
     totalPrice: parseFloat(item.totalPrice.toString()),
