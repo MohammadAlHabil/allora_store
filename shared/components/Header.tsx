@@ -1,6 +1,7 @@
 "use client";
 
 import { Heart, LogOut, Menu, Search, ShoppingCart, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -57,10 +58,11 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            {/* <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <span className="text-xl font-bold">A</span>
-            </div>
-            <span className="hidden text-xl font-bold sm:inline-block">Allora Store</span>
+            </div> */}
+            <Image src="/logo/icon.png" alt="Logo" width={32} height={32} />
+            <span className="hidden text-xl font-bold sm:inline-block mt-1">Allora Store</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -124,7 +126,7 @@ export default function Header() {
             ) : session?.user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full">
+                  <Button variant="ghost" size="icon">
                     <User className="h-5 w-5" />
                     <span className="sr-only">User menu</span>
                   </Button>
@@ -161,7 +163,7 @@ export default function Header() {
               </DropdownMenu>
             ) : (
               <Button asChild size="sm">
-                <Link href="/signin">Login</Link>
+                <Link href="/signin">Sign In</Link>
               </Button>
             )}
 

@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -11,10 +12,11 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              {/* <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
                 <span className="text-xl font-bold">A</span>
-              </div>
-              <span className="text-xl font-bold">Allora Store</span>
+              </div> */}
+              <Image src="/logo/icon.png" alt="Logo" width={32} height={32} />
+              <span className="text-xl font-bold mt-2">Allora Store</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Your premier destination for fashion, beauty, and lifestyle products. Quality and

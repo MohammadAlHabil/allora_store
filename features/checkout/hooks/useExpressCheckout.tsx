@@ -5,7 +5,7 @@
 
 "use client";
 
-import { createContext, useContext, useState, ReactNode, useCallback } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 
 export interface ExpressCheckoutItem {
   productId: string;
@@ -46,17 +46,22 @@ export function ExpressCheckoutProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Load from sessionStorage on mount
-  useState(() => {
-    const stored = sessionStorage.getItem("expressCheckoutItem");
-    if (stored) {
-      try {
-        setExpressItemState(JSON.parse(stored));
-      } catch (e) {
-        console.error("Failed to parse express checkout item:", e);
-        sessionStorage.removeItem("expressCheckoutItem");
+  // Load from sessionStorage on mount
+  // Load from sessionStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = sessionStorage.getItem("expressCheckoutItem");
+      if (stored) {
+        try {
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setExpressItemState(JSON.parse(stored));
+        } catch (e) {
+          console.error("Failed to parse express checkout item:", e);
+          sessionStorage.removeItem("expressCheckoutItem");
+        }
       }
     }
-  });
+  }, []);
 
   const value: ExpressCheckoutContextValue = {
     expressItem,
