@@ -88,8 +88,12 @@ export async function addItemToCart(cartId: string, input: AddToCartInput) {
   }
 
   // Check product availability
-  if (!product.isAvailable || product.isArchived) {
-    throw new ValidationError(CART_ERRORS.PRODUCT_UNAVAILABLE.message);
+  if (!product.isAvailable) {
+    throw new ValidationError(`Sorry, "${product.name}" is currently unavailable`);
+  }
+
+  if (product.isArchived) {
+    throw new ValidationError(`Sorry, "${product.name}" is no longer available`);
   }
 
   // Determine price

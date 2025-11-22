@@ -1,7 +1,8 @@
 "use client";
 
-import { ShoppingCart, Plus, Minus, Loader2, Trash2 } from "lucide-react";
+import { Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useProductAvailability } from "@/features/products/hooks/useProductAvailability";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import {
@@ -12,7 +13,7 @@ import {
 } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/lib/utils";
 import { isValidQuantity } from "@/shared/lib/utils/validation";
-import { useAddToCart, useCart, useUpdateQuantity, useRemoveItem } from "../hooks";
+import { useAddToCart, useCart, useRemoveItem, useUpdateQuantity } from "../hooks";
 import type { AddToCartInput } from "../types";
 
 export interface AddToCartButtonProps {
@@ -25,8 +26,6 @@ export interface AddToCartButtonProps {
   showQuantityInput?: boolean;
   size?: "default" | "sm" | "lg" | "icon";
   variant?: "default" | "outline" | "secondary" | "destructive" | "ghost" | "link";
-  isAvailable?: boolean;
-  isArchived?: boolean;
   expandDirection?: "left" | "right"; // Direction for desktop expanded controls
 }
 
@@ -34,10 +33,10 @@ export interface AddToCartButtonProps {
  * Enhanced Add to Cart Icon Button Component
  *
  * Features:
- * - Rounded-full icon button by default
+ * - Automatically checks product availability and stock
  * - Mobile: Always shows full controls when item is in cart
  * - Desktop: Shows icon with badge, expands to controls on hover
- * - Spinner loading states instead of text
+ * - Handles out of stock scenarios
  */
 export function AddToCartButton({
   productId,
@@ -49,12 +48,17 @@ export function AddToCartButton({
   showQuantityInput = false,
   size = "icon",
   variant = "default",
-  isAvailable = true,
-  isArchived = false,
   expandDirection = "left",
 }: AddToCartButtonProps) {
   const [quantity, setQuantity] = useState(defaultQuantity);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Fetch product availability
+  const {
+    data: productAvailability,
+    isLoading: isLoadingAvailability,
+    isError: isAvailabilityError,
+  } = useProductAvailability(productId);
 
   // Cart hooks
   const { items } = useCart();
@@ -70,7 +74,11 @@ export function AddToCartButton({
   const cartQuantity = cartItem?.quantity || 0;
 
   // Product availability check
-  const isProductDisabled = disabled || !isAvailable || isArchived;
+  const isProductAvailable =
+    productAvailability?.isAvailable === true && productAvailability?.isArchived !== true;
+  const hasStock = (productAvailability?.stock ?? 0) > 0;
+  const isProductDisabled =
+    disabled || isLoadingAvailability || isAvailabilityError || !isProductAvailable || !hasStock;
   const isPending = isAdding || isUpdating || isRemoving;
 
   const handleAddToCart = () => {
@@ -378,7 +386,11 @@ export function AddToCartButton({
           ) : (
             <>
               <ShoppingCart className="mr-2 h-4 w-4" />
-              {isProductDisabled ? (isArchived ? "Archived" : "Out of Stock") : "Add to Cart"}
+              {isProductDisabled
+                ? productAvailability?.isArchived
+                  ? "Archived"
+                  : "Out of Stock"
+                : "Add to Cart"}
             </>
           )}
         </Button>
@@ -398,7 +410,11 @@ export function AddToCartButton({
             variant={variant}
             className={cn("rounded-full relative", className)}
             aria-label={
-              isProductDisabled ? (isArchived ? "Archived" : "Out of stock") : "Add to cart"
+              isProductDisabled
+                ? productAvailability?.isArchived
+                  ? "Archived"
+                  : "Out of stock"
+                : "Add to cart"
             }
           >
             {isPending ? (
@@ -416,7 +432,7 @@ export function AddToCartButton({
             {isPending
               ? "Adding..."
               : isProductDisabled
-                ? isArchived
+                ? productAvailability?.isArchived
                   ? "Product archived"
                   : "Out of stock"
                 : "Add to cart"}

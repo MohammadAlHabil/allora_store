@@ -5,11 +5,17 @@ import prisma from "@/shared/lib/prisma";
  * Handles product-related database queries
  */
 
-export async function findProductById(productId: string, includeVariants?: boolean) {
+export async function findProductById(productId: string, includeVariants = false) {
   return prisma.product.findUnique({
     where: { id: productId },
-    include: {
-      variants: includeVariants ? true : false,
+    select: {
+      id: true,
+      name: true,
+      sku: true,
+      basePrice: true,
+      isAvailable: true,
+      isArchived: true,
+      variants: includeVariants,
     },
   });
 }
