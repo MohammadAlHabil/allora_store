@@ -1,44 +1,30 @@
 import { NextResponse } from "next/server";
-
-const CATEGORIES = [
-  {
-    id: "cat_fashion",
-    name: "Fashion",
-    slug: "fashion",
-    image: "/images/cat-fashion.jpg",
-    subcategories: ["Dresses", "Tops", "Pants", "Skirts"],
-  },
-  {
-    id: "cat_shoes",
-    name: "Shoes",
-    slug: "shoes",
-    image: "/images/cat-shoes.jpg",
-    subcategories: [],
-  },
-  {
-    id: "cat_beauty",
-    name: "Beauty",
-    slug: "beauty",
-    image: "/images/cat-beauty.jpg",
-    subcategories: ["Makeup", "Skincare", "Haircare", "Perfumes"],
-  },
-  {
-    id: "cat_accessories",
-    name: "Accessories",
-    slug: "accessories",
-    image: "/images/cat-accessories.jpg",
-    subcategories: ["Watches", "Scarves", "Sunglasses", "Belts"],
-  },
-  { id: "cat_bags", name: "Bags", slug: "bags", image: "/images/cat-bags.jpg", subcategories: [] },
-  {
-    id: "cat_sports",
-    name: "Sportswear",
-    slug: "sportswear",
-    image: "/images/cat-sportswear.jpg",
-    subcategories: [],
-  },
-];
+import prisma from "@/shared/lib/prisma";
 
 export async function GET() {
-  return NextResponse.json(CATEGORIES);
+  try {
+    const categories = await prisma.category.findMany({
+      where: {
+        isActive: true,
+      },
+      orderBy: {
+        sortOrder: "asc",
+      },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        _count: {
+          select: {
+            products: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return NextResponse.json({ error: "Failed to fetch categories" }, { status: 500 });
+  }
 }

@@ -113,6 +113,9 @@ export async function GET(request: Request) {
     items = items.filter((p) => p.isBestSeller).slice(0, 8);
   } else if (type === "new") {
     items = items.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)).slice(0, 8);
+  } else if (type === "all") {
+    // Return all products for shop page
+    items = items.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
   }
 
   return NextResponse.json(items);
