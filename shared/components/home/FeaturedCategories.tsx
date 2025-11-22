@@ -41,7 +41,7 @@ export default function FeaturedCategories() {
           : categories.map((cat) => (
               <Link
                 key={cat.id}
-                href={`/category/${cat.slug}`}
+                href={`/products?category=${cat.slug}`}
                 className="group block overflow-hidden text-center w-full max-w-[220px]"
               >
                 <div className="overflow-hidden relative h-36 w-36 sm:h-44 sm:w-44 mx-auto mb-3 rounded-full shadow-md">
