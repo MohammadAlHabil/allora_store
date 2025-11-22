@@ -1,0 +1,8 @@
+# Ignore generated Prisma client files
+
+app/generated/prisma/
+
+# Ignore seed builder and data files
+
+prisma/build-seed.js
+prisma/data/

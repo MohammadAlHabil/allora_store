@@ -1,0 +1,11 @@
+[
+  {
+    "id": "coupon_1",
+    "code": "SAVE10",
+    "type": "PERCENTAGE",
+    "value": 10,
+    "currency": "USD",
+    "minOrderAmount": 20,
+    "isActive": true
+  }
+]

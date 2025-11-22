@@ -1,0 +1,44 @@
+[
+  {
+    "id": "addr_1",
+    "userId": "user_2",
+    "label": "Home",
+    "firstName": "Bob",
+    "lastName": "Buyer",
+    "line1": "123 Market St",
+    "city": "Giza",
+    "region": "Giza Governorate",
+    "postalCode": "12511",
+    "country": "EG",
+    "phone": "+201000000002",
+    "isDefault": true
+  },
+  {
+    "id": "addr_test_1",
+    "userId": "user_test",
+    "label": "Home",
+    "firstName": "Test",
+    "lastName": "User",
+    "line1": "1 Test Ave",
+    "city": "Cairo",
+    "region": "Cairo Governorate",
+    "postalCode": "11511",
+    "country": "EG",
+    "phone": "+201000000099",
+    "isDefault": true
+  },
+  {
+    "id": "addr_test_2",
+    "userId": "user_test",
+    "label": "Work",
+    "firstName": "Test",
+    "lastName": "User",
+    "line1": "2 Office Rd",
+    "city": "Alexandria",
+    "region": "Alexandria Governorate",
+    "postalCode": "21511",
+    "country": "EG",
+    "phone": "+201000000098",
+    "isDefault": false
+  }
+]

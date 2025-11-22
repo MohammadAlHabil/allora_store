@@ -1,0 +1,17 @@
+[
+  {
+    "id": "wl_1",
+    "userId": "user_2",
+    "productId": "prod_2"
+  },
+  {
+    "id": "wl_admin_1",
+    "userId": "user_admin2",
+    "productId": "prod_1"
+  },
+  {
+    "id": "wl_test_2",
+    "userId": "user_test",
+    "productId": "prod_13"
+  }
+]

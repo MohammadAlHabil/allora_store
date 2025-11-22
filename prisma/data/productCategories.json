@@ -1,0 +1,20 @@
+[
+  {
+    "id": "pc_1",
+    "productId": "prod_1",
+    "categoryId": "cat_fashion_tops",
+    "sortOrder": 0
+  },
+  {
+    "id": "pc_2",
+    "productId": "prod_2",
+    "categoryId": "cat_shoes",
+    "sortOrder": 0
+  },
+  {
+    "id": "pc_3",
+    "productId": "prod_3",
+    "categoryId": "cat_accessories",
+    "sortOrder": 0
+  }
+]

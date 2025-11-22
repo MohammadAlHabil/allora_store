@@ -1,0 +1,1238 @@
+{
+  "categories": [
+    {
+      "id": "cat_fashion",
+      "name": "Fashion",
+      "slug": "fashion",
+      "image": "/images/cat-fashion.jpg",
+      "description": "Fashion collection",
+      "parentId": null
+    },
+    {
+      "id": "cat_fashion_dresses",
+      "name": "Dresses",
+      "slug": "dresses",
+      "image": "/images/cat-fashion.jpg",
+      "description": "Dresses under Fashion",
+      "parentId": "cat_fashion"
+    },
+    {
+      "id": "cat_fashion_tops",
+      "name": "Tops",
+      "slug": "tops",
+      "image": "/images/cat-fashion.jpg",
+      "description": "Tops under Fashion",
+      "parentId": "cat_fashion"
+    },
+    {
+      "id": "cat_fashion_pants",
+      "name": "Pants",
+      "slug": "pants",
+      "image": "/images/cat-fashion.jpg",
+      "description": "Pants under Fashion",
+      "parentId": "cat_fashion"
+    },
+    {
+      "id": "cat_fashion_skirts",
+      "name": "Skirts",
+      "slug": "skirts",
+      "image": "/images/cat-fashion.jpg",
+      "description": "Skirts under Fashion",
+      "parentId": "cat_fashion"
+    },
+    {
+      "id": "cat_shoes",
+      "name": "Shoes",
+      "slug": "shoes",
+      "image": "/images/cat-shoes.jpg",
+      "description": "Shoes collection",
+      "parentId": null
+    },
+    {
+      "id": "cat_beauty",
+      "name": "Beauty",
+      "slug": "beauty",
+      "image": "/images/cat-beauty.jpg",
+      "description": "Beauty collection",
+      "parentId": null
+    },
+    {
+      "id": "cat_beauty_makeup",
+      "name": "Makeup",
+      "slug": "makeup",
+      "image": "/images/cat-beauty.jpg",
+      "description": "Makeup under Beauty",
+      "parentId": "cat_beauty"
+    },
+    {
+      "id": "cat_beauty_skincare",
+      "name": "Skincare",
+      "slug": "skincare",
+      "image": "/images/cat-beauty.jpg",
+      "description": "Skincare under Beauty",
+      "parentId": "cat_beauty"
+    },
+    {
+      "id": "cat_beauty_haircare",
+      "name": "Haircare",
+      "slug": "haircare",
+      "image": "/images/cat-beauty.jpg",
+      "description": "Haircare under Beauty",
+      "parentId": "cat_beauty"
+    },
+    {
+      "id": "cat_beauty_perfumes",
+      "name": "Perfumes",
+      "slug": "perfumes",
+      "image": "/images/cat-beauty.jpg",
+      "description": "Perfumes under Beauty",
+      "parentId": "cat_beauty"
+    },
+    {
+      "id": "cat_accessories",
+      "name": "Accessories",
+      "slug": "accessories",
+      "image": "/images/cat-accessories.jpg",
+      "description": "Accessories collection",
+      "parentId": null
+    },
+    {
+      "id": "cat_accessories_watches",
+      "name": "Watches",
+      "slug": "watches",
+      "image": "/images/cat-accessories.jpg",
+      "description": "Watches under Accessories",
+      "parentId": "cat_accessories"
+    },
+    {
+      "id": "cat_accessories_scarves",
+      "name": "Scarves",
+      "slug": "scarves",
+      "image": "/images/cat-accessories.jpg",
+      "description": "Scarves under Accessories",
+      "parentId": "cat_accessories"
+    },
+    {
+      "id": "cat_accessories_sunglasses",
+      "name": "Sunglasses",
+      "slug": "sunglasses",
+      "image": "/images/cat-accessories.jpg",
+      "description": "Sunglasses under Accessories",
+      "parentId": "cat_accessories"
+    },
+    {
+      "id": "cat_accessories_belts",
+      "name": "Belts",
+      "slug": "belts",
+      "image": "/images/cat-accessories.jpg",
+      "description": "Belts under Accessories",
+      "parentId": "cat_accessories"
+    },
+    {
+      "id": "cat_bags",
+      "name": "Bags",
+      "slug": "bags",
+      "image": "/images/cat-bags.jpg",
+      "description": "Bags collection",
+      "parentId": null
+    },
+    {
+      "id": "cat_sports",
+      "name": "Sportswear",
+      "slug": "sportswear",
+      "image": "/images/cat-sportswear.jpg",
+      "description": "Sportswear collection",
+      "parentId": null
+    }
+  ],
+  "warehouses": [
+    {
+      "id": "wh_1",
+      "name": "Main Warehouse",
+      "code": "MAIN",
+      "address": {
+        "line1": "1 Warehouse Rd",
+        "city": "Cairo",
+        "country": "EG"
+      }
+    }
+  ],
+  "products": [
+    {
+      "id": "prod_1",
+      "name": "Elegant Shirt",
+      "slug": "elegant-shirt",
+      "sku": "SKU-SHIRT-001",
+      "shortDesc": "A stylish shirt",
+      "description": "Comfortable, elegant shirt for everyday wear",
+      "basePrice": 49.99,
+      "currency": "USD",
+      "categoryId": "cat_fashion_tops",
+      "images": [
+        "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?w=800",
+        "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800"
+      ],
+      "variantIds": ["var_1", "var_1b", "var_1c"]
+    },
+    {
+      "id": "prod_2",
+      "name": "Classic Shoes",
+      "slug": "classic-shoes",
+      "sku": "SKU-SHOES-001",
+      "shortDesc": "Durable shoes",
+      "description": "Classic leather shoes",
+      "basePrice": 89.5,
+      "currency": "USD",
+      "categoryId": "cat_shoes",
+      "images": [
+        "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800",
+        "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800"
+      ],
+      "variantIds": ["var_2", "var_2b"]
+    },
+    {
+      "id": "prod_3",
+      "name": "Stylish Hat",
+      "slug": "stylish-hat",
+      "sku": "SKU-HAT-001",
+      "shortDesc": "A fashionable hat",
+      "description": "Stylish hat for sunny days",
+      "basePrice": 25,
+      "currency": "USD",
+      "categoryId": "cat_accessories_scarves",
+      "images": [
+        "https://images.unsplash.com/photo-1591047643423-2dc2b4e31869?w=800",
+        "https://images.unsplash.com/photo-1610652520814-8a4e5cb9c8e3?w=800"
+      ],
+      "variantIds": ["var_3"]
+    },
+    {
+      "id": "prod_4",
+      "name": "Chic Dress",
+      "slug": "chic-dress",
+      "sku": "SKU-DRESS-001",
+      "shortDesc": "Flowing dress",
+      "description": "Elegant dress for special occasions",
+      "basePrice": 129,
+      "currency": "USD",
+      "categoryId": "cat_fashion_dresses",
+      "images": [
+        "https://images.unsplash.com/photo-1539533018865-21b91283b553?w=800",
+        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800"
+      ],
+      "variantIds": ["var_4"]
+    },
+    {
+      "id": "prod_5",
+      "name": "Summer Skirt",
+      "slug": "summer-skirt",
+      "sku": "SKU-SKIRT-001",
+      "shortDesc": "Light skirt",
+      "description": "Perfect skirt for warm days",
+      "basePrice": 39.5,
+      "currency": "USD",
+      "categoryId": "cat_fashion_skirts",
+      "images": [
+        "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=800",
+        "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800"
+      ],
+      "variantIds": ["var_5"]
+    },
+    {
+      "id": "prod_6",
+      "name": "Everyday Pants",
+      "slug": "everyday-pants",
+      "sku": "SKU-PANTS-001",
+      "shortDesc": "Comfort pants",
+      "description": "Comfortable pants for daily wear",
+      "basePrice": 59,
+      "currency": "USD",
+      "categoryId": "cat_fashion_pants",
+      "images": [
+        "https://images.unsplash.com/photo-1624378439575-d88b830d70ad?w=800",
+        "https://images.unsplash.com/photo-1473691955023-da1c49c95c78?w=800"
+      ],
+      "variantIds": ["var_6"]
+    },
+    {
+      "id": "prod_7",
+      "name": "Luxury Perfume",
+      "slug": "luxury-perfume",
+      "sku": "SKU-PERF-001",
+      "shortDesc": "Signature scent",
+      "description": "Long-lasting perfume with refined notes",
+      "basePrice": 79,
+      "currency": "USD",
+      "categoryId": "cat_beauty_perfumes",
+      "images": [
+        "https://images.unsplash.com/photo-1541643600914-78b084683601?w=800",
+        "https://images.unsplash.com/photo-1588405748880-12d1d2a59926?w=800"
+      ],
+      "variantIds": ["var_7"]
+    },
+    {
+      "id": "prod_8",
+      "name": "Hydrating Cream",
+      "slug": "hydrating-cream",
+      "sku": "SKU-SKIN-001",
+      "shortDesc": "Nourishing cream",
+      "description": "Deep hydration for all skin types",
+      "basePrice": 29.99,
+      "currency": "USD",
+      "categoryId": "cat_beauty_skincare",
+      "images": [
+        "https://images.unsplash.com/photo-1570194065650-d99fb4b14169?w=800",
+        "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800"
+      ],
+      "variantIds": ["var_8"]
+    },
+    {
+      "id": "prod_9",
+      "name": "Sport Tee",
+      "slug": "sport-tee",
+      "sku": "SKU-SPORT-001",
+      "shortDesc": "Breathable tee",
+      "description": "Lightweight sportswear top",
+      "basePrice": 24,
+      "currency": "USD",
+      "categoryId": "cat_sports",
+      "images": [
+        "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800",
+        "https://images.unsplash.com/photo-1515886657613-9d3515b1e089?w=800"
+      ]
+    },
+    {
+      "id": "prod_10",
+      "name": "Classic Sunglasses",
+      "slug": "classic-sunglasses",
+      "sku": "SKU-SUN-001",
+      "shortDesc": "Polarized shades",
+      "description": "Protective sunglasses with modern design",
+      "basePrice": 69,
+      "currency": "USD",
+      "categoryId": "cat_accessories_sunglasses",
+      "images": [
+        "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800",
+        "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800"
+      ]
+    },
+    {
+      "id": "prod_11",
+      "name": "Leather Belt",
+      "slug": "leather-belt",
+      "sku": "SKU-BELT-001",
+      "shortDesc": "Durable belt",
+      "description": "Premium leather belt",
+      "basePrice": 34.5,
+      "currency": "USD",
+      "categoryId": "cat_accessories_belts",
+      "images": [
+        "https://images.unsplash.com/photo-1624222247344-550fb60583c2?w=800",
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6309?w=800"
+      ]
+    },
+    {
+      "id": "prod_12",
+      "name": "Smart Watch",
+      "slug": "smart-watch",
+      "sku": "SKU-WATCH-001",
+      "shortDesc": "Connected watch",
+      "description": "Track activity and notifications",
+      "basePrice": 199,
+      "currency": "USD",
+      "categoryId": "cat_accessories_watches",
+      "images": [
+        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
+        "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800"
+      ]
+    },
+    {
+      "id": "prod_13",
+      "name": "Everyday Bag",
+      "slug": "everyday-bag",
+      "sku": "SKU-BAG-001",
+      "shortDesc": "Carry-all bag",
+      "description": "Spacious bag for daily essentials",
+      "basePrice": 59.99,
+      "currency": "USD",
+      "categoryId": "cat_bags",
+      "images": [
+        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800",
+        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800"
+      ]
+    },
+    {
+      "id": "prod_14",
+      "name": "Makeup Kit",
+      "slug": "makeup-kit",
+      "sku": "SKU-MAKEUP-001",
+      "shortDesc": "Complete kit",
+      "description": "All-in-one makeup essentials",
+      "basePrice": 45,
+      "currency": "USD",
+      "categoryId": "cat_beauty_makeup",
+      "images": [
+        "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800",
+        "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800"
+      ]
+    },
+    {
+      "id": "prod_15",
+      "name": "Hair Serum",
+      "slug": "hair-serum",
+      "sku": "SKU-HAIR-001",
+      "shortDesc": "Shine serum",
+      "description": "Smooth and protect hair",
+      "basePrice": 19.99,
+      "currency": "USD",
+      "categoryId": "cat_beauty_haircare",
+      "images": [
+        "https://images.unsplash.com/photo-1522338140262-f46f5913618f?w=800",
+        "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=800"
+      ]
+    },
+    {
+      "id": "prod_16",
+      "name": "Weekend Sneakers",
+      "slug": "weekend-sneakers",
+      "sku": "SKU-SHOES-002",
+      "shortDesc": "Casual sneakers",
+      "description": "Comfortable sneakers for everyday use",
+      "basePrice": 74,
+      "currency": "USD",
+      "categoryId": "cat_shoes",
+      "images": [
+        "https://images.unsplash.com/photo-1543163521-1bd2c6935523?w=800",
+        "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800"
+      ]
+    },
+    {
+      "id": "prod_17",
+      "name": "Formal Blazer",
+      "slug": "formal-blazer",
+      "sku": "SKU-BLAZER-001",
+      "shortDesc": "Tailored blazer",
+      "description": "Sharp blazer for formal events",
+      "basePrice": 149,
+      "currency": "USD",
+      "categoryId": "cat_fashion",
+      "images": [
+        "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800",
+        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800"
+      ]
+    },
+    {
+      "id": "prod_18",
+      "name": "Trail Shorts",
+      "slug": "trail-shorts",
+      "sku": "SKU-SPORT-002",
+      "shortDesc": "Durable shorts",
+      "description": "Shorts built for outdoor activity",
+      "basePrice": 34,
+      "currency": "USD",
+      "categoryId": "cat_sports",
+      "images": [
+        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800",
+        "https://images.unsplash.com/photo-1515886657613-9d3515b1e089?w=800"
+      ]
+    },
+    {
+      "id": "prod_19",
+      "name": "Minimal Wallet",
+      "slug": "minimal-wallet",
+      "sku": "SKU-WALLET-001",
+      "shortDesc": "Slim wallet",
+      "description": "Compact wallet for essentials",
+      "basePrice": 22,
+      "currency": "USD",
+      "categoryId": "cat_accessories",
+      "images": [
+        "https://images.unsplash.com/photo-1591047643423-2dc2b4e31869?w=800",
+        "https://images.unsplash.com/photo-1610652520814-8a4e5cb9c8e3?w=800"
+      ]
+    },
+    {
+      "id": "prod_20",
+      "name": "Travel Backpack",
+      "slug": "travel-backpack",
+      "sku": "SKU-BAG-002",
+      "shortDesc": "Rugged backpack",
+      "description": "Backpack designed for travel and commuting",
+      "basePrice": 89,
+      "currency": "USD",
+      "categoryId": "cat_bags",
+      "images": [
+        "https://images.unsplash.com/photo-1564422179731-5f20e0a6f3a2?w=800",
+        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800"
+      ]
+    }
+  ],
+  "productImages": [
+    {
+      "id": "img_1",
+      "productId": "prod_1",
+      "url": "/images/products/shirt.jpg",
+      "alt": "Elegant Shirt",
+      "width": 800,
+      "height": 800,
+      "sortOrder": 0
+    }
+  ],
+  "productVariants": [
+    {
+      "id": "var_1",
+      "productId": "prod_1",
+      "sku": "SKU-SHIRT-001-S",
+      "title": "Small",
+      "optionValues": {
+        "size": "S"
+      },
+      "price": 49.99,
+      "isDefault": true
+    },
+    {
+      "id": "var_2",
+      "productId": "prod_2",
+      "sku": "SKU-SHOES-001-42",
+      "title": "Size 42",
+      "optionValues": {
+        "size": "42"
+      },
+      "price": 89.5
+    },
+    {
+      "id": "var_1b",
+      "productId": "prod_1",
+      "sku": "SKU-SHIRT-001-M",
+      "title": "Medium",
+      "optionValues": {
+        "size": "M"
+      },
+      "price": 49.99
+    },
+    {
+      "id": "var_1c",
+      "productId": "prod_1",
+      "sku": "SKU-SHIRT-001-L",
+      "title": "Large",
+      "optionValues": {
+        "size": "L"
+      },
+      "price": 49.99
+    },
+    {
+      "id": "var_2b",
+      "productId": "prod_2",
+      "sku": "SKU-SHOES-001-43",
+      "title": "Size 43",
+      "optionValues": {
+        "size": "43"
+      },
+      "price": 89.5
+    },
+    {
+      "id": "var_3",
+      "productId": "prod_3",
+      "sku": "SKU-HAT-001-OS",
+      "title": "One Size",
+      "optionValues": {
+        "size": "OS"
+      },
+      "price": 25,
+      "isDefault": true
+    },
+    {
+      "id": "var_4",
+      "productId": "prod_4",
+      "sku": "SKU-DRESS-001-S",
+      "title": "Small",
+      "optionValues": {
+        "size": "S"
+      },
+      "price": 129
+    },
+    {
+      "id": "var_5",
+      "productId": "prod_5",
+      "sku": "SKU-SKIRT-001-S",
+      "title": "Small",
+      "optionValues": {
+        "size": "S"
+      },
+      "price": 39.5
+    },
+    {
+      "id": "var_6",
+      "productId": "prod_6",
+      "sku": "SKU-PANTS-001-30",
+      "title": "Waist 30",
+      "optionValues": {
+        "size": "30"
+      },
+      "price": 59
+    },
+    {
+      "id": "var_7",
+      "productId": "prod_7",
+      "sku": "SKU-PERF-001-50ML",
+      "title": "50ml",
+      "optionValues": {
+        "volume": "50ml"
+      },
+      "price": 79
+    },
+    {
+      "id": "var_8",
+      "productId": "prod_8",
+      "sku": "SKU-SKIN-001-50ML",
+      "title": "50ml",
+      "optionValues": {
+        "volume": "50ml"
+      },
+      "price": 29.99
+    }
+  ],
+  "productCategories": [
+    {
+      "id": "pc_1",
+      "productId": "prod_1",
+      "categoryId": "cat_fashion_tops",
+      "sortOrder": 0
+    },
+    {
+      "id": "pc_2",
+      "productId": "prod_2",
+      "categoryId": "cat_shoes",
+      "sortOrder": 0
+    },
+    {
+      "id": "pc_3",
+      "productId": "prod_3",
+      "categoryId": "cat_accessories",
+      "sortOrder": 0
+    }
+  ],
+  "shippingMethods": [
+    {
+      "id": "ship_standard",
+      "key": "standard",
+      "name": "Allora Standard Delivery",
+      "description": "Standard delivery within Egypt. Reliable and affordable.",
+      "basePrice": 30,
+      "currency": "EGP",
+      "isActive": true,
+      "availableCountries": ["EG"],
+      "estimatedDaysMin": 3,
+      "estimatedDaysMax": 5,
+      "rules": {
+        "maxWeight": 30,
+        "notes": "Free for orders above 500 EGP"
+      }
+    },
+    {
+      "id": "ship_express",
+      "key": "express",
+      "name": "Allora Express Delivery",
+      "description": "Fast delivery within 1-2 business days.",
+      "basePrice": 60,
+      "currency": "EGP",
+      "isActive": true,
+      "availableCountries": ["EG"],
+      "estimatedDaysMin": 1,
+      "estimatedDaysMax": 2,
+      "rules": {
+        "maxWeight": 20,
+        "priority": "high"
+      }
+    },
+    {
+      "id": "ship_same_day",
+      "key": "same-day",
+      "name": "Allora Same-Day Delivery",
+      "description": "Get your order the same day (Cairo and Giza only).",
+      "basePrice": 100,
+      "currency": "EGP",
+      "isActive": true,
+      "availableCountries": ["EG"],
+      "estimatedDaysMin": 0,
+      "estimatedDaysMax": 0,
+      "rules": {
+        "maxWeight": 10,
+        "regions": ["Cairo", "Giza"],
+        "cutoffTime": "12:00 PM"
+      }
+    }
+  ],
+  "users": [
+    {
+      "id": "user_1",
+      "name": "Alice Admin",
+      "email": "alice@example.com",
+      "password": null,
+      "phone": "+10000000001",
+      "role": "ADMIN",
+      "isActive": true
+    },
+    {
+      "id": "user_2",
+      "name": "Bob Buyer",
+      "email": "bob@example.com",
+      "password": null,
+      "phone": "+10000000002",
+      "role": "USER",
+      "isActive": true
+    },
+    {
+      "id": "user_test",
+      "name": "Test User",
+      "email": "test@example.com",
+      "password": "password123",
+      "phone": "+10000000099",
+      "role": "USER",
+      "isActive": true
+    },
+    {
+      "id": "user_admin2",
+      "name": "Admin Two",
+      "email": "admin2@example.com",
+      "password": "adminpass123",
+      "phone": "+10000000010",
+      "role": "ADMIN",
+      "isActive": true
+    }
+  ],
+  "accounts": [
+    {
+      "id": "acct_1",
+      "userId": "user_1",
+      "type": "credentials",
+      "provider": "local",
+      "providerAccountId": "alice_local",
+      "refresh_token": null,
+      "access_token": null
+    }
+  ],
+  "sessions": [
+    {
+      "id": "sess_1",
+      "sessionToken": "sess_1_token",
+      "userId": "user_1",
+      "expires": "2099-01-01T00:00:00.000Z"
+    }
+  ],
+  "verificationTokens": [
+    {
+      "identifier": "alice@example.com",
+      "token": "verifytoken1",
+      "expires": "2099-01-01T00:00:00.000Z"
+    }
+  ],
+  "inventories": [
+    {
+      "id": "inv_1",
+      "sku": "INV-SHIRT-001",
+      "productId": "prod_1",
+      "variantId": "var_1",
+      "warehouseId": "wh_1",
+      "quantity": 100,
+      "reserved": 5,
+      "incoming": 12,
+      "reorderThreshold": 10,
+      "isTracked": true
+    },
+    {
+      "id": "inv_2",
+      "sku": "INV-SHOES-001",
+      "productId": "prod_2",
+      "variantId": "var_2",
+      "warehouseId": "wh_1",
+      "quantity": 50,
+      "reserved": 2,
+      "incoming": 5,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_3",
+      "sku": "INV-HAT-001",
+      "productId": "prod_3",
+      "variantId": "var_3",
+      "warehouseId": "wh_1",
+      "quantity": 75,
+      "reserved": 10,
+      "incoming": 0,
+      "reorderThreshold": 8,
+      "isTracked": true
+    },
+    {
+      "id": "inv_4",
+      "sku": "INV-DRESS-001",
+      "productId": "prod_4",
+      "variantId": "var_4",
+      "warehouseId": "wh_1",
+      "quantity": 40,
+      "reserved": 0,
+      "incoming": 20,
+      "reorderThreshold": 6,
+      "isTracked": true
+    },
+    {
+      "id": "inv_5",
+      "sku": "INV-SKIRT-001",
+      "productId": "prod_5",
+      "variantId": "var_5",
+      "warehouseId": "wh_1",
+      "quantity": 60,
+      "reserved": 4,
+      "incoming": 8,
+      "reorderThreshold": 7,
+      "isTracked": true
+    },
+    {
+      "id": "inv_6",
+      "sku": "INV-PANTS-001",
+      "productId": "prod_6",
+      "variantId": "var_6",
+      "warehouseId": "wh_1",
+      "quantity": 55,
+      "reserved": 0,
+      "incoming": 15,
+      "reorderThreshold": 7,
+      "isTracked": true
+    },
+    {
+      "id": "inv_7",
+      "sku": "INV-PERF-001",
+      "productId": "prod_7",
+      "variantId": "var_7",
+      "warehouseId": "wh_1",
+      "quantity": 30,
+      "reserved": 3,
+      "incoming": 0,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_8",
+      "sku": "INV-SKIN-001",
+      "productId": "prod_8",
+      "variantId": "var_8",
+      "warehouseId": "wh_1",
+      "quantity": 80,
+      "reserved": 8,
+      "incoming": 25,
+      "reorderThreshold": 10,
+      "isTracked": true
+    },
+    {
+      "id": "inv_9",
+      "sku": "INV-SPORT-001",
+      "productId": "prod_9",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 120,
+      "reserved": 25,
+      "incoming": 40,
+      "reorderThreshold": 15,
+      "isTracked": true
+    },
+    {
+      "id": "inv_10",
+      "sku": "INV-SUN-001",
+      "productId": "prod_10",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 45,
+      "reserved": 2,
+      "incoming": 0,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_11",
+      "sku": "INV-BELT-001",
+      "productId": "prod_11",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 70,
+      "reserved": 6,
+      "incoming": 0,
+      "reorderThreshold": 10,
+      "isTracked": true
+    },
+    {
+      "id": "inv_12",
+      "sku": "INV-WATCH-001",
+      "productId": "prod_12",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 25,
+      "reserved": 1,
+      "incoming": 2,
+      "reorderThreshold": 3,
+      "isTracked": true
+    },
+    {
+      "id": "inv_13",
+      "sku": "INV-BAG-001",
+      "productId": "prod_13",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 65,
+      "reserved": 5,
+      "incoming": 0,
+      "reorderThreshold": 8,
+      "isTracked": true
+    },
+    {
+      "id": "inv_14",
+      "sku": "INV-MAKEUP-001",
+      "productId": "prod_14",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 90,
+      "reserved": 0,
+      "incoming": 30,
+      "reorderThreshold": 12,
+      "isTracked": true
+    },
+    {
+      "id": "inv_15",
+      "sku": "INV-HAIR-001",
+      "productId": "prod_15",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 110,
+      "reserved": 12,
+      "incoming": 20,
+      "reorderThreshold": 15,
+      "isTracked": true
+    },
+    {
+      "id": "inv_16",
+      "sku": "INV-SHOES-002",
+      "productId": "prod_16",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 40,
+      "reserved": 6,
+      "incoming": 0,
+      "reorderThreshold": 6,
+      "isTracked": true
+    },
+    {
+      "id": "inv_17",
+      "sku": "INV-BLAZER-001",
+      "productId": "prod_17",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 22,
+      "reserved": 0,
+      "incoming": 5,
+      "reorderThreshold": 4,
+      "isTracked": true
+    },
+    {
+      "id": "inv_18",
+      "sku": "INV-SPORTS-002",
+      "productId": "prod_18",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 48,
+      "reserved": 4,
+      "incoming": 10,
+      "reorderThreshold": 6,
+      "isTracked": true
+    },
+    {
+      "id": "inv_19",
+      "sku": "INV-WALLET-001",
+      "productId": "prod_19",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 33,
+      "reserved": 2,
+      "incoming": 0,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_20",
+      "sku": "INV-BAG-002",
+      "productId": "prod_20",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 27,
+      "reserved": 0,
+      "incoming": 7,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_digital_1",
+      "sku": "INV-EBOOK-001",
+      "productId": "prod_digital_1",
+      "variantId": null,
+      "warehouseId": "wh_1",
+      "quantity": 999999,
+      "reserved": 0,
+      "incoming": 0,
+      "reorderThreshold": 0,
+      "isTracked": false
+    }
+  ],
+  "coupons": [
+    {
+      "id": "coupon_1",
+      "code": "SAVE10",
+      "type": "PERCENTAGE",
+      "value": 10,
+      "currency": "USD",
+      "minOrderAmount": 20,
+      "isActive": true
+    }
+  ],
+  "addresses": [
+    {
+      "id": "addr_1",
+      "userId": "user_2",
+      "label": "Home",
+      "firstName": "Bob",
+      "lastName": "Buyer",
+      "line1": "123 Market St",
+      "city": "Giza",
+      "region": "Giza Governorate",
+      "postalCode": "12511",
+      "country": "EG",
+      "phone": "+201000000002",
+      "isDefault": true
+    },
+    {
+      "id": "addr_test_1",
+      "userId": "user_test",
+      "label": "Home",
+      "firstName": "Test",
+      "lastName": "User",
+      "line1": "1 Test Ave",
+      "city": "Cairo",
+      "region": "Cairo Governorate",
+      "postalCode": "11511",
+      "country": "EG",
+      "phone": "+201000000099",
+      "isDefault": true
+    },
+    {
+      "id": "addr_test_2",
+      "userId": "user_test",
+      "label": "Work",
+      "firstName": "Test",
+      "lastName": "User",
+      "line1": "2 Office Rd",
+      "city": "Alexandria",
+      "region": "Alexandria Governorate",
+      "postalCode": "21511",
+      "country": "EG",
+      "phone": "+201000000098",
+      "isDefault": false
+    }
+  ],
+  "carts": [
+    {
+      "id": "cart_1",
+      "userId": "user_2",
+      "token": null
+    },
+    {
+      "id": "cart_anon_1",
+      "userId": null,
+      "token": "anon_tok_1"
+    },
+    {
+      "id": "cart_user_test",
+      "userId": "user_test",
+      "token": null
+    }
+  ],
+  "cartItems": [
+    {
+      "id": "cart_item_1",
+      "cartId": "cart_1",
+      "productId": "prod_1",
+      "variantId": "var_1",
+      "sku": "SKU-SHIRT-001-S",
+      "title": "Elegant Shirt - S",
+      "quantity": 2,
+      "unitPrice": 49.99,
+      "totalPrice": 99.98
+    },
+    {
+      "id": "cart_item_2",
+      "cartId": "cart_anon_1",
+      "productId": "prod_2",
+      "variantId": "var_2",
+      "sku": "SKU-SHOES-001-42",
+      "title": "Classic Shoes - 42",
+      "quantity": 1,
+      "unitPrice": 89.5,
+      "totalPrice": 89.5
+    },
+    {
+      "id": "cart_item_3",
+      "cartId": "cart_anon_1",
+      "productId": "prod_3",
+      "variantId": null,
+      "sku": "SKU-HAT-001",
+      "title": "Stylish Hat",
+      "quantity": 2,
+      "unitPrice": 25,
+      "totalPrice": 50
+    },
+    {
+      "id": "cart_item_test_1",
+      "cartId": "cart_user_test",
+      "productId": "prod_1",
+      "variantId": "var_1",
+      "sku": "SKU-SHIRT-001-S",
+      "title": "Elegant Shirt - S",
+      "quantity": 1,
+      "unitPrice": 49.99,
+      "totalPrice": 49.99
+    },
+    {
+      "id": "cart_item_test_2",
+      "cartId": "cart_user_test",
+      "productId": "prod_2",
+      "variantId": "var_2",
+      "sku": "SKU-SHOES-001-42",
+      "title": "Classic Shoes - 42",
+      "quantity": 1,
+      "unitPrice": 89.5,
+      "totalPrice": 89.5
+    }
+  ],
+  "orders": [
+    {
+      "id": "order_1",
+      "userId": "user_2",
+      "status": "PENDING_PAYMENT",
+      "paymentStatus": "PENDING",
+      "shippingStatus": "PENDING",
+      "currency": "USD",
+      "subtotal": 99.98,
+      "shippingCost": 10,
+      "taxAmount": 0,
+      "discountAmount": 0,
+      "total": 109.98,
+      "shippingAddressId": "addr_1",
+      "billingAddressId": "addr_1"
+    },
+    {
+      "id": "order_test_1",
+      "userId": "user_test",
+      "status": "PAID",
+      "paymentStatus": "PAID",
+      "shippingStatus": "PENDING",
+      "currency": "USD",
+      "subtotal": 139.49,
+      "shippingCost": 5,
+      "taxAmount": 0,
+      "discountAmount": 0,
+      "total": 144.49,
+      "shippingAddressId": "addr_test_1",
+      "billingAddressId": "addr_test_2",
+      "placedAt": "2025-11-21T10:00:00.000Z"
+    }
+  ],
+  "orderItems": [
+    {
+      "id": "order_item_1",
+      "orderId": "order_1",
+      "productId": "prod_1",
+      "variantId": "var_1",
+      "sku": "SKU-SHIRT-001-S",
+      "title": "Elegant Shirt - S",
+      "quantity": 2,
+      "unitPrice": 49.99,
+      "totalPrice": 99.98,
+      "taxAmount": 0,
+      "discountAmount": 0
+    },
+    {
+      "id": "order_item_test_1",
+      "orderId": "order_test_1",
+      "productId": "prod_2",
+      "variantId": "var_2",
+      "sku": "SKU-SHOES-001-42",
+      "title": "Classic Shoes - 42",
+      "quantity": 1,
+      "unitPrice": 89.5,
+      "totalPrice": 89.5,
+      "taxAmount": 0,
+      "discountAmount": 0
+    },
+    {
+      "id": "order_item_test_2",
+      "orderId": "order_test_1",
+      "productId": "prod_1",
+      "variantId": "var_1",
+      "sku": "SKU-SHIRT-001-S",
+      "title": "Elegant Shirt - S",
+      "quantity": 1,
+      "unitPrice": 49.99,
+      "totalPrice": 49.99,
+      "taxAmount": 0,
+      "discountAmount": 0
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay_1",
+      "orderId": "order_1",
+      "provider": "stripe",
+      "providerPaymentId": "ch_1",
+      "amount": 109.98,
+      "currency": "USD",
+      "status": "PENDING",
+      "method": "card"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review_1",
+      "userId": "user_2",
+      "productId": "prod_1",
+      "rating": 5,
+      "title": "Great shirt",
+      "body": "Really comfortable and fits well.",
+      "approved": true
+    }
+  ],
+  "wishlistItems": [
+    {
+      "id": "wl_1",
+      "userId": "user_2",
+      "productId": "prod_2"
+    },
+    {
+      "id": "wl_admin_1",
+      "userId": "user_admin2",
+      "productId": "prod_1"
+    },
+    {
+      "id": "wl_test_2",
+      "userId": "user_test",
+      "productId": "prod_13"
+    }
+  ],
+  "activityLogs": [
+    {
+      "id": "log_1",
+      "userId": "user_1",
+      "action": "USER_CREATED",
+      "resource": "User",
+      "metadata": {
+        "createdBy": "system"
+      }
+    }
+  ]
+}

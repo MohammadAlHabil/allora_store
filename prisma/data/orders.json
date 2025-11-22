@@ -1,0 +1,33 @@
+[
+  {
+    "id": "order_1",
+    "userId": "user_2",
+    "status": "PENDING_PAYMENT",
+    "paymentStatus": "PENDING",
+    "shippingStatus": "PENDING",
+    "currency": "USD",
+    "subtotal": 99.98,
+    "shippingCost": 10.0,
+    "taxAmount": 0,
+    "discountAmount": 0,
+    "total": 109.98,
+    "shippingAddressId": "addr_1",
+    "billingAddressId": "addr_1"
+  },
+  {
+    "id": "order_test_1",
+    "userId": "user_test",
+    "status": "PAID",
+    "paymentStatus": "PAID",
+    "shippingStatus": "PENDING",
+    "currency": "USD",
+    "subtotal": 139.49,
+    "shippingCost": 5.0,
+    "taxAmount": 0,
+    "discountAmount": 0,
+    "total": 144.49,
+    "shippingAddressId": "addr_test_1",
+    "billingAddressId": "addr_test_2",
+    "placedAt": "2025-11-21T10:00:00.000Z"
+  }
+]

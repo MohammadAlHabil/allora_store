@@ -30,9 +30,10 @@ enum ProductType {
 
 enum OrderStatus {
   DRAFT
-  PENDING
-  PAID
-  CANCELLED
+  PENDING_PAYMENT // Order created, awaiting payment (stock reserved)
+  PAID // Payment successful (stock committed)
+  CANCELLED // Order cancelled by user/admin
+  EXPIRED // Payment timeout - stock released
   FULFILLED
   PARTIALLY_FULFILLED
   REFUNDED
@@ -304,20 +305,33 @@ model CartItem {
 
 // ------------------------- Orders -------------------------
 model Address {
-  id         String  @id @default(cuid())
-  userId     String?
-  label      String? // e.g. home, work
-  firstName  String?
-  lastName   String?
-  company    String?
-  line1      String
-  line2      String?
+  id        String  @id @default(cuid())
+  userId    String?
+  label     String? // e.g. home, work, office
+  firstName String?
+  lastName  String?
+  company   String?
+  phone     String?
+
+  // Detailed address fields (enhanced UX)
+  line1      String // Main street/neighborhood/area
+  line2      String? // Additional details (optional)
+  apartment  String? // Apartment number
+  building   String? // Building name/number
+  floor      String? // Floor level
   city       String
-  region     String?
+  region     String? // State/province/region
   postalCode String
   country    String
-  phone      String?
-  isDefault  Boolean @default(false)
+
+  // Location coordinates for map integration
+  latitude  Decimal? @db.Decimal(10, 8)
+  longitude Decimal? @db.Decimal(11, 8)
+
+  // Additional delivery notes
+  additionalNotes String? // Delivery instructions (e.g., next to mosque, behind supermarket)
+
+  isDefault Boolean @default(false)
 
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
@@ -343,19 +357,49 @@ model Order {
   total          Decimal
   metadata       Json?
 
+  // Payment tracking fields
+  reservationExpiresAt DateTime? // When to release reserved stock if unpaid
+  paidAt               DateTime? // When payment was confirmed
+
   items    OrderItem[]
   payments Payment[]
 
   shippingAddressId String?
   billingAddressId  String?
+  shippingMethodId  String?
 
-  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  shippingAddress Address? @relation("order_shipping", fields: [shippingAddressId], references: [id], onDelete: SetNull)
-  billingAddress  Address? @relation("order_billing", fields: [billingAddressId], references: [id], onDelete: SetNull)
+  user            User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  shippingAddress Address?        @relation("order_shipping", fields: [shippingAddressId], references: [id], onDelete: SetNull)
+  billingAddress  Address?        @relation("order_billing", fields: [billingAddressId], references: [id], onDelete: SetNull)
+  shippingMethod  ShippingMethod? @relation(fields: [shippingMethodId], references: [id], onDelete: SetNull)
 
   placedAt    DateTime?
   fulfilledAt DateTime?
   cancelledAt DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@index([status])
+  @@index([reservationExpiresAt])
+}
+
+// ShippingMethod: Represents delivery methods provided by Allora Delivery
+model ShippingMethod {
+  id                 String   @id @default(cuid())
+  key                String   @unique // e.g., "standard", "express", "pickup"
+  name               String // Display name (e.g., "Allora Standard Delivery")
+  description        String? // Brief description of the method
+  basePrice          Decimal  @default(0) // Base delivery cost
+  currency           String   @default("EGP")
+  isActive           Boolean  @default(true)
+  availableCountries String[] @default(["EG"]) // ISO country codes (default: Egypt only)
+  estimatedDaysMin   Int      @default(2) // Minimum delivery days
+  estimatedDaysMax   Int      @default(4) // Maximum delivery days
+  rules              Json? // Additional rules: weight limits, size restrictions, price adjustments
+  logoUrl            String? // Optional logo for carrier branding
+
+  orders Order[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -392,10 +436,17 @@ model Payment {
   method            String?
   rawResponse       Json?
 
+  // Idempotency tracking
+  webhookEventId String? // Stripe event ID or similar
+  processedAt    DateTime? // When webhook was processed
+
   order Order? @relation(fields: [orderId], references: [id], onDelete: SetNull)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+
+  @@unique([provider, providerPaymentId])
+  @@index([webhookEventId])
 }
 
 // ------------------------- Coupons -------------------------

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "pay_1",
+    "orderId": "order_1",
+    "provider": "stripe",
+    "providerPaymentId": "ch_1",
+    "amount": 109.98,
+    "currency": "USD",
+    "status": "PENDING",
+    "method": "card"
+  }
+]

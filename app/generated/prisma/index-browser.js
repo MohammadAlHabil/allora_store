@@ -289,13 +289,19 @@ exports.Prisma.AddressScalarFieldEnum = {
   firstName: 'firstName',
   lastName: 'lastName',
   company: 'company',
+  phone: 'phone',
   line1: 'line1',
   line2: 'line2',
+  apartment: 'apartment',
+  building: 'building',
+  floor: 'floor',
   city: 'city',
   region: 'region',
   postalCode: 'postalCode',
   country: 'country',
-  phone: 'phone',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  additionalNotes: 'additionalNotes',
   isDefault: 'isDefault',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -314,11 +320,31 @@ exports.Prisma.OrderScalarFieldEnum = {
   discountAmount: 'discountAmount',
   total: 'total',
   metadata: 'metadata',
+  reservationExpiresAt: 'reservationExpiresAt',
+  paidAt: 'paidAt',
   shippingAddressId: 'shippingAddressId',
   billingAddressId: 'billingAddressId',
+  shippingMethodId: 'shippingMethodId',
   placedAt: 'placedAt',
   fulfilledAt: 'fulfilledAt',
   cancelledAt: 'cancelledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShippingMethodScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  name: 'name',
+  description: 'description',
+  basePrice: 'basePrice',
+  currency: 'currency',
+  isActive: 'isActive',
+  availableCountries: 'availableCountries',
+  estimatedDaysMin: 'estimatedDaysMin',
+  estimatedDaysMax: 'estimatedDaysMax',
+  rules: 'rules',
+  logoUrl: 'logoUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -348,6 +374,8 @@ exports.Prisma.PaymentScalarFieldEnum = {
   status: 'status',
   method: 'method',
   rawResponse: 'rawResponse',
+  webhookEventId: 'webhookEventId',
+  processedAt: 'processedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -437,9 +465,10 @@ exports.ProductType = exports.$Enums.ProductType = {
 
 exports.OrderStatus = exports.$Enums.OrderStatus = {
   DRAFT: 'DRAFT',
-  PENDING: 'PENDING',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
   PAID: 'PAID',
   CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED',
   FULFILLED: 'FULFILLED',
   PARTIALLY_FULFILLED: 'PARTIALLY_FULFILLED',
   REFUNDED: 'REFUNDED'
@@ -483,6 +512,7 @@ exports.Prisma.ModelName = {
   CartItem: 'CartItem',
   Address: 'Address',
   Order: 'Order',
+  ShippingMethod: 'ShippingMethod',
   OrderItem: 'OrderItem',
   Payment: 'Payment',
   Coupon: 'Coupon',

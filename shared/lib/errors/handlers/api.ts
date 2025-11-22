@@ -25,20 +25,30 @@ import { mapToErrorDetails } from "../mappers/error-mapper";
  * )
  */
 export function withApiRoute<TData>(
-  fn: (request: Request) => Promise<Result<TData>>,
+  fn: (request: Request, ctx?: Record<string, unknown>) => Promise<Result<TData> | Response>,
   context?: string
-): (request: Request) => Promise<Response> {
-  return async (request: Request): Promise<Response> => {
+): (request: Request, ctx?: Record<string, unknown>) => Promise<Response> {
+  return async (request: Request, ctx?: Record<string, unknown>): Promise<Response> => {
     try {
-      const result = await fn(request);
+      const result = await fn(request, ctx);
 
-      if (result.success) {
+      // If handler returned a Response (e.g. NextResponse with cookies), forward it
+      if (
+        typeof result === "object" &&
+        "status" in result &&
+        typeof (result as Response).json === "function"
+      ) {
+        return result as Response;
+      }
+
+      // Otherwise it's a Result<T>
+      if ((result as Result<TData>).success) {
         return Response.json(result, { status: 200 });
       } else {
-        return Response.json(result, { status: result.error.status });
+        return Response.json(result, { status: (result as Result<TData>).error.status });
       }
     } catch (error) {
-      const errorDetails = mapToErrorDetails(error, context || "api");
+      const errorDetails = mapToErrorDetails(error as unknown, context || "api");
 
       // Log API errors
       logger.error({

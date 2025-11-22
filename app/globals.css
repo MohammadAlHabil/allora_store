@@ -183,3 +183,22 @@
     cursor: pointer;
   }
 }
+
+/* Credit Card 3D Transform Utilities */
+@layer utilities {
+  .perspective-distant {
+    perspective: 1500px;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .transform-3d {
+    transform-style: preserve-3d;
+  }
+  .-rotate-y-180 {
+    transform: rotateY(-180deg);
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}

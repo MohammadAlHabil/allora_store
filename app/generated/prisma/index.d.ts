@@ -89,6 +89,11 @@ export type Address = $Result.DefaultSelection<Prisma.$AddressPayload>
  */
 export type Order = $Result.DefaultSelection<Prisma.$OrderPayload>
 /**
+ * Model ShippingMethod
+ * 
+ */
+export type ShippingMethod = $Result.DefaultSelection<Prisma.$ShippingMethodPayload>
+/**
  * Model OrderItem
  * 
  */
@@ -142,9 +147,10 @@ export type ProductType = (typeof ProductType)[keyof typeof ProductType]
 
 export const OrderStatus: {
   DRAFT: 'DRAFT',
-  PENDING: 'PENDING',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
   PAID: 'PAID',
   CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED',
   FULFILLED: 'FULFILLED',
   PARTIALLY_FULFILLED: 'PARTIALLY_FULFILLED',
   REFUNDED: 'REFUNDED'
@@ -476,6 +482,16 @@ export class PrismaClient<
     * ```
     */
   get order(): Prisma.OrderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shippingMethod`: Exposes CRUD operations for the **ShippingMethod** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShippingMethods
+    * const shippingMethods = await prisma.shippingMethod.findMany()
+    * ```
+    */
+  get shippingMethod(): Prisma.ShippingMethodDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.orderItem`: Exposes CRUD operations for the **OrderItem** model.
@@ -992,6 +1008,7 @@ export namespace Prisma {
     CartItem: 'CartItem',
     Address: 'Address',
     Order: 'Order',
+    ShippingMethod: 'ShippingMethod',
     OrderItem: 'OrderItem',
     Payment: 'Payment',
     Coupon: 'Coupon',
@@ -1016,7 +1033,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "product" | "productImage" | "productVariant" | "productCategory" | "warehouse" | "inventory" | "cart" | "cartItem" | "address" | "order" | "orderItem" | "payment" | "coupon" | "review" | "wishlistItem" | "activityLog"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "category" | "product" | "productImage" | "productVariant" | "productCategory" | "warehouse" | "inventory" | "cart" | "cartItem" | "address" | "order" | "shippingMethod" | "orderItem" | "payment" | "coupon" | "review" | "wishlistItem" | "activityLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2130,6 +2147,80 @@ export namespace Prisma {
           }
         }
       }
+      ShippingMethod: {
+        payload: Prisma.$ShippingMethodPayload<ExtArgs>
+        fields: Prisma.ShippingMethodFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShippingMethodFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShippingMethodFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>
+          }
+          findFirst: {
+            args: Prisma.ShippingMethodFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShippingMethodFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>
+          }
+          findMany: {
+            args: Prisma.ShippingMethodFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>[]
+          }
+          create: {
+            args: Prisma.ShippingMethodCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>
+          }
+          createMany: {
+            args: Prisma.ShippingMethodCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShippingMethodCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>[]
+          }
+          delete: {
+            args: Prisma.ShippingMethodDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>
+          }
+          update: {
+            args: Prisma.ShippingMethodUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShippingMethodDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShippingMethodUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShippingMethodUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShippingMethodUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShippingMethodPayload>
+          }
+          aggregate: {
+            args: Prisma.ShippingMethodAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShippingMethod>
+          }
+          groupBy: {
+            args: Prisma.ShippingMethodGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShippingMethodGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShippingMethodCountArgs<ExtArgs>
+            result: $Utils.Optional<ShippingMethodCountAggregateOutputType> | number
+          }
+        }
+      }
       OrderItem: {
         payload: Prisma.$OrderItemPayload<ExtArgs>
         fields: Prisma.OrderItemFieldRefs
@@ -2685,6 +2776,7 @@ export namespace Prisma {
     cartItem?: CartItemOmit
     address?: AddressOmit
     order?: OrderOmit
+    shippingMethod?: ShippingMethodOmit
     orderItem?: OrderItemOmit
     payment?: PaymentOmit
     coupon?: CouponOmit
@@ -3173,6 +3265,37 @@ export namespace Prisma {
    */
   export type OrderCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
+  }
+
+
+  /**
+   * Count Type ShippingMethodCountOutputType
+   */
+
+  export type ShippingMethodCountOutputType = {
+    orders: number
+  }
+
+  export type ShippingMethodCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orders?: boolean | ShippingMethodCountOutputTypeCountOrdersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShippingMethodCountOutputType without action
+   */
+  export type ShippingMethodCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethodCountOutputType
+     */
+    select?: ShippingMethodCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShippingMethodCountOutputType without action
+   */
+  export type ShippingMethodCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
   }
 
 
@@ -18655,8 +18778,20 @@ export namespace Prisma {
 
   export type AggregateAddress = {
     _count: AddressCountAggregateOutputType | null
+    _avg: AddressAvgAggregateOutputType | null
+    _sum: AddressSumAggregateOutputType | null
     _min: AddressMinAggregateOutputType | null
     _max: AddressMaxAggregateOutputType | null
+  }
+
+  export type AddressAvgAggregateOutputType = {
+    latitude: Decimal | null
+    longitude: Decimal | null
+  }
+
+  export type AddressSumAggregateOutputType = {
+    latitude: Decimal | null
+    longitude: Decimal | null
   }
 
   export type AddressMinAggregateOutputType = {
@@ -18666,13 +18801,19 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     company: string | null
+    phone: string | null
     line1: string | null
     line2: string | null
+    apartment: string | null
+    building: string | null
+    floor: string | null
     city: string | null
     region: string | null
     postalCode: string | null
     country: string | null
-    phone: string | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    additionalNotes: string | null
     isDefault: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -18685,13 +18826,19 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     company: string | null
+    phone: string | null
     line1: string | null
     line2: string | null
+    apartment: string | null
+    building: string | null
+    floor: string | null
     city: string | null
     region: string | null
     postalCode: string | null
     country: string | null
-    phone: string | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    additionalNotes: string | null
     isDefault: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -18704,19 +18851,35 @@ export namespace Prisma {
     firstName: number
     lastName: number
     company: number
+    phone: number
     line1: number
     line2: number
+    apartment: number
+    building: number
+    floor: number
     city: number
     region: number
     postalCode: number
     country: number
-    phone: number
+    latitude: number
+    longitude: number
+    additionalNotes: number
     isDefault: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type AddressAvgAggregateInputType = {
+    latitude?: true
+    longitude?: true
+  }
+
+  export type AddressSumAggregateInputType = {
+    latitude?: true
+    longitude?: true
+  }
 
   export type AddressMinAggregateInputType = {
     id?: true
@@ -18725,13 +18888,19 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     company?: true
+    phone?: true
     line1?: true
     line2?: true
+    apartment?: true
+    building?: true
+    floor?: true
     city?: true
     region?: true
     postalCode?: true
     country?: true
-    phone?: true
+    latitude?: true
+    longitude?: true
+    additionalNotes?: true
     isDefault?: true
     createdAt?: true
     updatedAt?: true
@@ -18744,13 +18913,19 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     company?: true
+    phone?: true
     line1?: true
     line2?: true
+    apartment?: true
+    building?: true
+    floor?: true
     city?: true
     region?: true
     postalCode?: true
     country?: true
-    phone?: true
+    latitude?: true
+    longitude?: true
+    additionalNotes?: true
     isDefault?: true
     createdAt?: true
     updatedAt?: true
@@ -18763,13 +18938,19 @@ export namespace Prisma {
     firstName?: true
     lastName?: true
     company?: true
+    phone?: true
     line1?: true
     line2?: true
+    apartment?: true
+    building?: true
+    floor?: true
     city?: true
     region?: true
     postalCode?: true
     country?: true
-    phone?: true
+    latitude?: true
+    longitude?: true
+    additionalNotes?: true
     isDefault?: true
     createdAt?: true
     updatedAt?: true
@@ -18814,6 +18995,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: AddressAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AddressSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: AddressMinAggregateInputType
@@ -18844,6 +19037,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AddressCountAggregateInputType | true
+    _avg?: AddressAvgAggregateInputType
+    _sum?: AddressSumAggregateInputType
     _min?: AddressMinAggregateInputType
     _max?: AddressMaxAggregateInputType
   }
@@ -18855,17 +19050,25 @@ export namespace Prisma {
     firstName: string | null
     lastName: string | null
     company: string | null
+    phone: string | null
     line1: string
     line2: string | null
+    apartment: string | null
+    building: string | null
+    floor: string | null
     city: string
     region: string | null
     postalCode: string
     country: string
-    phone: string | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    additionalNotes: string | null
     isDefault: boolean
     createdAt: Date
     updatedAt: Date | null
     _count: AddressCountAggregateOutputType | null
+    _avg: AddressAvgAggregateOutputType | null
+    _sum: AddressSumAggregateOutputType | null
     _min: AddressMinAggregateOutputType | null
     _max: AddressMaxAggregateOutputType | null
   }
@@ -18891,13 +19094,19 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     company?: boolean
+    phone?: boolean
     line1?: boolean
     line2?: boolean
+    apartment?: boolean
+    building?: boolean
+    floor?: boolean
     city?: boolean
     region?: boolean
     postalCode?: boolean
     country?: boolean
-    phone?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    additionalNotes?: boolean
     isDefault?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -18914,13 +19123,19 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     company?: boolean
+    phone?: boolean
     line1?: boolean
     line2?: boolean
+    apartment?: boolean
+    building?: boolean
+    floor?: boolean
     city?: boolean
     region?: boolean
     postalCode?: boolean
     country?: boolean
-    phone?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    additionalNotes?: boolean
     isDefault?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -18934,13 +19149,19 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     company?: boolean
+    phone?: boolean
     line1?: boolean
     line2?: boolean
+    apartment?: boolean
+    building?: boolean
+    floor?: boolean
     city?: boolean
     region?: boolean
     postalCode?: boolean
     country?: boolean
-    phone?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    additionalNotes?: boolean
     isDefault?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -18954,19 +19175,25 @@ export namespace Prisma {
     firstName?: boolean
     lastName?: boolean
     company?: boolean
+    phone?: boolean
     line1?: boolean
     line2?: boolean
+    apartment?: boolean
+    building?: boolean
+    floor?: boolean
     city?: boolean
     region?: boolean
     postalCode?: boolean
     country?: boolean
-    phone?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    additionalNotes?: boolean
     isDefault?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "label" | "firstName" | "lastName" | "company" | "line1" | "line2" | "city" | "region" | "postalCode" | "country" | "phone" | "isDefault" | "createdAt" | "updatedAt", ExtArgs["result"]["address"]>
+  export type AddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "label" | "firstName" | "lastName" | "company" | "phone" | "line1" | "line2" | "apartment" | "building" | "floor" | "city" | "region" | "postalCode" | "country" | "latitude" | "longitude" | "additionalNotes" | "isDefault" | "createdAt" | "updatedAt", ExtArgs["result"]["address"]>
   export type AddressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Address$userArgs<ExtArgs>
     shippingOrders?: boolean | Address$shippingOrdersArgs<ExtArgs>
@@ -18994,13 +19221,19 @@ export namespace Prisma {
       firstName: string | null
       lastName: string | null
       company: string | null
+      phone: string | null
       line1: string
       line2: string | null
+      apartment: string | null
+      building: string | null
+      floor: string | null
       city: string
       region: string | null
       postalCode: string
       country: string
-      phone: string | null
+      latitude: Prisma.Decimal | null
+      longitude: Prisma.Decimal | null
+      additionalNotes: string | null
       isDefault: boolean
       createdAt: Date
       updatedAt: Date | null
@@ -19436,13 +19669,19 @@ export namespace Prisma {
     readonly firstName: FieldRef<"Address", 'String'>
     readonly lastName: FieldRef<"Address", 'String'>
     readonly company: FieldRef<"Address", 'String'>
+    readonly phone: FieldRef<"Address", 'String'>
     readonly line1: FieldRef<"Address", 'String'>
     readonly line2: FieldRef<"Address", 'String'>
+    readonly apartment: FieldRef<"Address", 'String'>
+    readonly building: FieldRef<"Address", 'String'>
+    readonly floor: FieldRef<"Address", 'String'>
     readonly city: FieldRef<"Address", 'String'>
     readonly region: FieldRef<"Address", 'String'>
     readonly postalCode: FieldRef<"Address", 'String'>
     readonly country: FieldRef<"Address", 'String'>
-    readonly phone: FieldRef<"Address", 'String'>
+    readonly latitude: FieldRef<"Address", 'Decimal'>
+    readonly longitude: FieldRef<"Address", 'Decimal'>
+    readonly additionalNotes: FieldRef<"Address", 'String'>
     readonly isDefault: FieldRef<"Address", 'Boolean'>
     readonly createdAt: FieldRef<"Address", 'DateTime'>
     readonly updatedAt: FieldRef<"Address", 'DateTime'>
@@ -19967,8 +20206,11 @@ export namespace Prisma {
     taxAmount: Decimal | null
     discountAmount: Decimal | null
     total: Decimal | null
+    reservationExpiresAt: Date | null
+    paidAt: Date | null
     shippingAddressId: string | null
     billingAddressId: string | null
+    shippingMethodId: string | null
     placedAt: Date | null
     fulfilledAt: Date | null
     cancelledAt: Date | null
@@ -19988,8 +20230,11 @@ export namespace Prisma {
     taxAmount: Decimal | null
     discountAmount: Decimal | null
     total: Decimal | null
+    reservationExpiresAt: Date | null
+    paidAt: Date | null
     shippingAddressId: string | null
     billingAddressId: string | null
+    shippingMethodId: string | null
     placedAt: Date | null
     fulfilledAt: Date | null
     cancelledAt: Date | null
@@ -20010,8 +20255,11 @@ export namespace Prisma {
     discountAmount: number
     total: number
     metadata: number
+    reservationExpiresAt: number
+    paidAt: number
     shippingAddressId: number
     billingAddressId: number
+    shippingMethodId: number
     placedAt: number
     fulfilledAt: number
     cancelledAt: number
@@ -20049,8 +20297,11 @@ export namespace Prisma {
     taxAmount?: true
     discountAmount?: true
     total?: true
+    reservationExpiresAt?: true
+    paidAt?: true
     shippingAddressId?: true
     billingAddressId?: true
+    shippingMethodId?: true
     placedAt?: true
     fulfilledAt?: true
     cancelledAt?: true
@@ -20070,8 +20321,11 @@ export namespace Prisma {
     taxAmount?: true
     discountAmount?: true
     total?: true
+    reservationExpiresAt?: true
+    paidAt?: true
     shippingAddressId?: true
     billingAddressId?: true
+    shippingMethodId?: true
     placedAt?: true
     fulfilledAt?: true
     cancelledAt?: true
@@ -20092,8 +20346,11 @@ export namespace Prisma {
     discountAmount?: true
     total?: true
     metadata?: true
+    reservationExpiresAt?: true
+    paidAt?: true
     shippingAddressId?: true
     billingAddressId?: true
+    shippingMethodId?: true
     placedAt?: true
     fulfilledAt?: true
     cancelledAt?: true
@@ -20201,8 +20458,11 @@ export namespace Prisma {
     discountAmount: Decimal
     total: Decimal
     metadata: JsonValue | null
+    reservationExpiresAt: Date | null
+    paidAt: Date | null
     shippingAddressId: string | null
     billingAddressId: string | null
+    shippingMethodId: string | null
     placedAt: Date | null
     fulfilledAt: Date | null
     cancelledAt: Date | null
@@ -20242,8 +20502,11 @@ export namespace Prisma {
     discountAmount?: boolean
     total?: boolean
     metadata?: boolean
+    reservationExpiresAt?: boolean
+    paidAt?: boolean
     shippingAddressId?: boolean
     billingAddressId?: boolean
+    shippingMethodId?: boolean
     placedAt?: boolean
     fulfilledAt?: boolean
     cancelledAt?: boolean
@@ -20254,6 +20517,7 @@ export namespace Prisma {
     user?: boolean | Order$userArgs<ExtArgs>
     shippingAddress?: boolean | Order$shippingAddressArgs<ExtArgs>
     billingAddress?: boolean | Order$billingAddressArgs<ExtArgs>
+    shippingMethod?: boolean | Order$shippingMethodArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -20270,8 +20534,11 @@ export namespace Prisma {
     discountAmount?: boolean
     total?: boolean
     metadata?: boolean
+    reservationExpiresAt?: boolean
+    paidAt?: boolean
     shippingAddressId?: boolean
     billingAddressId?: boolean
+    shippingMethodId?: boolean
     placedAt?: boolean
     fulfilledAt?: boolean
     cancelledAt?: boolean
@@ -20280,6 +20547,7 @@ export namespace Prisma {
     user?: boolean | Order$userArgs<ExtArgs>
     shippingAddress?: boolean | Order$shippingAddressArgs<ExtArgs>
     billingAddress?: boolean | Order$billingAddressArgs<ExtArgs>
+    shippingMethod?: boolean | Order$shippingMethodArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -20295,8 +20563,11 @@ export namespace Prisma {
     discountAmount?: boolean
     total?: boolean
     metadata?: boolean
+    reservationExpiresAt?: boolean
+    paidAt?: boolean
     shippingAddressId?: boolean
     billingAddressId?: boolean
+    shippingMethodId?: boolean
     placedAt?: boolean
     fulfilledAt?: boolean
     cancelledAt?: boolean
@@ -20305,6 +20576,7 @@ export namespace Prisma {
     user?: boolean | Order$userArgs<ExtArgs>
     shippingAddress?: boolean | Order$shippingAddressArgs<ExtArgs>
     billingAddress?: boolean | Order$billingAddressArgs<ExtArgs>
+    shippingMethod?: boolean | Order$shippingMethodArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
@@ -20320,8 +20592,11 @@ export namespace Prisma {
     discountAmount?: boolean
     total?: boolean
     metadata?: boolean
+    reservationExpiresAt?: boolean
+    paidAt?: boolean
     shippingAddressId?: boolean
     billingAddressId?: boolean
+    shippingMethodId?: boolean
     placedAt?: boolean
     fulfilledAt?: boolean
     cancelledAt?: boolean
@@ -20329,24 +20604,27 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "paymentStatus" | "shippingStatus" | "currency" | "subtotal" | "shippingCost" | "taxAmount" | "discountAmount" | "total" | "metadata" | "shippingAddressId" | "billingAddressId" | "placedAt" | "fulfilledAt" | "cancelledAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "paymentStatus" | "shippingStatus" | "currency" | "subtotal" | "shippingCost" | "taxAmount" | "discountAmount" | "total" | "metadata" | "reservationExpiresAt" | "paidAt" | "shippingAddressId" | "billingAddressId" | "shippingMethodId" | "placedAt" | "fulfilledAt" | "cancelledAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Order$itemsArgs<ExtArgs>
     payments?: boolean | Order$paymentsArgs<ExtArgs>
     user?: boolean | Order$userArgs<ExtArgs>
     shippingAddress?: boolean | Order$shippingAddressArgs<ExtArgs>
     billingAddress?: boolean | Order$billingAddressArgs<ExtArgs>
+    shippingMethod?: boolean | Order$shippingMethodArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Order$userArgs<ExtArgs>
     shippingAddress?: boolean | Order$shippingAddressArgs<ExtArgs>
     billingAddress?: boolean | Order$billingAddressArgs<ExtArgs>
+    shippingMethod?: boolean | Order$shippingMethodArgs<ExtArgs>
   }
   export type OrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Order$userArgs<ExtArgs>
     shippingAddress?: boolean | Order$shippingAddressArgs<ExtArgs>
     billingAddress?: boolean | Order$billingAddressArgs<ExtArgs>
+    shippingMethod?: boolean | Order$shippingMethodArgs<ExtArgs>
   }
 
   export type $OrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20357,6 +20635,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs> | null
       shippingAddress: Prisma.$AddressPayload<ExtArgs> | null
       billingAddress: Prisma.$AddressPayload<ExtArgs> | null
+      shippingMethod: Prisma.$ShippingMethodPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20371,8 +20650,11 @@ export namespace Prisma {
       discountAmount: Prisma.Decimal
       total: Prisma.Decimal
       metadata: Prisma.JsonValue | null
+      reservationExpiresAt: Date | null
+      paidAt: Date | null
       shippingAddressId: string | null
       billingAddressId: string | null
+      shippingMethodId: string | null
       placedAt: Date | null
       fulfilledAt: Date | null
       cancelledAt: Date | null
@@ -20777,6 +21059,7 @@ export namespace Prisma {
     user<T extends Order$userArgs<ExtArgs> = {}>(args?: Subset<T, Order$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     shippingAddress<T extends Order$shippingAddressArgs<ExtArgs> = {}>(args?: Subset<T, Order$shippingAddressArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     billingAddress<T extends Order$billingAddressArgs<ExtArgs> = {}>(args?: Subset<T, Order$billingAddressArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    shippingMethod<T extends Order$shippingMethodArgs<ExtArgs> = {}>(args?: Subset<T, Order$shippingMethodArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20818,8 +21101,11 @@ export namespace Prisma {
     readonly discountAmount: FieldRef<"Order", 'Decimal'>
     readonly total: FieldRef<"Order", 'Decimal'>
     readonly metadata: FieldRef<"Order", 'Json'>
+    readonly reservationExpiresAt: FieldRef<"Order", 'DateTime'>
+    readonly paidAt: FieldRef<"Order", 'DateTime'>
     readonly shippingAddressId: FieldRef<"Order", 'String'>
     readonly billingAddressId: FieldRef<"Order", 'String'>
+    readonly shippingMethodId: FieldRef<"Order", 'String'>
     readonly placedAt: FieldRef<"Order", 'DateTime'>
     readonly fulfilledAt: FieldRef<"Order", 'DateTime'>
     readonly cancelledAt: FieldRef<"Order", 'DateTime'>
@@ -21326,6 +21612,25 @@ export namespace Prisma {
   }
 
   /**
+   * Order.shippingMethod
+   */
+  export type Order$shippingMethodArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    where?: ShippingMethodWhereInput
+  }
+
+  /**
    * Order without action
    */
   export type OrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21341,6 +21646,1227 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: OrderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShippingMethod
+   */
+
+  export type AggregateShippingMethod = {
+    _count: ShippingMethodCountAggregateOutputType | null
+    _avg: ShippingMethodAvgAggregateOutputType | null
+    _sum: ShippingMethodSumAggregateOutputType | null
+    _min: ShippingMethodMinAggregateOutputType | null
+    _max: ShippingMethodMaxAggregateOutputType | null
+  }
+
+  export type ShippingMethodAvgAggregateOutputType = {
+    basePrice: Decimal | null
+    estimatedDaysMin: number | null
+    estimatedDaysMax: number | null
+  }
+
+  export type ShippingMethodSumAggregateOutputType = {
+    basePrice: Decimal | null
+    estimatedDaysMin: number | null
+    estimatedDaysMax: number | null
+  }
+
+  export type ShippingMethodMinAggregateOutputType = {
+    id: string | null
+    key: string | null
+    name: string | null
+    description: string | null
+    basePrice: Decimal | null
+    currency: string | null
+    isActive: boolean | null
+    estimatedDaysMin: number | null
+    estimatedDaysMax: number | null
+    logoUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShippingMethodMaxAggregateOutputType = {
+    id: string | null
+    key: string | null
+    name: string | null
+    description: string | null
+    basePrice: Decimal | null
+    currency: string | null
+    isActive: boolean | null
+    estimatedDaysMin: number | null
+    estimatedDaysMax: number | null
+    logoUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShippingMethodCountAggregateOutputType = {
+    id: number
+    key: number
+    name: number
+    description: number
+    basePrice: number
+    currency: number
+    isActive: number
+    availableCountries: number
+    estimatedDaysMin: number
+    estimatedDaysMax: number
+    rules: number
+    logoUrl: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ShippingMethodAvgAggregateInputType = {
+    basePrice?: true
+    estimatedDaysMin?: true
+    estimatedDaysMax?: true
+  }
+
+  export type ShippingMethodSumAggregateInputType = {
+    basePrice?: true
+    estimatedDaysMin?: true
+    estimatedDaysMax?: true
+  }
+
+  export type ShippingMethodMinAggregateInputType = {
+    id?: true
+    key?: true
+    name?: true
+    description?: true
+    basePrice?: true
+    currency?: true
+    isActive?: true
+    estimatedDaysMin?: true
+    estimatedDaysMax?: true
+    logoUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShippingMethodMaxAggregateInputType = {
+    id?: true
+    key?: true
+    name?: true
+    description?: true
+    basePrice?: true
+    currency?: true
+    isActive?: true
+    estimatedDaysMin?: true
+    estimatedDaysMax?: true
+    logoUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShippingMethodCountAggregateInputType = {
+    id?: true
+    key?: true
+    name?: true
+    description?: true
+    basePrice?: true
+    currency?: true
+    isActive?: true
+    availableCountries?: true
+    estimatedDaysMin?: true
+    estimatedDaysMax?: true
+    rules?: true
+    logoUrl?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ShippingMethodAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShippingMethod to aggregate.
+     */
+    where?: ShippingMethodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShippingMethods to fetch.
+     */
+    orderBy?: ShippingMethodOrderByWithRelationInput | ShippingMethodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShippingMethodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShippingMethods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShippingMethods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShippingMethods
+    **/
+    _count?: true | ShippingMethodCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShippingMethodAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShippingMethodSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShippingMethodMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShippingMethodMaxAggregateInputType
+  }
+
+  export type GetShippingMethodAggregateType<T extends ShippingMethodAggregateArgs> = {
+        [P in keyof T & keyof AggregateShippingMethod]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShippingMethod[P]>
+      : GetScalarType<T[P], AggregateShippingMethod[P]>
+  }
+
+
+
+
+  export type ShippingMethodGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShippingMethodWhereInput
+    orderBy?: ShippingMethodOrderByWithAggregationInput | ShippingMethodOrderByWithAggregationInput[]
+    by: ShippingMethodScalarFieldEnum[] | ShippingMethodScalarFieldEnum
+    having?: ShippingMethodScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShippingMethodCountAggregateInputType | true
+    _avg?: ShippingMethodAvgAggregateInputType
+    _sum?: ShippingMethodSumAggregateInputType
+    _min?: ShippingMethodMinAggregateInputType
+    _max?: ShippingMethodMaxAggregateInputType
+  }
+
+  export type ShippingMethodGroupByOutputType = {
+    id: string
+    key: string
+    name: string
+    description: string | null
+    basePrice: Decimal
+    currency: string
+    isActive: boolean
+    availableCountries: string[]
+    estimatedDaysMin: number
+    estimatedDaysMax: number
+    rules: JsonValue | null
+    logoUrl: string | null
+    createdAt: Date
+    updatedAt: Date | null
+    _count: ShippingMethodCountAggregateOutputType | null
+    _avg: ShippingMethodAvgAggregateOutputType | null
+    _sum: ShippingMethodSumAggregateOutputType | null
+    _min: ShippingMethodMinAggregateOutputType | null
+    _max: ShippingMethodMaxAggregateOutputType | null
+  }
+
+  type GetShippingMethodGroupByPayload<T extends ShippingMethodGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShippingMethodGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShippingMethodGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShippingMethodGroupByOutputType[P]>
+            : GetScalarType<T[P], ShippingMethodGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShippingMethodSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    name?: boolean
+    description?: boolean
+    basePrice?: boolean
+    currency?: boolean
+    isActive?: boolean
+    availableCountries?: boolean
+    estimatedDaysMin?: boolean
+    estimatedDaysMax?: boolean
+    rules?: boolean
+    logoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    orders?: boolean | ShippingMethod$ordersArgs<ExtArgs>
+    _count?: boolean | ShippingMethodCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shippingMethod"]>
+
+  export type ShippingMethodSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    name?: boolean
+    description?: boolean
+    basePrice?: boolean
+    currency?: boolean
+    isActive?: boolean
+    availableCountries?: boolean
+    estimatedDaysMin?: boolean
+    estimatedDaysMax?: boolean
+    rules?: boolean
+    logoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["shippingMethod"]>
+
+  export type ShippingMethodSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    key?: boolean
+    name?: boolean
+    description?: boolean
+    basePrice?: boolean
+    currency?: boolean
+    isActive?: boolean
+    availableCountries?: boolean
+    estimatedDaysMin?: boolean
+    estimatedDaysMax?: boolean
+    rules?: boolean
+    logoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["shippingMethod"]>
+
+  export type ShippingMethodSelectScalar = {
+    id?: boolean
+    key?: boolean
+    name?: boolean
+    description?: boolean
+    basePrice?: boolean
+    currency?: boolean
+    isActive?: boolean
+    availableCountries?: boolean
+    estimatedDaysMin?: boolean
+    estimatedDaysMax?: boolean
+    rules?: boolean
+    logoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ShippingMethodOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "name" | "description" | "basePrice" | "currency" | "isActive" | "availableCountries" | "estimatedDaysMin" | "estimatedDaysMax" | "rules" | "logoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["shippingMethod"]>
+  export type ShippingMethodInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    orders?: boolean | ShippingMethod$ordersArgs<ExtArgs>
+    _count?: boolean | ShippingMethodCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShippingMethodIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ShippingMethodIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ShippingMethodPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShippingMethod"
+    objects: {
+      orders: Prisma.$OrderPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      key: string
+      name: string
+      description: string | null
+      basePrice: Prisma.Decimal
+      currency: string
+      isActive: boolean
+      availableCountries: string[]
+      estimatedDaysMin: number
+      estimatedDaysMax: number
+      rules: Prisma.JsonValue | null
+      logoUrl: string | null
+      createdAt: Date
+      updatedAt: Date | null
+    }, ExtArgs["result"]["shippingMethod"]>
+    composites: {}
+  }
+
+  type ShippingMethodGetPayload<S extends boolean | null | undefined | ShippingMethodDefaultArgs> = $Result.GetResult<Prisma.$ShippingMethodPayload, S>
+
+  type ShippingMethodCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShippingMethodFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShippingMethodCountAggregateInputType | true
+    }
+
+  export interface ShippingMethodDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShippingMethod'], meta: { name: 'ShippingMethod' } }
+    /**
+     * Find zero or one ShippingMethod that matches the filter.
+     * @param {ShippingMethodFindUniqueArgs} args - Arguments to find a ShippingMethod
+     * @example
+     * // Get one ShippingMethod
+     * const shippingMethod = await prisma.shippingMethod.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShippingMethodFindUniqueArgs>(args: SelectSubset<T, ShippingMethodFindUniqueArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShippingMethod that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShippingMethodFindUniqueOrThrowArgs} args - Arguments to find a ShippingMethod
+     * @example
+     * // Get one ShippingMethod
+     * const shippingMethod = await prisma.shippingMethod.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShippingMethodFindUniqueOrThrowArgs>(args: SelectSubset<T, ShippingMethodFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShippingMethod that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShippingMethodFindFirstArgs} args - Arguments to find a ShippingMethod
+     * @example
+     * // Get one ShippingMethod
+     * const shippingMethod = await prisma.shippingMethod.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShippingMethodFindFirstArgs>(args?: SelectSubset<T, ShippingMethodFindFirstArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShippingMethod that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShippingMethodFindFirstOrThrowArgs} args - Arguments to find a ShippingMethod
+     * @example
+     * // Get one ShippingMethod
+     * const shippingMethod = await prisma.shippingMethod.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShippingMethodFindFirstOrThrowArgs>(args?: SelectSubset<T, ShippingMethodFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShippingMethods that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShippingMethodFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShippingMethods
+     * const shippingMethods = await prisma.shippingMethod.findMany()
+     * 
+     * // Get first 10 ShippingMethods
+     * const shippingMethods = await prisma.shippingMethod.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shippingMethodWithIdOnly = await prisma.shippingMethod.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShippingMethodFindManyArgs>(args?: SelectSubset<T, ShippingMethodFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShippingMethod.
+     * @param {ShippingMethodCreateArgs} args - Arguments to create a ShippingMethod.
+     * @example
+     * // Create one ShippingMethod
+     * const ShippingMethod = await prisma.shippingMethod.create({
+     *   data: {
+     *     // ... data to create a ShippingMethod
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShippingMethodCreateArgs>(args: SelectSubset<T, ShippingMethodCreateArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShippingMethods.
+     * @param {ShippingMethodCreateManyArgs} args - Arguments to create many ShippingMethods.
+     * @example
+     * // Create many ShippingMethods
+     * const shippingMethod = await prisma.shippingMethod.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShippingMethodCreateManyArgs>(args?: SelectSubset<T, ShippingMethodCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShippingMethods and returns the data saved in the database.
+     * @param {ShippingMethodCreateManyAndReturnArgs} args - Arguments to create many ShippingMethods.
+     * @example
+     * // Create many ShippingMethods
+     * const shippingMethod = await prisma.shippingMethod.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShippingMethods and only return the `id`
+     * const shippingMethodWithIdOnly = await prisma.shippingMethod.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShippingMethodCreateManyAndReturnArgs>(args?: SelectSubset<T, ShippingMethodCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShippingMethod.
+     * @param {ShippingMethodDeleteArgs} args - Arguments to delete one ShippingMethod.
+     * @example
+     * // Delete one ShippingMethod
+     * const ShippingMethod = await prisma.shippingMethod.delete({
+     *   where: {
+     *     // ... filter to delete one ShippingMethod
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShippingMethodDeleteArgs>(args: SelectSubset<T, ShippingMethodDeleteArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShippingMethod.
+     * @param {ShippingMethodUpdateArgs} args - Arguments to update one ShippingMethod.
+     * @example
+     * // Update one ShippingMethod
+     * const shippingMethod = await prisma.shippingMethod.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShippingMethodUpdateArgs>(args: SelectSubset<T, ShippingMethodUpdateArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShippingMethods.
+     * @param {ShippingMethodDeleteManyArgs} args - Arguments to filter ShippingMethods to delete.
+     * @example
+     * // Delete a few ShippingMethods
+     * const { count } = await prisma.shippingMethod.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShippingMethodDeleteManyArgs>(args?: SelectSubset<T, ShippingMethodDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShippingMethods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShippingMethodUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShippingMethods
+     * const shippingMethod = await prisma.shippingMethod.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShippingMethodUpdateManyArgs>(args: SelectSubset<T, ShippingMethodUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShippingMethods and returns the data updated in the database.
+     * @param {ShippingMethodUpdateManyAndReturnArgs} args - Arguments to update many ShippingMethods.
+     * @example
+     * // Update many ShippingMethods
+     * const shippingMethod = await prisma.shippingMethod.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShippingMethods and only return the `id`
+     * const shippingMethodWithIdOnly = await prisma.shippingMethod.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShippingMethodUpdateManyAndReturnArgs>(args: SelectSubset<T, ShippingMethodUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShippingMethod.
+     * @param {ShippingMethodUpsertArgs} args - Arguments to update or create a ShippingMethod.
+     * @example
+     * // Update or create a ShippingMethod
+     * const shippingMethod = await prisma.shippingMethod.upsert({
+     *   create: {
+     *     // ... data to create a ShippingMethod
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShippingMethod we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShippingMethodUpsertArgs>(args: SelectSubset<T, ShippingMethodUpsertArgs<ExtArgs>>): Prisma__ShippingMethodClient<$Result.GetResult<Prisma.$ShippingMethodPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShippingMethods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShippingMethodCountArgs} args - Arguments to filter ShippingMethods to count.
+     * @example
+     * // Count the number of ShippingMethods
+     * const count = await prisma.shippingMethod.count({
+     *   where: {
+     *     // ... the filter for the ShippingMethods we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShippingMethodCountArgs>(
+      args?: Subset<T, ShippingMethodCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShippingMethodCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShippingMethod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShippingMethodAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShippingMethodAggregateArgs>(args: Subset<T, ShippingMethodAggregateArgs>): Prisma.PrismaPromise<GetShippingMethodAggregateType<T>>
+
+    /**
+     * Group by ShippingMethod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShippingMethodGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShippingMethodGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShippingMethodGroupByArgs['orderBy'] }
+        : { orderBy?: ShippingMethodGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShippingMethodGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShippingMethodGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShippingMethod model
+   */
+  readonly fields: ShippingMethodFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShippingMethod.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShippingMethodClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    orders<T extends ShippingMethod$ordersArgs<ExtArgs> = {}>(args?: Subset<T, ShippingMethod$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShippingMethod model
+   */
+  interface ShippingMethodFieldRefs {
+    readonly id: FieldRef<"ShippingMethod", 'String'>
+    readonly key: FieldRef<"ShippingMethod", 'String'>
+    readonly name: FieldRef<"ShippingMethod", 'String'>
+    readonly description: FieldRef<"ShippingMethod", 'String'>
+    readonly basePrice: FieldRef<"ShippingMethod", 'Decimal'>
+    readonly currency: FieldRef<"ShippingMethod", 'String'>
+    readonly isActive: FieldRef<"ShippingMethod", 'Boolean'>
+    readonly availableCountries: FieldRef<"ShippingMethod", 'String[]'>
+    readonly estimatedDaysMin: FieldRef<"ShippingMethod", 'Int'>
+    readonly estimatedDaysMax: FieldRef<"ShippingMethod", 'Int'>
+    readonly rules: FieldRef<"ShippingMethod", 'Json'>
+    readonly logoUrl: FieldRef<"ShippingMethod", 'String'>
+    readonly createdAt: FieldRef<"ShippingMethod", 'DateTime'>
+    readonly updatedAt: FieldRef<"ShippingMethod", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShippingMethod findUnique
+   */
+  export type ShippingMethodFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which ShippingMethod to fetch.
+     */
+    where: ShippingMethodWhereUniqueInput
+  }
+
+  /**
+   * ShippingMethod findUniqueOrThrow
+   */
+  export type ShippingMethodFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which ShippingMethod to fetch.
+     */
+    where: ShippingMethodWhereUniqueInput
+  }
+
+  /**
+   * ShippingMethod findFirst
+   */
+  export type ShippingMethodFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which ShippingMethod to fetch.
+     */
+    where?: ShippingMethodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShippingMethods to fetch.
+     */
+    orderBy?: ShippingMethodOrderByWithRelationInput | ShippingMethodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShippingMethods.
+     */
+    cursor?: ShippingMethodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShippingMethods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShippingMethods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShippingMethods.
+     */
+    distinct?: ShippingMethodScalarFieldEnum | ShippingMethodScalarFieldEnum[]
+  }
+
+  /**
+   * ShippingMethod findFirstOrThrow
+   */
+  export type ShippingMethodFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which ShippingMethod to fetch.
+     */
+    where?: ShippingMethodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShippingMethods to fetch.
+     */
+    orderBy?: ShippingMethodOrderByWithRelationInput | ShippingMethodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShippingMethods.
+     */
+    cursor?: ShippingMethodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShippingMethods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShippingMethods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShippingMethods.
+     */
+    distinct?: ShippingMethodScalarFieldEnum | ShippingMethodScalarFieldEnum[]
+  }
+
+  /**
+   * ShippingMethod findMany
+   */
+  export type ShippingMethodFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which ShippingMethods to fetch.
+     */
+    where?: ShippingMethodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShippingMethods to fetch.
+     */
+    orderBy?: ShippingMethodOrderByWithRelationInput | ShippingMethodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShippingMethods.
+     */
+    cursor?: ShippingMethodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShippingMethods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShippingMethods.
+     */
+    skip?: number
+    distinct?: ShippingMethodScalarFieldEnum | ShippingMethodScalarFieldEnum[]
+  }
+
+  /**
+   * ShippingMethod create
+   */
+  export type ShippingMethodCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShippingMethod.
+     */
+    data: XOR<ShippingMethodCreateInput, ShippingMethodUncheckedCreateInput>
+  }
+
+  /**
+   * ShippingMethod createMany
+   */
+  export type ShippingMethodCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShippingMethods.
+     */
+    data: ShippingMethodCreateManyInput | ShippingMethodCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShippingMethod createManyAndReturn
+   */
+  export type ShippingMethodCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShippingMethods.
+     */
+    data: ShippingMethodCreateManyInput | ShippingMethodCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShippingMethod update
+   */
+  export type ShippingMethodUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShippingMethod.
+     */
+    data: XOR<ShippingMethodUpdateInput, ShippingMethodUncheckedUpdateInput>
+    /**
+     * Choose, which ShippingMethod to update.
+     */
+    where: ShippingMethodWhereUniqueInput
+  }
+
+  /**
+   * ShippingMethod updateMany
+   */
+  export type ShippingMethodUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShippingMethods.
+     */
+    data: XOR<ShippingMethodUpdateManyMutationInput, ShippingMethodUncheckedUpdateManyInput>
+    /**
+     * Filter which ShippingMethods to update
+     */
+    where?: ShippingMethodWhereInput
+    /**
+     * Limit how many ShippingMethods to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShippingMethod updateManyAndReturn
+   */
+  export type ShippingMethodUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * The data used to update ShippingMethods.
+     */
+    data: XOR<ShippingMethodUpdateManyMutationInput, ShippingMethodUncheckedUpdateManyInput>
+    /**
+     * Filter which ShippingMethods to update
+     */
+    where?: ShippingMethodWhereInput
+    /**
+     * Limit how many ShippingMethods to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShippingMethod upsert
+   */
+  export type ShippingMethodUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShippingMethod to update in case it exists.
+     */
+    where: ShippingMethodWhereUniqueInput
+    /**
+     * In case the ShippingMethod found by the `where` argument doesn't exist, create a new ShippingMethod with this data.
+     */
+    create: XOR<ShippingMethodCreateInput, ShippingMethodUncheckedCreateInput>
+    /**
+     * In case the ShippingMethod was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShippingMethodUpdateInput, ShippingMethodUncheckedUpdateInput>
+  }
+
+  /**
+   * ShippingMethod delete
+   */
+  export type ShippingMethodDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
+    /**
+     * Filter which ShippingMethod to delete.
+     */
+    where: ShippingMethodWhereUniqueInput
+  }
+
+  /**
+   * ShippingMethod deleteMany
+   */
+  export type ShippingMethodDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShippingMethods to delete
+     */
+    where?: ShippingMethodWhereInput
+    /**
+     * Limit how many ShippingMethods to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShippingMethod.orders
+   */
+  export type ShippingMethod$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * ShippingMethod without action
+   */
+  export type ShippingMethodDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShippingMethod
+     */
+    select?: ShippingMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShippingMethod
+     */
+    omit?: ShippingMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShippingMethodInclude<ExtArgs> | null
   }
 
 
@@ -22607,6 +24133,8 @@ export namespace Prisma {
     currency: string | null
     status: $Enums.PaymentStatus | null
     method: string | null
+    webhookEventId: string | null
+    processedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -22620,6 +24148,8 @@ export namespace Prisma {
     currency: string | null
     status: $Enums.PaymentStatus | null
     method: string | null
+    webhookEventId: string | null
+    processedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -22634,6 +24164,8 @@ export namespace Prisma {
     status: number
     method: number
     rawResponse: number
+    webhookEventId: number
+    processedAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -22657,6 +24189,8 @@ export namespace Prisma {
     currency?: true
     status?: true
     method?: true
+    webhookEventId?: true
+    processedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -22670,6 +24204,8 @@ export namespace Prisma {
     currency?: true
     status?: true
     method?: true
+    webhookEventId?: true
+    processedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -22684,6 +24220,8 @@ export namespace Prisma {
     status?: true
     method?: true
     rawResponse?: true
+    webhookEventId?: true
+    processedAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -22785,6 +24323,8 @@ export namespace Prisma {
     status: $Enums.PaymentStatus
     method: string | null
     rawResponse: JsonValue | null
+    webhookEventId: string | null
+    processedAt: Date | null
     createdAt: Date
     updatedAt: Date | null
     _count: PaymentCountAggregateOutputType | null
@@ -22818,6 +24358,8 @@ export namespace Prisma {
     status?: boolean
     method?: boolean
     rawResponse?: boolean
+    webhookEventId?: boolean
+    processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     order?: boolean | Payment$orderArgs<ExtArgs>
@@ -22833,6 +24375,8 @@ export namespace Prisma {
     status?: boolean
     method?: boolean
     rawResponse?: boolean
+    webhookEventId?: boolean
+    processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     order?: boolean | Payment$orderArgs<ExtArgs>
@@ -22848,6 +24392,8 @@ export namespace Prisma {
     status?: boolean
     method?: boolean
     rawResponse?: boolean
+    webhookEventId?: boolean
+    processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     order?: boolean | Payment$orderArgs<ExtArgs>
@@ -22863,11 +24409,13 @@ export namespace Prisma {
     status?: boolean
     method?: boolean
     rawResponse?: boolean
+    webhookEventId?: boolean
+    processedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "provider" | "providerPaymentId" | "amount" | "currency" | "status" | "method" | "rawResponse" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "provider" | "providerPaymentId" | "amount" | "currency" | "status" | "method" | "rawResponse" | "webhookEventId" | "processedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | Payment$orderArgs<ExtArgs>
   }
@@ -22893,6 +24441,8 @@ export namespace Prisma {
       status: $Enums.PaymentStatus
       method: string | null
       rawResponse: Prisma.JsonValue | null
+      webhookEventId: string | null
+      processedAt: Date | null
       createdAt: Date
       updatedAt: Date | null
     }, ExtArgs["result"]["payment"]>
@@ -23328,6 +24878,8 @@ export namespace Prisma {
     readonly status: FieldRef<"Payment", 'PaymentStatus'>
     readonly method: FieldRef<"Payment", 'String'>
     readonly rawResponse: FieldRef<"Payment", 'Json'>
+    readonly webhookEventId: FieldRef<"Payment", 'String'>
+    readonly processedAt: FieldRef<"Payment", 'DateTime'>
     readonly createdAt: FieldRef<"Payment", 'DateTime'>
     readonly updatedAt: FieldRef<"Payment", 'DateTime'>
   }
@@ -28464,13 +30016,19 @@ export namespace Prisma {
     firstName: 'firstName',
     lastName: 'lastName',
     company: 'company',
+    phone: 'phone',
     line1: 'line1',
     line2: 'line2',
+    apartment: 'apartment',
+    building: 'building',
+    floor: 'floor',
     city: 'city',
     region: 'region',
     postalCode: 'postalCode',
     country: 'country',
-    phone: 'phone',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    additionalNotes: 'additionalNotes',
     isDefault: 'isDefault',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -28492,8 +30050,11 @@ export namespace Prisma {
     discountAmount: 'discountAmount',
     total: 'total',
     metadata: 'metadata',
+    reservationExpiresAt: 'reservationExpiresAt',
+    paidAt: 'paidAt',
     shippingAddressId: 'shippingAddressId',
     billingAddressId: 'billingAddressId',
+    shippingMethodId: 'shippingMethodId',
     placedAt: 'placedAt',
     fulfilledAt: 'fulfilledAt',
     cancelledAt: 'cancelledAt',
@@ -28502,6 +30063,26 @@ export namespace Prisma {
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+  export const ShippingMethodScalarFieldEnum: {
+    id: 'id',
+    key: 'key',
+    name: 'name',
+    description: 'description',
+    basePrice: 'basePrice',
+    currency: 'currency',
+    isActive: 'isActive',
+    availableCountries: 'availableCountries',
+    estimatedDaysMin: 'estimatedDaysMin',
+    estimatedDaysMax: 'estimatedDaysMax',
+    rules: 'rules',
+    logoUrl: 'logoUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ShippingMethodScalarFieldEnum = (typeof ShippingMethodScalarFieldEnum)[keyof typeof ShippingMethodScalarFieldEnum]
 
 
   export const OrderItemScalarFieldEnum: {
@@ -28532,6 +30113,8 @@ export namespace Prisma {
     status: 'status',
     method: 'method',
     rawResponse: 'rawResponse',
+    webhookEventId: 'webhookEventId',
+    processedAt: 'processedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -29928,13 +31511,19 @@ export namespace Prisma {
     firstName?: StringNullableFilter<"Address"> | string | null
     lastName?: StringNullableFilter<"Address"> | string | null
     company?: StringNullableFilter<"Address"> | string | null
+    phone?: StringNullableFilter<"Address"> | string | null
     line1?: StringFilter<"Address"> | string
     line2?: StringNullableFilter<"Address"> | string | null
+    apartment?: StringNullableFilter<"Address"> | string | null
+    building?: StringNullableFilter<"Address"> | string | null
+    floor?: StringNullableFilter<"Address"> | string | null
     city?: StringFilter<"Address"> | string
     region?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringFilter<"Address"> | string
     country?: StringFilter<"Address"> | string
-    phone?: StringNullableFilter<"Address"> | string | null
+    latitude?: DecimalNullableFilter<"Address"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableFilter<"Address"> | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
     createdAt?: DateTimeFilter<"Address"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Address"> | Date | string | null
@@ -29950,13 +31539,19 @@ export namespace Prisma {
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
     company?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
     line1?: SortOrder
     line2?: SortOrderInput | SortOrder
+    apartment?: SortOrderInput | SortOrder
+    building?: SortOrderInput | SortOrder
+    floor?: SortOrderInput | SortOrder
     city?: SortOrder
     region?: SortOrderInput | SortOrder
     postalCode?: SortOrder
     country?: SortOrder
-    phone?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    additionalNotes?: SortOrderInput | SortOrder
     isDefault?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
@@ -29975,13 +31570,19 @@ export namespace Prisma {
     firstName?: StringNullableFilter<"Address"> | string | null
     lastName?: StringNullableFilter<"Address"> | string | null
     company?: StringNullableFilter<"Address"> | string | null
+    phone?: StringNullableFilter<"Address"> | string | null
     line1?: StringFilter<"Address"> | string
     line2?: StringNullableFilter<"Address"> | string | null
+    apartment?: StringNullableFilter<"Address"> | string | null
+    building?: StringNullableFilter<"Address"> | string | null
+    floor?: StringNullableFilter<"Address"> | string | null
     city?: StringFilter<"Address"> | string
     region?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringFilter<"Address"> | string
     country?: StringFilter<"Address"> | string
-    phone?: StringNullableFilter<"Address"> | string | null
+    latitude?: DecimalNullableFilter<"Address"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableFilter<"Address"> | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
     createdAt?: DateTimeFilter<"Address"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Address"> | Date | string | null
@@ -29997,19 +31598,27 @@ export namespace Prisma {
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
     company?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
     line1?: SortOrder
     line2?: SortOrderInput | SortOrder
+    apartment?: SortOrderInput | SortOrder
+    building?: SortOrderInput | SortOrder
+    floor?: SortOrderInput | SortOrder
     city?: SortOrder
     region?: SortOrderInput | SortOrder
     postalCode?: SortOrder
     country?: SortOrder
-    phone?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    additionalNotes?: SortOrderInput | SortOrder
     isDefault?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     _count?: AddressCountOrderByAggregateInput
+    _avg?: AddressAvgOrderByAggregateInput
     _max?: AddressMaxOrderByAggregateInput
     _min?: AddressMinOrderByAggregateInput
+    _sum?: AddressSumOrderByAggregateInput
   }
 
   export type AddressScalarWhereWithAggregatesInput = {
@@ -30022,13 +31631,19 @@ export namespace Prisma {
     firstName?: StringNullableWithAggregatesFilter<"Address"> | string | null
     lastName?: StringNullableWithAggregatesFilter<"Address"> | string | null
     company?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"Address"> | string | null
     line1?: StringWithAggregatesFilter<"Address"> | string
     line2?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    apartment?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    building?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    floor?: StringNullableWithAggregatesFilter<"Address"> | string | null
     city?: StringWithAggregatesFilter<"Address"> | string
     region?: StringNullableWithAggregatesFilter<"Address"> | string | null
     postalCode?: StringWithAggregatesFilter<"Address"> | string
     country?: StringWithAggregatesFilter<"Address"> | string
-    phone?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    latitude?: DecimalNullableWithAggregatesFilter<"Address"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableWithAggregatesFilter<"Address"> | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: StringNullableWithAggregatesFilter<"Address"> | string | null
     isDefault?: BoolWithAggregatesFilter<"Address"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Address"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Address"> | Date | string | null
@@ -30050,8 +31665,11 @@ export namespace Prisma {
     discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     metadata?: JsonNullableFilter<"Order">
+    reservationExpiresAt?: DateTimeNullableFilter<"Order"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     shippingAddressId?: StringNullableFilter<"Order"> | string | null
     billingAddressId?: StringNullableFilter<"Order"> | string | null
+    shippingMethodId?: StringNullableFilter<"Order"> | string | null
     placedAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     fulfilledAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     cancelledAt?: DateTimeNullableFilter<"Order"> | Date | string | null
@@ -30062,6 +31680,7 @@ export namespace Prisma {
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     shippingAddress?: XOR<AddressNullableScalarRelationFilter, AddressWhereInput> | null
     billingAddress?: XOR<AddressNullableScalarRelationFilter, AddressWhereInput> | null
+    shippingMethod?: XOR<ShippingMethodNullableScalarRelationFilter, ShippingMethodWhereInput> | null
   }
 
   export type OrderOrderByWithRelationInput = {
@@ -30077,8 +31696,11 @@ export namespace Prisma {
     discountAmount?: SortOrder
     total?: SortOrder
     metadata?: SortOrderInput | SortOrder
+    reservationExpiresAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
     shippingAddressId?: SortOrderInput | SortOrder
     billingAddressId?: SortOrderInput | SortOrder
+    shippingMethodId?: SortOrderInput | SortOrder
     placedAt?: SortOrderInput | SortOrder
     fulfilledAt?: SortOrderInput | SortOrder
     cancelledAt?: SortOrderInput | SortOrder
@@ -30089,6 +31711,7 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     shippingAddress?: AddressOrderByWithRelationInput
     billingAddress?: AddressOrderByWithRelationInput
+    shippingMethod?: ShippingMethodOrderByWithRelationInput
   }
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
@@ -30107,8 +31730,11 @@ export namespace Prisma {
     discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     metadata?: JsonNullableFilter<"Order">
+    reservationExpiresAt?: DateTimeNullableFilter<"Order"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     shippingAddressId?: StringNullableFilter<"Order"> | string | null
     billingAddressId?: StringNullableFilter<"Order"> | string | null
+    shippingMethodId?: StringNullableFilter<"Order"> | string | null
     placedAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     fulfilledAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     cancelledAt?: DateTimeNullableFilter<"Order"> | Date | string | null
@@ -30119,6 +31745,7 @@ export namespace Prisma {
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     shippingAddress?: XOR<AddressNullableScalarRelationFilter, AddressWhereInput> | null
     billingAddress?: XOR<AddressNullableScalarRelationFilter, AddressWhereInput> | null
+    shippingMethod?: XOR<ShippingMethodNullableScalarRelationFilter, ShippingMethodWhereInput> | null
   }, "id">
 
   export type OrderOrderByWithAggregationInput = {
@@ -30134,8 +31761,11 @@ export namespace Prisma {
     discountAmount?: SortOrder
     total?: SortOrder
     metadata?: SortOrderInput | SortOrder
+    reservationExpiresAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
     shippingAddressId?: SortOrderInput | SortOrder
     billingAddressId?: SortOrderInput | SortOrder
+    shippingMethodId?: SortOrderInput | SortOrder
     placedAt?: SortOrderInput | SortOrder
     fulfilledAt?: SortOrderInput | SortOrder
     cancelledAt?: SortOrderInput | SortOrder
@@ -30164,13 +31794,118 @@ export namespace Prisma {
     discountAmount?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     metadata?: JsonNullableWithAggregatesFilter<"Order">
+    reservationExpiresAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
     shippingAddressId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     billingAddressId?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    shippingMethodId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     placedAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
     fulfilledAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
     cancelledAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
+  }
+
+  export type ShippingMethodWhereInput = {
+    AND?: ShippingMethodWhereInput | ShippingMethodWhereInput[]
+    OR?: ShippingMethodWhereInput[]
+    NOT?: ShippingMethodWhereInput | ShippingMethodWhereInput[]
+    id?: StringFilter<"ShippingMethod"> | string
+    key?: StringFilter<"ShippingMethod"> | string
+    name?: StringFilter<"ShippingMethod"> | string
+    description?: StringNullableFilter<"ShippingMethod"> | string | null
+    basePrice?: DecimalFilter<"ShippingMethod"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"ShippingMethod"> | string
+    isActive?: BoolFilter<"ShippingMethod"> | boolean
+    availableCountries?: StringNullableListFilter<"ShippingMethod">
+    estimatedDaysMin?: IntFilter<"ShippingMethod"> | number
+    estimatedDaysMax?: IntFilter<"ShippingMethod"> | number
+    rules?: JsonNullableFilter<"ShippingMethod">
+    logoUrl?: StringNullableFilter<"ShippingMethod"> | string | null
+    createdAt?: DateTimeFilter<"ShippingMethod"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"ShippingMethod"> | Date | string | null
+    orders?: OrderListRelationFilter
+  }
+
+  export type ShippingMethodOrderByWithRelationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    basePrice?: SortOrder
+    currency?: SortOrder
+    isActive?: SortOrder
+    availableCountries?: SortOrder
+    estimatedDaysMin?: SortOrder
+    estimatedDaysMax?: SortOrder
+    rules?: SortOrderInput | SortOrder
+    logoUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    orders?: OrderOrderByRelationAggregateInput
+  }
+
+  export type ShippingMethodWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    key?: string
+    AND?: ShippingMethodWhereInput | ShippingMethodWhereInput[]
+    OR?: ShippingMethodWhereInput[]
+    NOT?: ShippingMethodWhereInput | ShippingMethodWhereInput[]
+    name?: StringFilter<"ShippingMethod"> | string
+    description?: StringNullableFilter<"ShippingMethod"> | string | null
+    basePrice?: DecimalFilter<"ShippingMethod"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"ShippingMethod"> | string
+    isActive?: BoolFilter<"ShippingMethod"> | boolean
+    availableCountries?: StringNullableListFilter<"ShippingMethod">
+    estimatedDaysMin?: IntFilter<"ShippingMethod"> | number
+    estimatedDaysMax?: IntFilter<"ShippingMethod"> | number
+    rules?: JsonNullableFilter<"ShippingMethod">
+    logoUrl?: StringNullableFilter<"ShippingMethod"> | string | null
+    createdAt?: DateTimeFilter<"ShippingMethod"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"ShippingMethod"> | Date | string | null
+    orders?: OrderListRelationFilter
+  }, "id" | "key">
+
+  export type ShippingMethodOrderByWithAggregationInput = {
+    id?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    basePrice?: SortOrder
+    currency?: SortOrder
+    isActive?: SortOrder
+    availableCountries?: SortOrder
+    estimatedDaysMin?: SortOrder
+    estimatedDaysMax?: SortOrder
+    rules?: SortOrderInput | SortOrder
+    logoUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    _count?: ShippingMethodCountOrderByAggregateInput
+    _avg?: ShippingMethodAvgOrderByAggregateInput
+    _max?: ShippingMethodMaxOrderByAggregateInput
+    _min?: ShippingMethodMinOrderByAggregateInput
+    _sum?: ShippingMethodSumOrderByAggregateInput
+  }
+
+  export type ShippingMethodScalarWhereWithAggregatesInput = {
+    AND?: ShippingMethodScalarWhereWithAggregatesInput | ShippingMethodScalarWhereWithAggregatesInput[]
+    OR?: ShippingMethodScalarWhereWithAggregatesInput[]
+    NOT?: ShippingMethodScalarWhereWithAggregatesInput | ShippingMethodScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ShippingMethod"> | string
+    key?: StringWithAggregatesFilter<"ShippingMethod"> | string
+    name?: StringWithAggregatesFilter<"ShippingMethod"> | string
+    description?: StringNullableWithAggregatesFilter<"ShippingMethod"> | string | null
+    basePrice?: DecimalWithAggregatesFilter<"ShippingMethod"> | Decimal | DecimalJsLike | number | string
+    currency?: StringWithAggregatesFilter<"ShippingMethod"> | string
+    isActive?: BoolWithAggregatesFilter<"ShippingMethod"> | boolean
+    availableCountries?: StringNullableListFilter<"ShippingMethod">
+    estimatedDaysMin?: IntWithAggregatesFilter<"ShippingMethod"> | number
+    estimatedDaysMax?: IntWithAggregatesFilter<"ShippingMethod"> | number
+    rules?: JsonNullableWithAggregatesFilter<"ShippingMethod">
+    logoUrl?: StringNullableWithAggregatesFilter<"ShippingMethod"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ShippingMethod"> | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"ShippingMethod"> | Date | string | null
   }
 
   export type OrderItemWhereInput = {
@@ -30284,6 +32019,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     method?: StringNullableFilter<"Payment"> | string | null
     rawResponse?: JsonNullableFilter<"Payment">
+    webhookEventId?: StringNullableFilter<"Payment"> | string | null
+    processedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     order?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
@@ -30299,6 +32036,8 @@ export namespace Prisma {
     status?: SortOrder
     method?: SortOrderInput | SortOrder
     rawResponse?: SortOrderInput | SortOrder
+    webhookEventId?: SortOrderInput | SortOrder
+    processedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     order?: OrderOrderByWithRelationInput
@@ -30306,6 +32045,7 @@ export namespace Prisma {
 
   export type PaymentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    provider_providerPaymentId?: PaymentProviderProviderPaymentIdCompoundUniqueInput
     AND?: PaymentWhereInput | PaymentWhereInput[]
     OR?: PaymentWhereInput[]
     NOT?: PaymentWhereInput | PaymentWhereInput[]
@@ -30317,10 +32057,12 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     method?: StringNullableFilter<"Payment"> | string | null
     rawResponse?: JsonNullableFilter<"Payment">
+    webhookEventId?: StringNullableFilter<"Payment"> | string | null
+    processedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     order?: XOR<OrderNullableScalarRelationFilter, OrderWhereInput> | null
-  }, "id">
+  }, "id" | "provider_providerPaymentId">
 
   export type PaymentOrderByWithAggregationInput = {
     id?: SortOrder
@@ -30332,6 +32074,8 @@ export namespace Prisma {
     status?: SortOrder
     method?: SortOrderInput | SortOrder
     rawResponse?: SortOrderInput | SortOrder
+    webhookEventId?: SortOrderInput | SortOrder
+    processedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     _count?: PaymentCountOrderByAggregateInput
@@ -30354,6 +32098,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
     method?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     rawResponse?: JsonNullableWithAggregatesFilter<"Payment">
+    webhookEventId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    processedAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
   }
@@ -31878,13 +33624,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -31900,13 +33652,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -31920,13 +33678,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31942,13 +33706,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31963,13 +33733,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -31981,13 +33757,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32000,13 +33782,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32024,6 +33812,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -32034,6 +33824,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutOrdersInput
     shippingAddress?: AddressCreateNestedOneWithoutShippingOrdersInput
     billingAddress?: AddressCreateNestedOneWithoutBillingOrdersInput
+    shippingMethod?: ShippingMethodCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateInput = {
@@ -32049,8 +33840,11 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -32072,6 +33866,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32082,6 +33878,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutOrdersNestedInput
     shippingAddress?: AddressUpdateOneWithoutShippingOrdersNestedInput
     billingAddress?: AddressUpdateOneWithoutBillingOrdersNestedInput
+    shippingMethod?: ShippingMethodUpdateOneWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateInput = {
@@ -32097,8 +33894,11 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32121,8 +33921,11 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -32142,6 +33945,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32162,11 +33967,137 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ShippingMethodCreateInput = {
+    id?: string
+    key: string
+    name: string
+    description?: string | null
+    basePrice?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    isActive?: boolean
+    availableCountries?: ShippingMethodCreateavailableCountriesInput | string[]
+    estimatedDaysMin?: number
+    estimatedDaysMax?: number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    orders?: OrderCreateNestedManyWithoutShippingMethodInput
+  }
+
+  export type ShippingMethodUncheckedCreateInput = {
+    id?: string
+    key: string
+    name: string
+    description?: string | null
+    basePrice?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    isActive?: boolean
+    availableCountries?: ShippingMethodCreateavailableCountriesInput | string[]
+    estimatedDaysMin?: number
+    estimatedDaysMax?: number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    orders?: OrderUncheckedCreateNestedManyWithoutShippingMethodInput
+  }
+
+  export type ShippingMethodUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    availableCountries?: ShippingMethodUpdateavailableCountriesInput | string[]
+    estimatedDaysMin?: IntFieldUpdateOperationsInput | number
+    estimatedDaysMax?: IntFieldUpdateOperationsInput | number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    orders?: OrderUpdateManyWithoutShippingMethodNestedInput
+  }
+
+  export type ShippingMethodUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    availableCountries?: ShippingMethodUpdateavailableCountriesInput | string[]
+    estimatedDaysMin?: IntFieldUpdateOperationsInput | number
+    estimatedDaysMax?: IntFieldUpdateOperationsInput | number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    orders?: OrderUncheckedUpdateManyWithoutShippingMethodNestedInput
+  }
+
+  export type ShippingMethodCreateManyInput = {
+    id?: string
+    key: string
+    name: string
+    description?: string | null
+    basePrice?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    isActive?: boolean
+    availableCountries?: ShippingMethodCreateavailableCountriesInput | string[]
+    estimatedDaysMin?: number
+    estimatedDaysMax?: number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+  }
+
+  export type ShippingMethodUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    availableCountries?: ShippingMethodUpdateavailableCountriesInput | string[]
+    estimatedDaysMin?: IntFieldUpdateOperationsInput | number
+    estimatedDaysMax?: IntFieldUpdateOperationsInput | number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ShippingMethodUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    availableCountries?: ShippingMethodUpdateavailableCountriesInput | string[]
+    estimatedDaysMin?: IntFieldUpdateOperationsInput | number
+    estimatedDaysMax?: IntFieldUpdateOperationsInput | number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -32282,6 +34213,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
     order?: OrderCreateNestedOneWithoutPaymentsInput
@@ -32297,6 +34230,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -32310,6 +34245,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     order?: OrderUpdateOneWithoutPaymentsNestedInput
@@ -32325,6 +34262,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -32339,6 +34278,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -32352,6 +34293,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -32366,6 +34309,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -33823,16 +35768,27 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     company?: SortOrder
+    phone?: SortOrder
     line1?: SortOrder
     line2?: SortOrder
+    apartment?: SortOrder
+    building?: SortOrder
+    floor?: SortOrder
     city?: SortOrder
     region?: SortOrder
     postalCode?: SortOrder
     country?: SortOrder
-    phone?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    additionalNotes?: SortOrder
     isDefault?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AddressAvgOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type AddressMaxOrderByAggregateInput = {
@@ -33842,13 +35798,19 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     company?: SortOrder
+    phone?: SortOrder
     line1?: SortOrder
     line2?: SortOrder
+    apartment?: SortOrder
+    building?: SortOrder
+    floor?: SortOrder
     city?: SortOrder
     region?: SortOrder
     postalCode?: SortOrder
     country?: SortOrder
-    phone?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    additionalNotes?: SortOrder
     isDefault?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33861,16 +35823,27 @@ export namespace Prisma {
     firstName?: SortOrder
     lastName?: SortOrder
     company?: SortOrder
+    phone?: SortOrder
     line1?: SortOrder
     line2?: SortOrder
+    apartment?: SortOrder
+    building?: SortOrder
+    floor?: SortOrder
     city?: SortOrder
     region?: SortOrder
     postalCode?: SortOrder
     country?: SortOrder
-    phone?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    additionalNotes?: SortOrder
     isDefault?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AddressSumOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type EnumOrderStatusFilter<$PrismaModel = never> = {
@@ -33905,6 +35878,11 @@ export namespace Prisma {
     isNot?: AddressWhereInput | null
   }
 
+  export type ShippingMethodNullableScalarRelationFilter = {
+    is?: ShippingMethodWhereInput | null
+    isNot?: ShippingMethodWhereInput | null
+  }
+
   export type PaymentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -33922,8 +35900,11 @@ export namespace Prisma {
     discountAmount?: SortOrder
     total?: SortOrder
     metadata?: SortOrder
+    reservationExpiresAt?: SortOrder
+    paidAt?: SortOrder
     shippingAddressId?: SortOrder
     billingAddressId?: SortOrder
+    shippingMethodId?: SortOrder
     placedAt?: SortOrder
     fulfilledAt?: SortOrder
     cancelledAt?: SortOrder
@@ -33951,8 +35932,11 @@ export namespace Prisma {
     taxAmount?: SortOrder
     discountAmount?: SortOrder
     total?: SortOrder
+    reservationExpiresAt?: SortOrder
+    paidAt?: SortOrder
     shippingAddressId?: SortOrder
     billingAddressId?: SortOrder
+    shippingMethodId?: SortOrder
     placedAt?: SortOrder
     fulfilledAt?: SortOrder
     cancelledAt?: SortOrder
@@ -33972,8 +35956,11 @@ export namespace Prisma {
     taxAmount?: SortOrder
     discountAmount?: SortOrder
     total?: SortOrder
+    reservationExpiresAt?: SortOrder
+    paidAt?: SortOrder
     shippingAddressId?: SortOrder
     billingAddressId?: SortOrder
+    shippingMethodId?: SortOrder
     placedAt?: SortOrder
     fulfilledAt?: SortOrder
     cancelledAt?: SortOrder
@@ -34017,6 +36004,73 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumShippingStatusFilter<$PrismaModel>
     _max?: NestedEnumShippingStatusFilter<$PrismaModel>
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type ShippingMethodCountOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    basePrice?: SortOrder
+    currency?: SortOrder
+    isActive?: SortOrder
+    availableCountries?: SortOrder
+    estimatedDaysMin?: SortOrder
+    estimatedDaysMax?: SortOrder
+    rules?: SortOrder
+    logoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShippingMethodAvgOrderByAggregateInput = {
+    basePrice?: SortOrder
+    estimatedDaysMin?: SortOrder
+    estimatedDaysMax?: SortOrder
+  }
+
+  export type ShippingMethodMaxOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    basePrice?: SortOrder
+    currency?: SortOrder
+    isActive?: SortOrder
+    estimatedDaysMin?: SortOrder
+    estimatedDaysMax?: SortOrder
+    logoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShippingMethodMinOrderByAggregateInput = {
+    id?: SortOrder
+    key?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    basePrice?: SortOrder
+    currency?: SortOrder
+    isActive?: SortOrder
+    estimatedDaysMin?: SortOrder
+    estimatedDaysMax?: SortOrder
+    logoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShippingMethodSumOrderByAggregateInput = {
+    basePrice?: SortOrder
+    estimatedDaysMin?: SortOrder
+    estimatedDaysMax?: SortOrder
   }
 
   export type OrderScalarRelationFilter = {
@@ -34090,6 +36144,11 @@ export namespace Prisma {
     isNot?: OrderWhereInput | null
   }
 
+  export type PaymentProviderProviderPaymentIdCompoundUniqueInput = {
+    provider: string
+    providerPaymentId: string
+  }
+
   export type PaymentCountOrderByAggregateInput = {
     id?: SortOrder
     orderId?: SortOrder
@@ -34100,6 +36159,8 @@ export namespace Prisma {
     status?: SortOrder
     method?: SortOrder
     rawResponse?: SortOrder
+    webhookEventId?: SortOrder
+    processedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34117,6 +36178,8 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     method?: SortOrder
+    webhookEventId?: SortOrder
+    processedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34130,6 +36193,8 @@ export namespace Prisma {
     currency?: SortOrder
     status?: SortOrder
     method?: SortOrder
+    webhookEventId?: SortOrder
+    processedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -35680,6 +37745,12 @@ export namespace Prisma {
     connect?: AddressWhereUniqueInput
   }
 
+  export type ShippingMethodCreateNestedOneWithoutOrdersInput = {
+    create?: XOR<ShippingMethodCreateWithoutOrdersInput, ShippingMethodUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: ShippingMethodCreateOrConnectWithoutOrdersInput
+    connect?: ShippingMethodWhereUniqueInput
+  }
+
   export type OrderItemUncheckedCreateNestedManyWithoutOrderInput = {
     create?: XOR<OrderItemCreateWithoutOrderInput, OrderItemUncheckedCreateWithoutOrderInput> | OrderItemCreateWithoutOrderInput[] | OrderItemUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutOrderInput | OrderItemCreateOrConnectWithoutOrderInput[]
@@ -35764,6 +37835,16 @@ export namespace Prisma {
     update?: XOR<XOR<AddressUpdateToOneWithWhereWithoutBillingOrdersInput, AddressUpdateWithoutBillingOrdersInput>, AddressUncheckedUpdateWithoutBillingOrdersInput>
   }
 
+  export type ShippingMethodUpdateOneWithoutOrdersNestedInput = {
+    create?: XOR<ShippingMethodCreateWithoutOrdersInput, ShippingMethodUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: ShippingMethodCreateOrConnectWithoutOrdersInput
+    upsert?: ShippingMethodUpsertWithoutOrdersInput
+    disconnect?: ShippingMethodWhereInput | boolean
+    delete?: ShippingMethodWhereInput | boolean
+    connect?: ShippingMethodWhereUniqueInput
+    update?: XOR<XOR<ShippingMethodUpdateToOneWithWhereWithoutOrdersInput, ShippingMethodUpdateWithoutOrdersInput>, ShippingMethodUncheckedUpdateWithoutOrdersInput>
+  }
+
   export type OrderItemUncheckedUpdateManyWithoutOrderNestedInput = {
     create?: XOR<OrderItemCreateWithoutOrderInput, OrderItemUncheckedCreateWithoutOrderInput> | OrderItemCreateWithoutOrderInput[] | OrderItemUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutOrderInput | OrderItemCreateOrConnectWithoutOrderInput[]
@@ -35790,6 +37871,57 @@ export namespace Prisma {
     update?: PaymentUpdateWithWhereUniqueWithoutOrderInput | PaymentUpdateWithWhereUniqueWithoutOrderInput[]
     updateMany?: PaymentUpdateManyWithWhereWithoutOrderInput | PaymentUpdateManyWithWhereWithoutOrderInput[]
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type ShippingMethodCreateavailableCountriesInput = {
+    set: string[]
+  }
+
+  export type OrderCreateNestedManyWithoutShippingMethodInput = {
+    create?: XOR<OrderCreateWithoutShippingMethodInput, OrderUncheckedCreateWithoutShippingMethodInput> | OrderCreateWithoutShippingMethodInput[] | OrderUncheckedCreateWithoutShippingMethodInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutShippingMethodInput | OrderCreateOrConnectWithoutShippingMethodInput[]
+    createMany?: OrderCreateManyShippingMethodInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutShippingMethodInput = {
+    create?: XOR<OrderCreateWithoutShippingMethodInput, OrderUncheckedCreateWithoutShippingMethodInput> | OrderCreateWithoutShippingMethodInput[] | OrderUncheckedCreateWithoutShippingMethodInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutShippingMethodInput | OrderCreateOrConnectWithoutShippingMethodInput[]
+    createMany?: OrderCreateManyShippingMethodInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type ShippingMethodUpdateavailableCountriesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type OrderUpdateManyWithoutShippingMethodNestedInput = {
+    create?: XOR<OrderCreateWithoutShippingMethodInput, OrderUncheckedCreateWithoutShippingMethodInput> | OrderCreateWithoutShippingMethodInput[] | OrderUncheckedCreateWithoutShippingMethodInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutShippingMethodInput | OrderCreateOrConnectWithoutShippingMethodInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutShippingMethodInput | OrderUpsertWithWhereUniqueWithoutShippingMethodInput[]
+    createMany?: OrderCreateManyShippingMethodInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutShippingMethodInput | OrderUpdateWithWhereUniqueWithoutShippingMethodInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutShippingMethodInput | OrderUpdateManyWithWhereWithoutShippingMethodInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type OrderUncheckedUpdateManyWithoutShippingMethodNestedInput = {
+    create?: XOR<OrderCreateWithoutShippingMethodInput, OrderUncheckedCreateWithoutShippingMethodInput> | OrderCreateWithoutShippingMethodInput[] | OrderUncheckedCreateWithoutShippingMethodInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutShippingMethodInput | OrderCreateOrConnectWithoutShippingMethodInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutShippingMethodInput | OrderUpsertWithWhereUniqueWithoutShippingMethodInput[]
+    createMany?: OrderCreateManyShippingMethodInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutShippingMethodInput | OrderUpdateWithWhereUniqueWithoutShippingMethodInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutShippingMethodInput | OrderUpdateManyWithWhereWithoutShippingMethodInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type OrderCreateNestedOneWithoutItemsInput = {
@@ -36398,13 +38530,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -36418,13 +38556,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -36454,6 +38598,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -36463,6 +38609,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutOrderInput
     shippingAddress?: AddressCreateNestedOneWithoutShippingOrdersInput
     billingAddress?: AddressCreateNestedOneWithoutBillingOrdersInput
+    shippingMethod?: ShippingMethodCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateWithoutUserInput = {
@@ -36477,8 +38624,11 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -36698,13 +38848,19 @@ export namespace Prisma {
     firstName?: StringNullableFilter<"Address"> | string | null
     lastName?: StringNullableFilter<"Address"> | string | null
     company?: StringNullableFilter<"Address"> | string | null
+    phone?: StringNullableFilter<"Address"> | string | null
     line1?: StringFilter<"Address"> | string
     line2?: StringNullableFilter<"Address"> | string | null
+    apartment?: StringNullableFilter<"Address"> | string | null
+    building?: StringNullableFilter<"Address"> | string | null
+    floor?: StringNullableFilter<"Address"> | string | null
     city?: StringFilter<"Address"> | string
     region?: StringNullableFilter<"Address"> | string | null
     postalCode?: StringFilter<"Address"> | string
     country?: StringFilter<"Address"> | string
-    phone?: StringNullableFilter<"Address"> | string | null
+    latitude?: DecimalNullableFilter<"Address"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableFilter<"Address"> | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: StringNullableFilter<"Address"> | string | null
     isDefault?: BoolFilter<"Address"> | boolean
     createdAt?: DateTimeFilter<"Address"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Address"> | Date | string | null
@@ -36742,8 +38898,11 @@ export namespace Prisma {
     discountAmount?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     metadata?: JsonNullableFilter<"Order">
+    reservationExpiresAt?: DateTimeNullableFilter<"Order"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     shippingAddressId?: StringNullableFilter<"Order"> | string | null
     billingAddressId?: StringNullableFilter<"Order"> | string | null
+    shippingMethodId?: StringNullableFilter<"Order"> | string | null
     placedAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     fulfilledAt?: DateTimeNullableFilter<"Order"> | Date | string | null
     cancelledAt?: DateTimeNullableFilter<"Order"> | Date | string | null
@@ -39181,6 +41340,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -39190,6 +41351,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutOrderInput
     user?: UserCreateNestedOneWithoutOrdersInput
     billingAddress?: AddressCreateNestedOneWithoutBillingOrdersInput
+    shippingMethod?: ShippingMethodCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateWithoutShippingAddressInput = {
@@ -39205,7 +41367,10 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     billingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -39237,6 +41402,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -39246,6 +41413,7 @@ export namespace Prisma {
     payments?: PaymentCreateNestedManyWithoutOrderInput
     user?: UserCreateNestedOneWithoutOrdersInput
     shippingAddress?: AddressCreateNestedOneWithoutShippingOrdersInput
+    shippingMethod?: ShippingMethodCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateWithoutBillingAddressInput = {
@@ -39261,7 +41429,10 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -39421,6 +41592,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -39434,6 +41607,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -39509,13 +41684,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -39530,13 +41711,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -39554,13 +41741,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -39575,13 +41768,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -39591,6 +41790,45 @@ export namespace Prisma {
   export type AddressCreateOrConnectWithoutBillingOrdersInput = {
     where: AddressWhereUniqueInput
     create: XOR<AddressCreateWithoutBillingOrdersInput, AddressUncheckedCreateWithoutBillingOrdersInput>
+  }
+
+  export type ShippingMethodCreateWithoutOrdersInput = {
+    id?: string
+    key: string
+    name: string
+    description?: string | null
+    basePrice?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    isActive?: boolean
+    availableCountries?: ShippingMethodCreateavailableCountriesInput | string[]
+    estimatedDaysMin?: number
+    estimatedDaysMax?: number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+  }
+
+  export type ShippingMethodUncheckedCreateWithoutOrdersInput = {
+    id?: string
+    key: string
+    name: string
+    description?: string | null
+    basePrice?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    isActive?: boolean
+    availableCountries?: ShippingMethodCreateavailableCountriesInput | string[]
+    estimatedDaysMin?: number
+    estimatedDaysMax?: number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+  }
+
+  export type ShippingMethodCreateOrConnectWithoutOrdersInput = {
+    where: ShippingMethodWhereUniqueInput
+    create: XOR<ShippingMethodCreateWithoutOrdersInput, ShippingMethodUncheckedCreateWithoutOrdersInput>
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutOrderInput = {
@@ -39638,6 +41876,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
     method?: StringNullableFilter<"Payment"> | string | null
     rawResponse?: JsonNullableFilter<"Payment">
+    webhookEventId?: StringNullableFilter<"Payment"> | string | null
+    processedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
   }
@@ -39720,13 +41960,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39741,13 +41987,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39771,13 +42023,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39792,17 +42050,146 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingOrders?: OrderUncheckedUpdateManyWithoutShippingAddressNestedInput
+  }
+
+  export type ShippingMethodUpsertWithoutOrdersInput = {
+    update: XOR<ShippingMethodUpdateWithoutOrdersInput, ShippingMethodUncheckedUpdateWithoutOrdersInput>
+    create: XOR<ShippingMethodCreateWithoutOrdersInput, ShippingMethodUncheckedCreateWithoutOrdersInput>
+    where?: ShippingMethodWhereInput
+  }
+
+  export type ShippingMethodUpdateToOneWithWhereWithoutOrdersInput = {
+    where?: ShippingMethodWhereInput
+    data: XOR<ShippingMethodUpdateWithoutOrdersInput, ShippingMethodUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type ShippingMethodUpdateWithoutOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    availableCountries?: ShippingMethodUpdateavailableCountriesInput | string[]
+    estimatedDaysMin?: IntFieldUpdateOperationsInput | number
+    estimatedDaysMax?: IntFieldUpdateOperationsInput | number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ShippingMethodUncheckedUpdateWithoutOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    availableCountries?: ShippingMethodUpdateavailableCountriesInput | string[]
+    estimatedDaysMin?: IntFieldUpdateOperationsInput | number
+    estimatedDaysMax?: IntFieldUpdateOperationsInput | number
+    rules?: NullableJsonNullValueInput | InputJsonValue
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type OrderCreateWithoutShippingMethodInput = {
+    id?: string
+    status?: $Enums.OrderStatus
+    paymentStatus?: $Enums.PaymentStatus
+    shippingStatus?: $Enums.ShippingStatus
+    currency?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string
+    taxAmount?: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
+    placedAt?: Date | string | null
+    fulfilledAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    items?: OrderItemCreateNestedManyWithoutOrderInput
+    payments?: PaymentCreateNestedManyWithoutOrderInput
+    user?: UserCreateNestedOneWithoutOrdersInput
+    shippingAddress?: AddressCreateNestedOneWithoutShippingOrdersInput
+    billingAddress?: AddressCreateNestedOneWithoutBillingOrdersInput
+  }
+
+  export type OrderUncheckedCreateWithoutShippingMethodInput = {
+    id?: string
+    userId?: string | null
+    status?: $Enums.OrderStatus
+    paymentStatus?: $Enums.PaymentStatus
+    shippingStatus?: $Enums.ShippingStatus
+    currency?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string
+    taxAmount?: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingAddressId?: string | null
+    billingAddressId?: string | null
+    placedAt?: Date | string | null
+    fulfilledAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderCreateOrConnectWithoutShippingMethodInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutShippingMethodInput, OrderUncheckedCreateWithoutShippingMethodInput>
+  }
+
+  export type OrderCreateManyShippingMethodInputEnvelope = {
+    data: OrderCreateManyShippingMethodInput | OrderCreateManyShippingMethodInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrderUpsertWithWhereUniqueWithoutShippingMethodInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutShippingMethodInput, OrderUncheckedUpdateWithoutShippingMethodInput>
+    create: XOR<OrderCreateWithoutShippingMethodInput, OrderUncheckedCreateWithoutShippingMethodInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutShippingMethodInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutShippingMethodInput, OrderUncheckedUpdateWithoutShippingMethodInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutShippingMethodInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutShippingMethodInput>
   }
 
   export type OrderCreateWithoutItemsInput = {
@@ -39817,6 +42204,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -39826,6 +42215,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutOrdersInput
     shippingAddress?: AddressCreateNestedOneWithoutShippingOrdersInput
     billingAddress?: AddressCreateNestedOneWithoutBillingOrdersInput
+    shippingMethod?: ShippingMethodCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateWithoutItemsInput = {
@@ -39841,8 +42231,11 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -39977,6 +42370,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39986,6 +42381,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutOrdersNestedInput
     shippingAddress?: AddressUpdateOneWithoutShippingOrdersNestedInput
     billingAddress?: AddressUpdateOneWithoutBillingOrdersNestedInput
+    shippingMethod?: ShippingMethodUpdateOneWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutItemsInput = {
@@ -40001,8 +42397,11 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40133,6 +42532,8 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -40142,6 +42543,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutOrdersInput
     shippingAddress?: AddressCreateNestedOneWithoutShippingOrdersInput
     billingAddress?: AddressCreateNestedOneWithoutBillingOrdersInput
+    shippingMethod?: ShippingMethodCreateNestedOneWithoutOrdersInput
   }
 
   export type OrderUncheckedCreateWithoutPaymentsInput = {
@@ -40157,8 +42559,11 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -40195,6 +42600,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40204,6 +42611,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutOrdersNestedInput
     shippingAddress?: AddressUpdateOneWithoutShippingOrdersNestedInput
     billingAddress?: AddressUpdateOneWithoutBillingOrdersNestedInput
+    shippingMethod?: ShippingMethodUpdateOneWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutPaymentsInput = {
@@ -40219,8 +42627,11 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40863,13 +43274,19 @@ export namespace Prisma {
     firstName?: string | null
     lastName?: string | null
     company?: string | null
+    phone?: string | null
     line1: string
     line2?: string | null
+    apartment?: string | null
+    building?: string | null
+    floor?: string | null
     city: string
     region?: string | null
     postalCode: string
     country: string
-    phone?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: string | null
     isDefault?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -40887,8 +43304,11 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
     billingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -41008,13 +43428,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41028,13 +43454,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41048,13 +43480,19 @@ export namespace Prisma {
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     line1?: StringFieldUpdateOperationsInput | string
     line2?: NullableStringFieldUpdateOperationsInput | string | null
+    apartment?: NullableStringFieldUpdateOperationsInput | string | null
+    building?: NullableStringFieldUpdateOperationsInput | string | null
+    floor?: NullableStringFieldUpdateOperationsInput | string | null
     city?: StringFieldUpdateOperationsInput | string
     region?: NullableStringFieldUpdateOperationsInput | string | null
     postalCode?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    additionalNotes?: NullableStringFieldUpdateOperationsInput | string | null
     isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41072,6 +43510,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41081,6 +43521,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutOrderNestedInput
     shippingAddress?: AddressUpdateOneWithoutShippingOrdersNestedInput
     billingAddress?: AddressUpdateOneWithoutBillingOrdersNestedInput
+    shippingMethod?: ShippingMethodUpdateOneWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutUserInput = {
@@ -41095,8 +43536,11 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41118,8 +43562,11 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41870,7 +44317,10 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     billingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -41891,7 +44341,10 @@ export namespace Prisma {
     discountAmount?: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
     shippingAddressId?: string | null
+    shippingMethodId?: string | null
     placedAt?: Date | string | null
     fulfilledAt?: Date | string | null
     cancelledAt?: Date | string | null
@@ -41911,6 +44364,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41920,6 +44375,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutOrderNestedInput
     user?: UserUpdateOneWithoutOrdersNestedInput
     billingAddress?: AddressUpdateOneWithoutBillingOrdersNestedInput
+    shippingMethod?: ShippingMethodUpdateOneWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutShippingAddressInput = {
@@ -41935,7 +44391,10 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41958,7 +44417,10 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41978,6 +44440,8 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41987,6 +44451,7 @@ export namespace Prisma {
     payments?: PaymentUpdateManyWithoutOrderNestedInput
     user?: UserUpdateOneWithoutOrdersNestedInput
     shippingAddress?: AddressUpdateOneWithoutShippingOrdersNestedInput
+    shippingMethod?: ShippingMethodUpdateOneWithoutOrdersNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutBillingAddressInput = {
@@ -42002,7 +44467,10 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -42025,7 +44493,10 @@ export namespace Prisma {
     discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingMethodId?: NullableStringFieldUpdateOperationsInput | string | null
     placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -42056,6 +44527,8 @@ export namespace Prisma {
     status?: $Enums.PaymentStatus
     method?: string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: string | null
+    processedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string | null
   }
@@ -42111,6 +44584,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -42124,6 +44599,8 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -42137,6 +44614,108 @@ export namespace Prisma {
     status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
     method?: NullableStringFieldUpdateOperationsInput | string | null
     rawResponse?: NullableJsonNullValueInput | InputJsonValue
+    webhookEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type OrderCreateManyShippingMethodInput = {
+    id?: string
+    userId?: string | null
+    status?: $Enums.OrderStatus
+    paymentStatus?: $Enums.PaymentStatus
+    shippingStatus?: $Enums.ShippingStatus
+    currency?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string
+    taxAmount?: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingAddressId?: string | null
+    billingAddressId?: string | null
+    placedAt?: Date | string | null
+    fulfilledAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+  }
+
+  export type OrderUpdateWithoutShippingMethodInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    shippingStatus?: EnumShippingStatusFieldUpdateOperationsInput | $Enums.ShippingStatus
+    currency?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    items?: OrderItemUpdateManyWithoutOrderNestedInput
+    payments?: PaymentUpdateManyWithoutOrderNestedInput
+    user?: UserUpdateOneWithoutOrdersNestedInput
+    shippingAddress?: AddressUpdateOneWithoutShippingOrdersNestedInput
+    billingAddress?: AddressUpdateOneWithoutBillingOrdersNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutShippingMethodInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    shippingStatus?: EnumShippingStatusFieldUpdateOperationsInput | $Enums.ShippingStatus
+    currency?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateManyWithoutShippingMethodInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    paymentStatus?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    shippingStatus?: EnumShippingStatusFieldUpdateOperationsInput | $Enums.ShippingStatus
+    currency?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    taxAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    reservationExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddressId?: NullableStringFieldUpdateOperationsInput | string | null
+    placedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fulfilledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

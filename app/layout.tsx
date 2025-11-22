@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/shared/components/ui/sonner";
 
 import "./globals.css";
+import { QueryProvider } from "@/shared/providers/QueryProvider";
 import { ThemeProvider } from "@/shared/providers/ThemeProvider";
 
 const geistSans = Geist({
@@ -28,19 +29,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <SessionProvider>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Toaster richColors position="top-center" />
-          </ThemeProvider>
-        </body>
-      </SessionProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <SessionProvider>
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster richColors position="top-center" />
+            </ThemeProvider>
+          </QueryProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }
