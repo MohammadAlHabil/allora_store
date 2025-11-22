@@ -23,7 +23,6 @@ interface StockResult {
   reason?: string;
   title?: string;
   image?: string;
-  reason?: string;
 }
 
 interface ValidationResult {
