@@ -22,6 +22,7 @@ interface StockResult {
   isAvailable: boolean;
   title?: string;
   image?: string;
+  reason?: string;
 }
 
 interface ValidationResult {

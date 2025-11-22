@@ -109,6 +109,8 @@ export async function validateCheckout(userId: string) {
     code: string;
     field: string;
     image?: string;
+    productId?: string;
+    variantId?: string | null;
   }[] = [];
 
   cart.items.forEach((item) => {

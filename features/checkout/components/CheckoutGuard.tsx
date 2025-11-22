@@ -1,11 +1,12 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
-import { useCheckoutValidation } from "@/features/checkout/hooks";
+import { checkoutKeys, validateCheckoutAPI } from "@/features/checkout/hooks";
 
 /**
  * CheckoutGuard
@@ -17,7 +18,16 @@ export function CheckoutGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  const { data: validation, isLoading: isValidating, isError } = useCheckoutValidation();
+  const {
+    data: validation,
+    isLoading: isValidating,
+    isError,
+  } = useQuery({
+    queryKey: checkoutKeys.validation(),
+    queryFn: validateCheckoutAPI,
+    retry: false,
+    enabled: status === "authenticated", // Only validate if authenticated
+  });
   // Call effects unconditionally (Rules of Hooks) but run logic conditionally inside
   useEffect(() => {
     if (status !== "loading" && !session?.user) {
