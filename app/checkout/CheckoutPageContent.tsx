@@ -3,7 +3,7 @@
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { toast } from "sonner";
 import { useCart } from "@/features/cart/hooks";
 import { AddressStep, ShippingMethodStep, PaymentMethodStep } from "@/features/checkout/components";
@@ -20,12 +20,69 @@ export function CheckoutPageContent() {
   const { data: session } = useSession();
   const { items, total } = useCart();
   const { mutate: createOrder, isPending } = useCreateOrder();
-  const { currentStep, formData, updateFormData, nextStep, previousStep, canGoBack, isLastStep } =
-    useCheckoutFlow();
+  const {
+    currentStep,
+    formData,
+    updateFormData,
+    nextStep,
+    previousStep,
+    canGoBack,
+    isLastStep,
+    isHydrated,
+    resetCheckout,
+  } = useCheckoutFlow();
 
   const [selectedAddress, setSelectedAddress] = useState<AddressResponse | null>(null);
   const [selectedMethodId, setSelectedMethodId] = useState<string | undefined>();
   const [shippingCost, setShippingCost] = useState<number>(0);
+
+  // Restore state from formData after hydration - using layout effect to avoid flash
+  useLayoutEffect(() => {
+    if (!isHydrated) return;
+
+    // Restore all state atomically before paint
+    const updates: (() => void)[] = [];
+
+    if (formData.shippingMethodId && formData.shippingMethodId !== selectedMethodId) {
+      updates.push(() => setSelectedMethodId(formData.shippingMethodId));
+    }
+
+    if (formData.shippingCost !== undefined && formData.shippingCost !== shippingCost) {
+      updates.push(() => setShippingCost(formData.shippingCost!));
+    }
+
+    if (formData.shippingAddress?.id && formData.shippingAddress.id !== selectedAddress?.id) {
+      updates.push(() =>
+        setSelectedAddress(formData.shippingAddress as unknown as AddressResponse)
+      );
+    }
+
+    // Apply all updates
+    updates.forEach((update) => update());
+  }, [isHydrated]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Cleanup on unmount (when user navigates away)
+  useEffect(() => {
+    return () => {
+      // Optional: You can clear state when user leaves checkout
+      // but we keep it for 30 minutes in case they come back
+      console.log("Checkout page unmounted - state preserved for 30 minutes");
+    };
+  }, []);
+
+  // Show loading state while hydrating from sessionStorage
+  if (!isHydrated) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+            <p className="text-sm text-muted-foreground">Loading checkout...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = () => {
     if (
@@ -47,6 +104,8 @@ export function CheckoutPageContent() {
           onSuccess: (order) => {
             // Redirect to confirmation page
             router.push(`/orders/${order.id}`);
+            // Clear checkout state after navigation starts
+            setTimeout(() => resetCheckout(), 100);
           },
         }
       );
@@ -125,7 +184,10 @@ export function CheckoutPageContent() {
                 onMethodSelected={(methodId, cost) => {
                   setSelectedMethodId(methodId);
                   setShippingCost(cost);
-                  updateFormData({ shippingMethodId: methodId }); // Update form data
+                  updateFormData({
+                    shippingMethodId: methodId,
+                    shippingCost: cost,
+                  }); // Update form data with both method and cost
                 }}
                 selectedMethodId={selectedMethodId}
               />
@@ -182,6 +244,8 @@ export function CheckoutPageContent() {
                             });
                             // Redirect to confirmation page
                             router.push(`/orders/${order.id}`);
+                            // Clear checkout state after navigation starts
+                            setTimeout(() => resetCheckout(), 100);
                           },
                         }
                       );

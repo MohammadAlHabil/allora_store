@@ -75,9 +75,11 @@ export async function checkStockAvailability(
 ): Promise<StockCheckResult[]> {
   const results: StockCheckResult[] = [];
 
+  console.log("🔍 Checking stock for items:", items);
+
   for (const item of items) {
     // Find inventory record by product/variant
-    const inventory = await prisma.inventory.findFirst({
+    let inventory = await prisma.inventory.findFirst({
       where: {
         productId: item.productId,
         variantId: item.variantId || null,
@@ -89,9 +91,47 @@ export async function checkStockAvailability(
       },
     });
 
+    // If no inventory found for base product (variantId: null), try to find default variant
+    if (!inventory && !item.variantId) {
+      console.log(
+        `⚠️  No inventory for base product ${item.productId}, searching for default variant...`
+      );
+
+      // Get default variant for this product
+      const defaultVariant = await prisma.productVariant.findFirst({
+        where: {
+          productId: item.productId,
+          isDefault: true,
+        },
+      });
+
+      if (defaultVariant) {
+        console.log(`✓ Found default variant ${defaultVariant.id}, checking inventory...`);
+        inventory = await prisma.inventory.findFirst({
+          where: {
+            productId: item.productId,
+            variantId: defaultVariant.id,
+          },
+          include: {
+            product: {
+              select: { name: true, type: true },
+            },
+          },
+        });
+      }
+    }
+
+    console.log(`📦 Inventory check for product ${item.productId}:`, {
+      found: !!inventory,
+      isTracked: inventory?.isTracked,
+      quantity: inventory?.quantity,
+      reserved: inventory?.reserved,
+      requested: item.quantity,
+    });
+
     // No inventory record found
     if (!inventory) {
-      results.push({
+      const result = {
         productId: item.productId,
         variantId: item.variantId || null,
         sku: "UNKNOWN",
@@ -100,29 +140,34 @@ export async function checkStockAvailability(
         isAvailable: false,
         isTracked: true,
         reason: "Product not found in inventory",
-      });
+      };
+      console.log("❌ No inventory record:", result);
+      results.push(result);
       continue;
     }
 
     // Non-tracked items (digital products, services) are always available
     if (!inventory.isTracked) {
-      results.push({
+      const result = {
         productId: item.productId,
         variantId: item.variantId || null,
         sku: inventory.sku,
+        title: inventory.product.name,
         requestedQty: item.quantity,
         availableQty: Infinity,
         isAvailable: true,
         isTracked: false,
-      });
+      };
+      console.log("✅ Non-tracked item (always available):", result);
+      results.push(result);
       continue;
     }
 
     // For tracked items, calculate availability
-    const available = inventory.quantity - inventory.reserved;
+    const available = Math.max(0, inventory.quantity - inventory.reserved);
     const isAvailable = available >= item.quantity;
 
-    results.push({
+    const result = {
       productId: item.productId,
       variantId: item.variantId || null,
       sku: inventory.sku,
@@ -133,9 +178,27 @@ export async function checkStockAvailability(
       isTracked: true,
       reason: isAvailable
         ? undefined
-        : `Only ${available} units available, but ${item.quantity} requested`,
+        : available > 0
+          ? `Only ${available} unit${available !== 1 ? "s" : ""} available`
+          : `Out of stock`,
+    };
+
+    console.log(`${isAvailable ? "✅" : "❌"} Stock check result:`, {
+      title: result.title,
+      available: result.availableQty,
+      requested: result.requestedQty,
+      isAvailable: result.isAvailable,
+      reason: result.reason,
     });
+
+    results.push(result);
   }
+
+  console.log("📊 Final stock check results:", {
+    totalItems: results.length,
+    available: results.filter((r) => r.isAvailable).length,
+    unavailable: results.filter((r) => !r.isAvailable).length,
+  });
 
   return results;
 }

@@ -58,8 +58,18 @@ export function CartSummary({
   couponCode,
 }: CartSummaryProps) {
   const { items, itemCount, isEmpty, isLoading } = useCart();
-  const { validateCheckout, isValidating, issues, generalErrors, showModal, setShowModal } =
-    useCheckoutValidation();
+  const {
+    validateCheckout,
+    isValidating,
+    isProcessing,
+    issues,
+    generalErrors,
+    showModal,
+    setShowModal,
+    handleRemoveItem,
+    handleUpdateQuantity,
+    handleUpdatePrice,
+  } = useCheckoutValidation();
 
   // Calculate totals using utils
   const subtotal = calculateCartSubtotal(items);
@@ -171,6 +181,10 @@ export function CartSummary({
         onOpenChange={setShowModal}
         issues={issues}
         generalErrors={generalErrors}
+        onRemoveItem={handleRemoveItem}
+        onUpdateQuantity={handleUpdateQuantity}
+        onUpdatePrice={handleUpdatePrice}
+        isProcessing={isProcessing}
       />
     </>
   );

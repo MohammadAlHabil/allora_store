@@ -4,6 +4,16 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { CheckoutIssue } from "../components/CheckoutAlertModal";
 
+// Cart item type for filtering
+interface CartItem {
+  id: string;
+  productId: string;
+  variantId: string | null;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+}
+
 interface StockResult {
   productId: string;
   variantId?: string | null;
@@ -23,9 +33,154 @@ interface ValidationResult {
 
 export function useCheckoutValidation() {
   const [isValidating, setIsValidating] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [issues, setIssues] = useState<CheckoutIssue[]>([]);
   const [generalErrors, setGeneralErrors] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
+
+  const handleRemoveItem = async (productId: string, variantId?: string | null) => {
+    setIsProcessing(true);
+    try {
+      // Get cart to find the item ID
+      const cartResponse = await fetch("/api/cart");
+      const cartData = await cartResponse.json();
+
+      if (!cartData.success) {
+        toast.error("Failed to fetch cart");
+        return;
+      }
+
+      // Find the cart item
+      const cart = cartData.data;
+      const cartItem = cart.items.find(
+        (item: CartItem) =>
+          item.productId === productId &&
+          (variantId ? item.variantId === variantId : !item.variantId)
+      );
+
+      if (!cartItem) {
+        toast.error("Item not found in cart");
+        return;
+      }
+
+      // Remove the item
+      const response = await fetch(`/api/cart/${cartItem.id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        toast.error("Failed to remove item");
+        return;
+      }
+
+      toast.success("Item removed from cart");
+
+      // Force refetch cart data by invalidating React Query cache
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("cart-updated"));
+      }
+
+      // Re-validate to update the issues list
+      await validateCheckout();
+    } catch (error) {
+      console.error("Error removing item:", error);
+      toast.error("Failed to remove item");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleUpdateQuantity = async (
+    productId: string,
+    variantId: string | null | undefined,
+    newQuantity: number
+  ) => {
+    setIsProcessing(true);
+    try {
+      // Get cart to find the item ID
+      const cartResponse = await fetch("/api/cart");
+      const cartData = await cartResponse.json();
+
+      if (!cartData.success) {
+        toast.error("Failed to fetch cart");
+        return;
+      }
+
+      // Find the cart item
+      const cart = cartData.data;
+      const cartItem = cart.items.find(
+        (item: CartItem) =>
+          item.productId === productId &&
+          (variantId ? item.variantId === variantId : !item.variantId)
+      );
+
+      if (!cartItem) {
+        toast.error("Item not found in cart");
+        return;
+      }
+
+      // Update quantity
+      const response = await fetch(`/api/cart/${cartItem.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ quantity: newQuantity }),
+      });
+
+      if (!response.ok) {
+        toast.error("Failed to update quantity");
+        return;
+      }
+
+      toast.success("Quantity updated");
+
+      // Force refetch cart data by invalidating React Query cache
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("cart-updated"));
+      }
+
+      // Re-validate to update the issues list
+      await validateCheckout();
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+      toast.error("Failed to update quantity");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleUpdatePrice = async (productId: string, variantId?: string | null) => {
+    setIsProcessing(true);
+    try {
+      // Fetch latest price and update cart
+      const response = await fetch("/api/cart/update-price", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, variantId }),
+      });
+
+      if (!response.ok) {
+        toast.error("Failed to update price");
+        return;
+      }
+
+      toast.success("Price updated");
+
+      // Force refetch cart data by invalidating React Query cache
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("cart-updated"));
+      }
+
+      // Re-validate to update the issues list
+      await validateCheckout();
+    } catch (error) {
+      console.error("Error updating price:", error);
+      toast.error("Failed to update price");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   const validateCheckout = async (): Promise<boolean> => {
     setIsValidating(true);
@@ -36,7 +191,14 @@ export function useCheckoutValidation() {
       const response = await fetch("/api/checkout/validate");
       const data: ValidationResult = await response.json();
 
+      console.log("🔍 Validation Response:", {
+        canProceed: data.canProceed,
+        stockResults: data.stockResults,
+        errors: data.errors,
+      });
+
       if (data.canProceed) {
+        setShowModal(false);
         return true;
       }
 
@@ -47,16 +209,23 @@ export function useCheckoutValidation() {
       if (data.stockResults) {
         data.stockResults.forEach((result) => {
           if (!result.isAvailable) {
+            console.log("❌ Stock Issue Found:", {
+              productId: result.productId,
+              title: result.title,
+              requested: result.requestedQty,
+              available: result.availableQty,
+              reason: result.reason,
+            });
+
             newIssues.push({
               productId: result.productId,
               variantId: result.variantId,
               title: result.title || "Unknown Product",
-              reason: !result.isAvailable
-                ? "Product is unavailable"
-                : `Out of stock (Only ${result.availableQty} available)`,
+              reason: result.reason || "Product is unavailable",
               available: result.availableQty,
               requested: result.requestedQty,
               image: result.image,
+              type: "stock",
             });
           }
         });
@@ -66,8 +235,13 @@ export function useCheckoutValidation() {
         // Filter and process errors
         data.errors.forEach((err: unknown) => {
           if (typeof err === "string") {
-            // Filter out specific redundant strings if needed, or just add
-            if (err !== "Item not available" && err !== "Product not found in inventory") {
+            // Filter out redundant stock error messages since we show them as issues
+            if (
+              err !== "Item not available" &&
+              err !== "Product not found in inventory" &&
+              !err.includes("Only") &&
+              !err.includes("units available")
+            ) {
               newGeneralErrors.push(err);
             }
             return;
@@ -81,16 +255,23 @@ export function useCheckoutValidation() {
               image?: string;
             };
 
+            // Skip stock-related errors - they're already in issues
+            if (errorObj.code === "OUT_OF_STOCK") {
+              return;
+            }
+
             // Handle Price Changes as Issues
             if (errorObj.code === "PRICE_CHANGED" && errorObj.message) {
               // Parse message: "Price changed for [Title] (was [Old], now [New])"
               const match = errorObj.message.match(/Price changed for (.*) \(was (.*), now (.*)\)/);
               if (match) {
                 newIssues.push({
-                  productId: "price-change", // Placeholder
+                  productId: (errorObj as { productId?: string }).productId || "price-change",
+                  variantId: (errorObj as { variantId?: string | null }).variantId,
                   title: match[1],
                   reason: `Price updated: ${match[2]} ⟶ ${match[3]}`,
                   image: errorObj.image,
+                  type: "price",
                   // No available/requested needed
                 });
                 return;
@@ -100,16 +281,10 @@ export function useCheckoutValidation() {
               return;
             }
 
-            // Filter out redundant stock errors
-            if (
-              errorObj.message === "Item not available" ||
-              errorObj.message === "Product not found in inventory"
-            ) {
-              // Only skip if we have issues (which we likely do if this error is present)
-              if (newIssues.length > 0) return;
+            // Add other errors
+            if (errorObj.message) {
+              newGeneralErrors.push(errorObj.message);
             }
-
-            newGeneralErrors.push(errorObj.message || errorObj.code || JSON.stringify(err));
           }
         });
       }
@@ -118,6 +293,13 @@ export function useCheckoutValidation() {
       if (newIssues.length === 0 && newGeneralErrors.length === 0) {
         newGeneralErrors.push("Unable to proceed with checkout. Please try again.");
       }
+
+      console.log("📋 Final Validation Result:", {
+        issuesCount: newIssues.length,
+        issues: newIssues,
+        generalErrorsCount: newGeneralErrors.length,
+        generalErrors: newGeneralErrors,
+      });
 
       setIssues(newIssues);
       setGeneralErrors(newGeneralErrors);
@@ -135,9 +317,13 @@ export function useCheckoutValidation() {
   return {
     validateCheckout,
     isValidating,
+    isProcessing,
     issues,
     generalErrors,
     showModal,
     setShowModal,
+    handleRemoveItem,
+    handleUpdateQuantity,
+    handleUpdatePrice,
   };
 }

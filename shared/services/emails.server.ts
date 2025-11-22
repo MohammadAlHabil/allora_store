@@ -150,11 +150,11 @@ export async function sendOrderConfirmationEmail(
     : "";
 
   return sendMail({
-    to: "semaamousa99@gmail.com",
+    to: email,
     subject: `Order Confirmation - ${orderData.orderNumber}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 10px;">Order Confirmed!</h1>
+        <h1 style="color: #333; border-bottom: 2px solid #DA5A2C; padding-bottom: 10px;">Order Confirmed!</h1>
         <p>Thank you for your order. Your order has been confirmed and will be processed soon.</p>
 
         <div style="margin: 20px 0; padding: 15px; background: #f5f5f5; border-radius: 5px;">
@@ -181,7 +181,7 @@ export async function sendOrderConfirmationEmail(
         ${shippingHtml}
 
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
-          <p>You can view your order details at <a href="${APP_URL}/orders/${orderData.orderId}" style="color: #4CAF50;">My Orders</a></p>
+          <p>You can view your order details at <a href="${APP_URL}/orders/${orderData.orderId}" style="color: #DA5A2C;">My Orders</a></p>
           <p style="font-size: 12px; margin-top: 20px;">If you have any questions, please contact our support team.</p>
         </div>
       </div>

@@ -137,7 +137,7 @@ export function StripeCardForm({
       {/* Stripe Payment Element */}
       <div className="relative border border-gray-200 rounded-lg p-4 bg-white min-h-[180px]">
         {/* Show custom skeleton overlay until PaymentElement reports ready */}
-        {!isReady && (
+        {!isReady ? (
           <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
             <div className="w-full px-4 !py-4 space-y-4">
               <div className="flex items-start gap-4">
@@ -165,7 +165,7 @@ export function StripeCardForm({
               </div>
             </div>
           </div>
-        )}
+        ) : null}
 
         <div className={isReady ? "" : "opacity-0"}>
           <PaymentElement

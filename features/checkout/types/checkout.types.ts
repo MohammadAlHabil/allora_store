@@ -29,6 +29,7 @@ export type CheckoutFormData = {
   billingAddress?: CheckoutAddress;
   useSameAddress: boolean;
   shippingMethodId: string;
+  shippingCost?: number; // Add shipping cost to preserve it
   paymentMethod: PaymentMethod;
   notes?: string;
 };

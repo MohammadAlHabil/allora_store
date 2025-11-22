@@ -9,6 +9,7 @@
  */
 
 import prisma from "@/shared/lib/prisma";
+import { sendOrderConfirmationEmail } from "@/shared/services/emails.server";
 import { CHECKOUT_ERRORS } from "../constants";
 import type { CreateOrderInput, OrderResponse } from "../types";
 import {
@@ -130,6 +131,8 @@ export async function validateCheckout(userId: string) {
         code: "PRICE_CHANGED",
         field: item.sku,
         image: item.product.images?.[0]?.url,
+        productId: item.productId,
+        variantId: item.variantId,
       });
     }
   });
@@ -385,45 +388,73 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
   let shippingAddressId = input.shippingAddressId;
   let billingAddressId = input.billingAddressId;
 
+  console.log("🔍 Address handling:", {
+    shippingAddressId,
+    hasShippingAddress: !!input.shippingAddress,
+    shippingAddressHasId: input.shippingAddress?.id,
+    billingAddressId,
+    hasBillingAddress: !!input.billingAddress,
+    billingAddressHasId: input.billingAddress?.id,
+  });
+
   // Create addresses if needed (outside transaction for simplicity)
+  // Only create new address if no ID provided AND address data exists
   if (!shippingAddressId && input.shippingAddress) {
-    const { firstName, lastName, street, city, state, zipCode, country, phone } =
-      input.shippingAddress;
-    const shippingAddress = await prisma.address.create({
-      data: {
-        userId,
-        firstName,
-        lastName,
-        line1: street,
-        city,
-        region: state,
-        postalCode: zipCode,
-        country,
-        phone,
-        label: "Shipping Address",
-      },
-    });
-    shippingAddressId = shippingAddress.id;
+    // Check if address has an ID (user selected existing address)
+    if (input.shippingAddress.id) {
+      console.log("✅ Using existing shipping address:", input.shippingAddress.id);
+      shippingAddressId = input.shippingAddress.id;
+    } else {
+      console.log("📝 Creating new shipping address");
+      // Create new address only if no ID exists
+      const { firstName, lastName, street, city, state, zipCode, country, phone } =
+        input.shippingAddress;
+      const shippingAddress = await prisma.address.create({
+        data: {
+          userId,
+          firstName,
+          lastName,
+          line1: street,
+          city,
+          region: state,
+          postalCode: zipCode,
+          country,
+          phone,
+          label: "Shipping Address",
+        },
+      });
+      shippingAddressId = shippingAddress.id;
+      console.log("✅ New shipping address created:", shippingAddressId);
+    }
   }
 
   if (!billingAddressId && input.billingAddress) {
-    const { firstName, lastName, street, city, state, zipCode, country, phone } =
-      input.billingAddress;
-    const billingAddress = await prisma.address.create({
-      data: {
-        userId,
-        firstName,
-        lastName,
-        line1: street,
-        city,
-        region: state,
-        postalCode: zipCode,
-        country,
-        phone,
-        label: "Billing Address",
-      },
-    });
-    billingAddressId = billingAddress.id;
+    // Check if address has an ID (user selected existing address)
+    if (input.billingAddress.id) {
+      console.log("✅ Using existing billing address:", input.billingAddress.id);
+      billingAddressId = input.billingAddress.id;
+    } else {
+      console.log("📝 Creating new billing address");
+      // Create new address only if no ID exists
+      const { firstName, lastName, street, city, state, zipCode, country, phone } =
+        input.billingAddress;
+      const billingAddress = await prisma.address.create({
+        data: {
+          userId,
+          firstName,
+          lastName,
+          line1: street,
+          city,
+          region: state,
+          postalCode: zipCode,
+          country,
+          phone,
+          label: "Billing Address",
+        },
+      });
+      billingAddressId = billingAddress.id;
+      console.log("✅ New billing address created:", billingAddressId);
+    }
   }
 
   // Use same address for billing if not provided
@@ -460,114 +491,145 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
   const hasPaymentIntent = !!input.paymentIntentId;
 
   // ATOMIC TRANSACTION: Reserve stock + Create order + Commit stock (for COD) + Clear cart
-  const order = await prisma.$transaction(async (tx) => {
-    // 1. Reserve stock for cart items
-    const stockItems: CartItemForStock[] = cart.items.map((item) => ({
-      productId: item.productId,
-      variantId: item.variantId,
-      quantity: item.quantity,
-    }));
-
-    await reserveStock(tx, stockItems);
-
-    // 2. Create order
-    const newOrder = await createPendingOrder(tx, {
-      userId,
-      items: cart.items.map((item) => ({
+  // Increase timeout to 15 seconds for complex operations (inventory, order, payment, cart)
+  const order = await prisma.$transaction(
+    async (tx) => {
+      // 1. Reserve stock for cart items
+      const stockItems: CartItemForStock[] = cart.items.map((item) => ({
         productId: item.productId,
         variantId: item.variantId,
-        sku: item.sku,
+        quantity: item.quantity,
+      }));
+
+      await reserveStock(tx, stockItems);
+
+      // 2. Create order
+      const newOrder = await createPendingOrder(tx, {
+        userId,
+        items: cart.items.map((item) => ({
+          productId: item.productId,
+          variantId: item.variantId,
+          sku: item.sku,
+          title: item.title,
+          quantity: item.quantity,
+          unitPrice: parseFloat(item.unitPrice.toString()),
+        })),
+        shippingAddressId,
+        billingAddressId,
+        shippingMethodId: input.shippingMethodId,
+        shippingCost,
+        taxAmount,
+        discountAmount: 0,
+        currency: "USD",
+        metadata: {
+          orderNumber,
+          paymentMethod: input.paymentMethod,
+          notes: input.notes,
+          couponCode: input.couponCode,
+          paymentIntentId: input.paymentIntentId,
+        },
+      });
+
+      // 3. For COD: Commit stock immediately but keep status as PENDING_PAYMENT
+      // Payment will be collected on delivery
+      if (isCOD) {
+        await commitStock(tx, stockItems);
+
+        // Order status remains PENDING_PAYMENT until delivery
+        await tx.order.update({
+          where: { id: newOrder.id },
+          data: {
+            status: "PENDING_PAYMENT", // Will be paid on delivery
+            paymentStatus: "PENDING", // Will be updated to PAID on delivery
+            reservationExpiresAt: null, // Stock committed, no expiration
+          },
+        });
+
+        await tx.payment.create({
+          data: {
+            orderId: newOrder.id,
+            provider: "CASH_ON_DELIVERY",
+            providerPaymentId: `COD-${newOrder.id}`,
+            amount: newOrder.total,
+            currency: newOrder.currency,
+            status: "PENDING", // Will be updated to PAID on delivery
+            method: "CASH_ON_DELIVERY",
+          },
+        });
+      }
+      // For Stripe: Stock will be committed by webhook or by immediate confirmation
+      else if (hasPaymentIntent) {
+        // Stock already reserved, will be committed by webhook
+        // Or we can commit it immediately since payment was confirmed
+        await commitStock(tx, stockItems);
+
+        await tx.order.update({
+          where: { id: newOrder.id },
+          data: {
+            status: "PAID",
+            paymentStatus: "PAID",
+            paidAt: new Date(),
+            reservationExpiresAt: null,
+          },
+        });
+
+        await tx.payment.create({
+          data: {
+            orderId: newOrder.id,
+            provider: "stripe",
+            providerPaymentId: input.paymentIntentId!,
+            amount: newOrder.total,
+            currency: newOrder.currency,
+            status: "PAID",
+            method: "card",
+            processedAt: new Date(),
+          },
+        });
+      }
+
+      // 4. Clear cart items (order is now the source of truth)
+      await tx.cartItem.deleteMany({
+        where: { cartId: cart.id },
+      });
+
+      return newOrder;
+    },
+    {
+      timeout: 15000, // 15 seconds timeout for complex checkout operations
+    }
+  );
+
+  // Send order confirmation email (async, don't block the response)
+  const orderWithDetails = await prisma.order.findUnique({
+    where: { id: order.id },
+    include: {
+      items: true,
+      shippingAddress: true,
+    },
+  });
+
+  if (orderWithDetails && user.email) {
+    sendOrderConfirmationEmail(user.email, {
+      orderNumber,
+      orderId: order.id,
+      total: parseFloat(order.total.toString()),
+      currency: order.currency,
+      items: orderWithDetails.items.map((item) => ({
         title: item.title,
         quantity: item.quantity,
         unitPrice: parseFloat(item.unitPrice.toString()),
       })),
-      shippingAddressId,
-      billingAddressId,
-      shippingMethodId: input.shippingMethodId,
-      shippingCost,
-      taxAmount,
-      discountAmount: 0,
-      currency: "USD",
-      metadata: {
-        orderNumber,
-        paymentMethod: input.paymentMethod,
-        notes: input.notes,
-        couponCode: input.couponCode,
-        paymentIntentId: input.paymentIntentId,
-      },
+      shippingAddress: orderWithDetails.shippingAddress,
+    }).catch((err) => {
+      // Log error but don't fail the order creation
+      console.error("Failed to send order confirmation email:", err);
     });
-
-    // 3. For COD: Commit stock immediately and mark as PAID
-    if (isCOD) {
-      await commitStock(tx, stockItems);
-
-      await tx.order.update({
-        where: { id: newOrder.id },
-        data: {
-          status: "PAID",
-          paymentStatus: "PAID",
-          paidAt: new Date(),
-          reservationExpiresAt: null,
-        },
-      });
-
-      await tx.payment.create({
-        data: {
-          orderId: newOrder.id,
-          provider: "CASH_ON_DELIVERY",
-          providerPaymentId: `COD-${newOrder.id}`,
-          amount: newOrder.total,
-          currency: newOrder.currency,
-          status: "PAID",
-          method: "CASH_ON_DELIVERY",
-          processedAt: new Date(),
-        },
-      });
-    }
-    // For Stripe: Stock will be committed by webhook or by immediate confirmation
-    else if (hasPaymentIntent) {
-      // Stock already reserved, will be committed by webhook
-      // Or we can commit it immediately since payment was confirmed
-      await commitStock(tx, stockItems);
-
-      await tx.order.update({
-        where: { id: newOrder.id },
-        data: {
-          status: "PAID",
-          paymentStatus: "PAID",
-          paidAt: new Date(),
-          reservationExpiresAt: null,
-        },
-      });
-
-      await tx.payment.create({
-        data: {
-          orderId: newOrder.id,
-          provider: "stripe",
-          providerPaymentId: input.paymentIntentId!,
-          amount: newOrder.total,
-          currency: newOrder.currency,
-          status: "PAID",
-          method: "card",
-          processedAt: new Date(),
-        },
-      });
-    }
-
-    // 4. Clear cart items (order is now the source of truth)
-    await tx.cartItem.deleteMany({
-      where: { cartId: cart.id },
-    });
-
-    return newOrder;
-  });
-
-  // Note: Email sending removed - will be handled separately or by webhooks
+  }
 
   return {
     id: order.id,
     orderNumber,
-    status: isCOD || hasPaymentIntent ? "PAID" : order.status,
+    status: order.status, // Return actual status (CONFIRMED for COD, PAID for card)
     total: parseFloat(order.total.toString()),
     createdAt: order.createdAt,
   };

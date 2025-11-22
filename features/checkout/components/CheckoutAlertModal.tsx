@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, XCircle } from "lucide-react";
+import { AlertTriangle, XCircle, Trash2, RefreshCw } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Dialog,
@@ -20,6 +20,7 @@ export interface CheckoutIssue {
   available?: number;
   requested?: number;
   image?: string;
+  type?: "stock" | "price";
 }
 
 interface CheckoutAlertModalProps {
@@ -27,6 +28,14 @@ interface CheckoutAlertModalProps {
   onOpenChange: (open: boolean) => void;
   issues: CheckoutIssue[];
   generalErrors?: string[];
+  onRemoveItem?: (productId: string, variantId?: string | null) => void;
+  onUpdateQuantity?: (
+    productId: string,
+    variantId: string | null | undefined,
+    quantity: number
+  ) => void;
+  onUpdatePrice?: (productId: string, variantId?: string | null) => void;
+  isProcessing?: boolean;
 }
 
 export function CheckoutAlertModal({
@@ -34,6 +43,10 @@ export function CheckoutAlertModal({
   onOpenChange,
   issues,
   generalErrors = [],
+  onRemoveItem,
+  onUpdateQuantity,
+  onUpdatePrice,
+  isProcessing = false,
 }: CheckoutAlertModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -90,7 +103,7 @@ export function CheckoutAlertModal({
                     </div>
 
                     {/* Issue Details */}
-                    <div className="flex-1 space-y-1">
+                    <div className="flex-1 space-y-2">
                       <div className="font-semibold text-sm">{issue.title}</div>
                       <div className="text-sm text-destructive font-medium flex items-center gap-1.5">
                         <AlertTriangle className="h-3.5 w-3.5" />
@@ -103,6 +116,57 @@ export function CheckoutAlertModal({
                           Available: <span className="font-medium">{issue.available}</span>
                         </div>
                       )}
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 mt-2">
+                        {issue.type === "stock" && (
+                          <>
+                            {issue.available === 0 ? (
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => onRemoveItem?.(issue.productId, issue.variantId)}
+                                disabled={isProcessing}
+                                className="h-8 text-xs"
+                              >
+                                <Trash2 className="h-3 w-3 mr-1" />
+                                Remove Item
+                              </Button>
+                            ) : (
+                              issue.available !== undefined && (
+                                <Button
+                                  size="sm"
+                                  variant="default"
+                                  onClick={() =>
+                                    onUpdateQuantity?.(
+                                      issue.productId,
+                                      issue.variantId,
+                                      issue.available!
+                                    )
+                                  }
+                                  disabled={isProcessing}
+                                  className="h-8 text-xs"
+                                >
+                                  <RefreshCw className="h-3 w-3 mr-1" />
+                                  Get {issue.available} Available
+                                </Button>
+                              )
+                            )}
+                          </>
+                        )}
+                        {issue.type === "price" && (
+                          <Button
+                            size="sm"
+                            variant="default"
+                            onClick={() => onUpdatePrice?.(issue.productId, issue.variantId)}
+                            disabled={isProcessing}
+                            className="h-8 text-xs"
+                          >
+                            <RefreshCw className="h-3 w-3 mr-1" />
+                            Update Price
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}

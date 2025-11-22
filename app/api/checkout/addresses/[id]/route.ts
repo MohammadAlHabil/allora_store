@@ -19,9 +19,9 @@ import { withApiRoute } from "@/shared/lib/errors/handlers/api";
 export const PUT = withApiRoute(async (request: Request, ctx?: Record<string, unknown>) => {
   const params =
     ctx && typeof ctx === "object" && "params" in ctx
-      ? ((ctx as { params?: { id: string } }).params ?? {})
+      ? ((ctx as { params?: Promise<{ id: string }> | { id: string } }).params ?? {})
       : {};
-  const resolvedParams = params as { id: string };
+  const resolvedParams = (await Promise.resolve(params)) as { id: string };
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -55,9 +55,9 @@ export const PUT = withApiRoute(async (request: Request, ctx?: Record<string, un
 export const DELETE = withApiRoute(async (request: Request, ctx?: Record<string, unknown>) => {
   const params =
     ctx && typeof ctx === "object" && "params" in ctx
-      ? ((ctx as { params?: { id: string } }).params ?? {})
+      ? ((ctx as { params?: Promise<{ id: string }> | { id: string } }).params ?? {})
       : {};
-  const resolvedParams = params as { id: string };
+  const resolvedParams = (await Promise.resolve(params)) as { id: string };
   const session = await auth();
 
   if (!session?.user?.id) {

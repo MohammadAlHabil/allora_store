@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useEffect } from "react";
 import type { CartResponse } from "../types";
 import { fetchCart } from "./cart.api";
 import { cartQueryKeys } from "./cart.query-keys";
@@ -37,6 +38,18 @@ export function useCartQuery(options?: UseCartQueryOptions) {
     ...options,
   });
   const cart = query.data;
+
+  // Listen for cart-updated events and refetch
+  useEffect(() => {
+    const handleCartUpdated = () => {
+      query.refetch();
+    };
+
+    window.addEventListener("cart-updated", handleCartUpdated);
+    return () => {
+      window.removeEventListener("cart-updated", handleCartUpdated);
+    };
+  }, [query]);
 
   return {
     ...query,

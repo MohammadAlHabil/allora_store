@@ -1,3 +1,5 @@
+"use client";
+
 import { Loader2, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -24,8 +26,18 @@ export function CheckoutButton({
   const router = useRouter();
   const { data: session, status } = useSession();
   const isLoading = status === "loading";
-  const { validateCheckout, isValidating, issues, generalErrors, showModal, setShowModal } =
-    useCheckoutValidation();
+  const {
+    validateCheckout,
+    isValidating,
+    isProcessing,
+    issues,
+    generalErrors,
+    showModal,
+    setShowModal,
+    handleRemoveItem,
+    handleUpdateQuantity,
+    handleUpdatePrice,
+  } = useCheckoutValidation();
 
   const handleCheckout = async () => {
     // Check if cart is empty
@@ -75,6 +87,10 @@ export function CheckoutButton({
         onOpenChange={setShowModal}
         issues={issues}
         generalErrors={generalErrors}
+        onRemoveItem={handleRemoveItem}
+        onUpdateQuantity={handleUpdateQuantity}
+        onUpdatePrice={handleUpdatePrice}
+        isProcessing={isProcessing}
       />
     </>
   );

@@ -12,6 +12,18 @@
     "isTracked": true
   },
   {
+    "id": "inv_1_base",
+    "sku": "INV-SHIRT-001-BASE",
+    "productId": "prod_1",
+    "variantId": null,
+    "warehouseId": "wh_1",
+    "quantity": 50,
+    "reserved": 0,
+    "incoming": 10,
+    "reorderThreshold": 10,
+    "isTracked": true
+  },
+  {
     "id": "inv_2",
     "sku": "INV-SHOES-001",
     "productId": "prod_2",

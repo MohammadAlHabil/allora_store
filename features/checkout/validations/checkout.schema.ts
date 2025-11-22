@@ -4,6 +4,7 @@ import { z } from "zod";
  * Address validation schema
  */
 export const checkoutAddressSchema = z.object({
+  id: z.string().optional(), // Add ID field for existing addresses
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
@@ -13,6 +14,7 @@ export const checkoutAddressSchema = z.object({
   state: z.string().min(2, "State/Province must be at least 2 characters"),
   zipCode: z.string().min(3, "ZIP/Postal code must be at least 3 characters"),
   country: z.string().min(2, "Please select a country"),
+  isDefault: z.boolean().optional(), // Add isDefault field
 });
 
 /**

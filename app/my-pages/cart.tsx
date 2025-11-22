@@ -10,7 +10,6 @@ import { CheckoutButton } from "@/features/checkout/components";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { Separator } from "@/shared/components/ui/separator";
 
 export default function CartPage() {
   const { items, itemCount, isLoading, isEmpty, total, refetchCart } = useCart();
@@ -235,8 +234,8 @@ export default function CartPage() {
           <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1fr_420px]">
             {/* Cart Items Section */}
             <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
-              <Card className="shadow-lg border bg-card/80 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300">
-                <CardHeader className="border-b bg-gradient-to-r from-primary/5 via-primary/5 to-transparent">
+              <Card className="shadow-lg border bg-card/80 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300 pt-0">
+                <CardHeader className="border-b bg-gradient-to-r from-primary/5 via-primary/5 to-transparent pt-6">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-2xl font-bold">Your Items</CardTitle>
                     <Badge variant="outline" className="font-semibold shadow-sm">
@@ -326,8 +325,8 @@ export default function CartPage() {
               </Card>
 
               {/* Cart Summary */}
-              <Card className="shadow-xl border-2 border-primary/10 sticky top-4 bg-card/90 backdrop-blur-sm hover:shadow-2xl transition-shadow duration-300">
-                <CardHeader className="border-b bg-gradient-to-r from-primary/5 via-primary/5 to-transparent">
+              <Card className="shadow-xl border-2 border-primary/10 sticky top-4 bg-card/90 backdrop-blur-sm hover:shadow-2xl transition-shadow duration-300 pt-0">
+                <CardHeader className="border-b bg-gradient-to-r from-primary/5 via-primary/5 to-transparent pt-6">
                   <CardTitle className="text-xl font-bold">Order Summary</CardTitle>
                 </CardHeader>
                 <CardContent>
