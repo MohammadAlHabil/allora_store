@@ -1,9 +1,10 @@
 "use client";
 
-import { ShoppingCart, User, LogOut, Menu, Search, Heart } from "lucide-react";
+import { Heart, LogOut, Menu, Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useCart } from "@/features/cart/hooks/useCart";
 import { useWishlistCount } from "@/features/wishlist/hooks/useWishlist";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -20,8 +21,8 @@ export default function Header() {
   const { data: session, status } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [cartItemsCount] = useState(0); // TODO: Connect to actual cart state
   const { data: wishlistCount } = useWishlistCount();
+  const { itemCount: cartItemCount } = useCart();
 
   // Debug log to see session changes
   useEffect(() => {
@@ -105,9 +106,9 @@ export default function Header() {
             <Button variant="ghost" size="icon" className="relative" asChild>
               <Link href="/cart">
                 <ShoppingCart className="h-5 w-5" />
-                {cartItemsCount > 0 && (
+                {cartItemCount > 0 && (
                   <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                    {cartItemsCount}
+                    {cartItemCount}
                   </span>
                 )}
                 <span className="sr-only">Shopping cart</span>

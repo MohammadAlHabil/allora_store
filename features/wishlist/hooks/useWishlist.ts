@@ -50,7 +50,7 @@ export function useToggleWishlist() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (productId: string) => {
+    mutationFn: async ({ productId }: { productId: string; productName?: string }) => {
       const response = await fetch("/api/wishlist/toggle", {
         method: "POST",
         headers: {
@@ -66,7 +66,7 @@ export function useToggleWishlist() {
 
       return response.json();
     },
-    onMutate: async (productId) => {
+    onMutate: async ({ productId }) => {
       // Cancel outgoing refetches
       await queryClient.cancelQueries({ queryKey: ["wishlist"] });
 
@@ -76,7 +76,7 @@ export function useToggleWishlist() {
 
       return { previousWishlist, previousCount, productId };
     },
-    onError: (error, _productId, context) => {
+    onError: (error, _variables, context) => {
       // Rollback on error
       if (context?.previousWishlist) {
         queryClient.setQueryData(["wishlist"], context.previousWishlist);
@@ -92,19 +92,21 @@ export function useToggleWishlist() {
         description: errorMessage,
       });
     },
-    onSuccess: (result) => {
+    onSuccess: (result, variables) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
       queryClient.invalidateQueries({ queryKey: ["wishlist", "count"] });
 
-      // Show success toast
+      const productName = variables.productName || "Product";
+
+      // Show success toast with product name
       if (result.action === "added") {
         toast.success("Added to wishlist", {
-          description: "Product has been added to your wishlist",
+          description: `${productName} has been added to your wishlist`,
         });
       } else {
         toast.success("Removed from wishlist", {
-          description: "Product has been removed from your wishlist",
+          description: `${productName} has been removed from your wishlist`,
         });
       }
     },

@@ -18,7 +18,7 @@ import { validateQuantityUpdate } from "@/shared/lib/utils/validation";
  */
 export const PUT = withApiRoute(async (request: Request, ctx?: Record<string, unknown>) => {
   const req = request as unknown as NextRequest;
-  const params = ctx?.params ?? {};
+  const params = await (ctx?.params ?? {});
   const { itemId } = params as { itemId: string };
 
   const cartContext = await getCartContext(req);
@@ -72,7 +72,7 @@ export const PUT = withApiRoute(async (request: Request, ctx?: Record<string, un
  */
 export const DELETE = withApiRoute(async (request: Request, ctx?: Record<string, unknown>) => {
   const req = request as unknown as NextRequest;
-  const params = ctx?.params ?? {};
+  const params = await (ctx?.params ?? {});
   const { itemId } = params as { itemId: string };
 
   const cartContext = await getCartContext(req);

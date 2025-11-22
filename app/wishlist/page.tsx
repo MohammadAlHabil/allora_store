@@ -4,18 +4,18 @@ import { Heart, ShoppingCart, Loader2, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { AddToCartButton } from "@/features/cart/components/AddToCartButton";
-import { useWishlist, useToggleWishlist } from "@/features/wishlist/hooks/useWishlist";
+import { WishlistButton } from "@/features/wishlist";
+import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
 import type { WishlistProduct } from "@/features/wishlist/types/wishlist.types";
 import { Button } from "@/shared/components/ui/button";
 
 export default function WishlistPage() {
   const { data: wishlist, isLoading } = useWishlist();
-  const { mutate: toggleWishlist } = useToggleWishlist();
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
+        <div className="container mx-auto px-4 py-12">
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -28,7 +28,7 @@ export default function WishlistPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
+      <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="mb-8">
           <Link
@@ -71,15 +71,16 @@ export default function WishlistPage() {
             {items.map((product: WishlistProduct) => (
               <article
                 key={product.id}
-                className="bg-card rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
+                className="group relative bg-card rounded-2xl border overflow-hidden hover:shadow-sm transition-all duration-300"
               >
                 <Link href={`/product/${product.slug}`} className="block">
-                  <div className="relative h-56 w-full bg-gray-100">
+                  {/* Image Container */}
+                  <div className="relative h-56 w-full bg-gray-100 overflow-hidden">
                     <Image
                       src={product.image}
                       alt={product.name}
                       fill
-                      className="object-cover"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       loading="lazy"
                       onError={(e) => {
@@ -89,48 +90,47 @@ export default function WishlistPage() {
                     />
                     {/* Availability Badge */}
                     {!product.isAvailable || product.isArchived ? (
-                      <div className="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                      <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-medium shadow-lg">
                         Unavailable
                       </div>
                     ) : null}
                   </div>
+
+                  {/* Product Info */}
                   <div className="p-4">
-                    <h3 className="font-medium mb-1 line-clamp-2">{product.name}</h3>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-semibold text-lg">
+                    <h3 className="font-semibold mb-2 line-clamp-2">{product.name}</h3>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xl font-bold text-primary">
                         ${Number(product.basePrice).toFixed(2)}
                       </span>
                     </div>
                   </div>
                 </Link>
-                <div className="p-4 pt-0 space-y-2">
+
+                {/* Action Buttons */}
+                <div className="p-4 pt-0 flex items-center justify-between gap-2">
                   {/* Add to Cart Button */}
                   {product.isAvailable && !product.isArchived ? (
-                    <AddToCartButton
-                      productId={product.id}
-                      size="sm"
-                      className="w-full"
-                      defaultQuantity={1}
-                    />
+                    <AddToCartButton productId={product.id} />
                   ) : (
-                    <Button disabled size="sm" className="w-full" variant="secondary">
-                      <ShoppingCart className="w-4 h-4 mr-2" />
-                      Out of Stock
+                    <Button
+                      disabled
+                      size="icon-lg"
+                      className="flex-1 rounded-full"
+                      variant="secondary"
+                    >
+                      <ShoppingCart className="w-4 h-4" />
                     </Button>
                   )}
+
                   {/* Remove from Wishlist Button */}
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleWishlist(product.id);
-                    }}
+                  <WishlistButton
+                    productId={product.id}
+                    productName={product.name}
+                    size="icon"
                     variant="outline"
-                    size="sm"
-                    className="w-full text-red-600 hover:text-red-700 hover:bg-red-50"
-                  >
-                    <Heart className="w-4 h-4 mr-2 fill-current" />
-                    Remove from Wishlist
-                  </Button>
+                    className="rounded-full border-red-200 h-10 w-10"
+                  />
                 </div>
               </article>
             ))}

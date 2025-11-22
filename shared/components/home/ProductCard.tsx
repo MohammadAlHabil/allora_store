@@ -1,10 +1,9 @@
 "use client";
 
-import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { AddToCartButton } from "@/features/cart/components/AddToCartButton";
 import { WishlistButton } from "@/features/wishlist";
-import { Button } from "@/shared/components/ui/button";
 
 type Product = {
   id: string;
@@ -17,14 +16,15 @@ type Product = {
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <article className="bg-card rounded-2xl shadow-sm overflow-hidden">
+    <article className="group relative bg-card rounded-2xl border overflow-hidden transition-all duration-300 hover:shadow-sm hover:border-primary/20">
       <Link href={`/product/${product.slug}`} className="block">
-        <div className="relative h-56 w-full bg-gray-100">
+        {/* Image Container */}
+        <div className="relative h-56 w-full bg-gray-100 overflow-hidden">
           <Image
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
             sizes="(max-width: 640px) 45vw, (max-width: 1024px) 33vw, 25vw"
             loading="lazy"
             onError={(e) => {
@@ -32,30 +32,42 @@ export default function ProductCard({ product }: { product: Product }) {
               target.src = "/images/banner.png";
             }}
           />
-          {/* Wishlist Button */}
-          <div className="absolute top-2 right-2 z-10">
-            <div className="bg-white/80 backdrop-blur-sm rounded-full shadow-md">
-              <WishlistButton productId={product.id} size="icon" variant="ghost" iconSize={18} />
+
+          {/* Wishlist Button - Top Right */}
+          <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="bg-background/95 backdrop-blur-sm rounded-full shadow-lg">
+              <WishlistButton
+                productId={product.id}
+                productName={product.name}
+                size="icon"
+                variant="ghost"
+                iconSize={18}
+              />
             </div>
           </div>
         </div>
-        <div className="p-4">
-          <h3 className="font-medium  mb-1">{product.name}</h3>
+
+        {/* Product Info */}
+        <div className="p-4 space-y-2">
+          <h3 className="font-semibold text-base line-clamp-2">{product.name}</h3>
+
           <div className="flex items-center justify-between">
-            <span className="font-semibold">${product.price.toFixed(2)}</span>
-            <div className="text-sm text-muted">{product.rating ?? 4.5} ★</div>
+            <div className="flex flex-col gap-1">
+              <span className="text-lg font-bold text-primary">${product.price.toFixed(2)}</span>
+              {product.rating ? (
+                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                  <span className="text-yellow-500">★</span>
+                  <span className="font-medium">{product.rating.toFixed(1)}</span>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </Link>
-      <div className="p-4 pt-0">
-        <Button
-          className="w-full flex items-center gap-2"
-          size="sm"
-          onClick={() => alert("Added to cart")}
-        >
-          <ShoppingCart className="w-4 h-4" />
-          Add to cart
-        </Button>
+
+      {/* Add to Cart Button */}
+      <div className="px-4 pb-4">
+        <AddToCartButton productId={product.id} />
       </div>
     </article>
   );

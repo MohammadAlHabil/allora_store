@@ -2,6 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/lib/utils";
 import { useToggleWishlist, useWishlist } from "../hooks/useWishlist";
 import type { WishlistProduct } from "../types/wishlist.types";
@@ -14,6 +15,7 @@ import { WishlistIcon } from "./WishlistIcon";
 
 interface WishlistButtonProps {
   productId: string;
+  productName?: string;
   className?: string;
   size?: "default" | "sm" | "lg" | "icon";
   variant?: "default" | "outline" | "secondary" | "ghost";
@@ -23,6 +25,7 @@ interface WishlistButtonProps {
 
 export function WishlistButton({
   productId,
+  productName,
   className,
   size = "icon",
   variant = "ghost",
@@ -39,32 +42,39 @@ export function WishlistButton({
   const handleToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    toggleWishlist(productId);
+    toggleWishlist({ productId, productName });
   };
 
   return (
-    <Button
-      onClick={handleToggle}
-      disabled={isPending}
-      size={size}
-      variant={variant}
-      className={cn(
-        "transition-all duration-200 hover:scale-110",
-        size === "icon" && "h-9 w-9 rounded-full",
-        className
-      )}
-      aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
-    >
-      {isPending ? (
-        <Loader2 className="animate-spin" size={iconSize} />
-      ) : (
-        <>
-          <WishlistIcon isInWishlist={isInWishlist} size={iconSize} />
-          {showLabel && (
-            <span className="ml-2">{isInWishlist ? "In Wishlist" : "Add to Wishlist"}</span>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          onClick={handleToggle}
+          disabled={isPending}
+          size={size}
+          variant={variant}
+          className={cn(
+            "transition-all duration-200 hover:scale-110",
+            size === "icon" && "h-9 w-9 rounded-full",
+            className
           )}
-        </>
-      )}
-    </Button>
+          aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+        >
+          {isPending ? (
+            <Loader2 className="animate-spin" size={iconSize} />
+          ) : (
+            <>
+              <WishlistIcon isInWishlist={isInWishlist} size={iconSize} />
+              {showLabel && (
+                <span className="ml-2">{isInWishlist ? "In Wishlist" : "Add to Wishlist"}</span>
+              )}
+            </>
+          )}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{isInWishlist ? "Remove from wishlist" : "Add to wishlist"}</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
