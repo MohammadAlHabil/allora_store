@@ -102,6 +102,11 @@ export default defineConfig([
     "app/generated/**",
     "prisma/**",
     "deprecated/**",
-    "check-inventory.js",
+    "scripts/**",
+    "test-results/**",
+    "playwright-report/**",
+    "__tests__/",
+    "coverage/",
+    ".github/workflows/**",
   ]),
 ]);

@@ -6,4 +6,15 @@ prisma/build-seed.js
 prisma/data/
 
 # Ignore standalone scripts
-check-inventory.js
+scripts/
+
+# Ignore Playwright test snapshots
+test-results/
+playwright-report/
+
+# Ignore Jest test coverage and results
+__tests__/
+coverage/
+
+# Ignore GitHub Actions workflow files
+.github/workflows/
