@@ -96,7 +96,7 @@ export function CartItem({
   const isLoading = isUpdating || isRemoving;
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn("space-y-4", className)} data-testid="cart-item">
       <div className="flex items-start gap-4 transition-all duration-200">
         {showImage && (
           <div className="relative h-24 w-24 md:h-28 md:w-28 flex-shrink-0 overflow-hidden rounded-lg border-2 border-border/50 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 group">

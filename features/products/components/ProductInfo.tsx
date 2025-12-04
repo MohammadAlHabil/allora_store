@@ -12,6 +12,14 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Separator } from "@/shared/components/ui/separator";
 import { cn } from "@/shared/lib/utils";
+import {
+  calculateTotalStock,
+  calculateVariantStock,
+  getAvailabilityMessage,
+  getAvailabilityStatus,
+  shouldDisableAddToCart,
+  type ProductAvailabilityData,
+} from "@/shared/lib/utils/product-availability";
 
 import type { ProductDetails, ProductSelection } from "../types/product.types";
 import {
@@ -42,6 +50,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const router = useRouter();
   const { addItem, isAdding } = useCart();
   const { setExpressItem } = useExpressCheckout();
+
+  // NOTE: product availability depends on the selected variant (if any)
+  // We'll compute availability after the selected variant is known below.
 
   const [selection, setSelection] = useState<ProductSelection>({
     size: null,
@@ -112,13 +123,35 @@ export function ProductInfo({ product }: ProductInfoProps) {
     () => getStockStatus(product, selectedVariant),
     [product, selectedVariant]
   );
-  const maxQuantity = useMemo(
-    () => (selectedVariant ? getAvailableQuantity(selectedVariant) : 0),
-    [selectedVariant]
-  );
+  const maxQuantity = useMemo(() => {
+    if (selectedVariant) return getAvailableQuantity(selectedVariant);
 
-  // Check if selection is valid (memoized)
-  const canAddToCart = useMemo(() => isValidSelection(product, selection), [product, selection]);
+    // For products without variants, calculate total available from product-level inventories
+    const total = calculateTotalStock(product.variants, product.inventories);
+    return total;
+  }, [selectedVariant, product]);
+
+  // Calculate total product availability using centralized utility
+  const productAvailability: ProductAvailabilityData = useMemo(() => {
+    const stock = selectedVariant
+      ? calculateVariantStock(selectedVariant?.inventory)
+      : calculateTotalStock(product.variants, product.inventories);
+
+    return {
+      isAvailable: product.isAvailable,
+      isArchived: product.isArchived,
+      stock,
+    };
+  }, [product, selectedVariant]);
+
+  const availabilityStatus = getAvailabilityStatus(productAvailability);
+  const availabilityMessage = getAvailabilityMessage(productAvailability);
+
+  // Check if selection is valid and product is available (memoized)
+  const canAddToCart = useMemo(
+    () => isValidSelection(product, selection) && !shouldDisableAddToCart(productAvailability),
+    [product, selection, productAvailability]
+  );
 
   // Handlers (memoized with useCallback)
   const handleSizeChange = useCallback(
@@ -275,8 +308,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
             </div>
           )}
 
-          <Badge variant={stockStatus === "in_stock" ? "default" : "secondary"}>
-            {getStockStatusMessage(stockStatus)}
+          <Badge
+            variant={
+              availabilityStatus === "available" || availabilityStatus === "low-stock"
+                ? "default"
+                : "secondary"
+            }
+          >
+            {availabilityMessage}
           </Badge>
         </div>
       </div>
@@ -331,7 +370,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         quantity={selection.quantity}
         maxQuantity={maxQuantity}
         onQuantityChange={handleQuantityChange}
-        disabled={!selectedVariant}
+        disabled={!selectedVariant && product.variants && product.variants.length > 0}
       />
 
       {/* Action buttons */}
@@ -362,7 +401,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
               size="icon"
               onClick={handleWishlistToggle}
               disabled={isAdding || isBuyingNow || isTogglingWishlist}
-              className="h-12"
+              className="h-12 "
               aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
             >
               <Heart

@@ -2,10 +2,12 @@
 
 import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Button } from "@/shared/components/ui/button";
 
 export default function HeroBanner() {
   const router = useRouter();
+  const { data: session } = useSession();
 
   return (
     <section
@@ -38,14 +40,25 @@ export default function HeroBanner() {
             <Button size="lg" className="px-8 py-6 md:text-lg" onClick={() => router.push("/shop")}>
               Shop Now
             </Button>
-            <Button
-              size="lg"
-              variant="secondary"
-              className="px-8 py-6 md:text-lg"
-              onClick={() => router.push("/signup")}
-            >
-              Sign Up
-            </Button>
+            {!session ? (
+              <Button
+                size="lg"
+                variant="secondary"
+                className="px-8 py-6 md:text-lg"
+                onClick={() => router.push("/signup")}
+              >
+                Sign Up
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                variant="secondary"
+                className="px-8 py-6 md:text-lg"
+                onClick={() => router.push("/orders")}
+              >
+                My Orders
+              </Button>
+            )}
           </div>
         </div>
       </div>

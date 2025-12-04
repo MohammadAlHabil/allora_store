@@ -1,12 +1,15 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Loader2 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useState, useEffect, useLayoutEffect } from "react";
 import { toast } from "sonner";
 import { useCart } from "@/features/cart/hooks";
+import { cartQueryKeys } from "@/features/cart/hooks/cart.query-keys";
 import { AddressStep, ShippingMethodStep, PaymentMethodStep } from "@/features/checkout/components";
+import CheckoutSkeleton from "@/features/checkout/components/CheckoutSkeleton";
 import { ExpressCheckoutSummary } from "@/features/checkout/components/ExpressCheckoutSummary";
 import { useCheckoutFlow, useCreateOrder } from "@/features/checkout/hooks";
 import { useExpressCheckout } from "@/features/checkout/hooks/useExpressCheckout";
@@ -24,6 +27,7 @@ export function CheckoutPageContent() {
   const { items, total } = useCart();
   const { expressItem, clearExpressItem } = useExpressCheckout();
   const { mutate: createOrder, isPending } = useCreateOrder();
+  const queryClient = useQueryClient();
   const {
     currentStep,
     formData,
@@ -38,6 +42,35 @@ export function CheckoutPageContent() {
 
   // Check if in express mode
   const isExpressMode = searchParams.get("mode") === "express" && expressItem !== null;
+
+  const pathname = usePathname();
+
+  // Build a stable string from search params so we can compare without
+  // triggering the effect on every searchParams identity change.
+  const searchParamsString = searchParams.toString();
+  const urlStep = new URLSearchParams(searchParamsString).get("step");
+
+  // Sync the current checkout step to the URL but only when it differs.
+  // This avoids calling `router.replace` every render which caused a re-render loop.
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    // If the URL already reflects the current step, do nothing.
+    if (urlStep === currentStep) return;
+
+    try {
+      const params = new URLSearchParams(searchParamsString);
+      params.set("step", currentStep);
+      const query = params.toString();
+      const url = query ? `${pathname}?${query}` : pathname;
+      router.replace(url);
+    } catch (err) {
+      // Fallback: don't block the flow if URL sync fails
+      console.warn("Failed to sync checkout step to URL", err);
+    }
+    // Intentionally include the stringified params and urlStep so this effect
+    // only runs when meaningful input changes (avoids replace loops).
+  }, [currentStep, isHydrated, urlStep, searchParamsString, pathname, router]);
 
   const [selectedAddress, setSelectedAddress] = useState<AddressResponse | null>(null);
   const [selectedMethodId, setSelectedMethodId] = useState<string | undefined>();
@@ -79,16 +112,7 @@ export function CheckoutPageContent() {
 
   // Show loading state while hydrating from sessionStorage
   if (!isHydrated) {
-    return (
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
-            <p className="text-sm text-muted-foreground">Loading checkout...</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <CheckoutSkeleton />;
   }
 
   const handleSubmit = () => {
@@ -127,8 +151,11 @@ export function CheckoutPageContent() {
             }
             // Redirect to confirmation page
             router.push(`/orders/${order.id}`);
-            // Clear checkout state after navigation starts
-            setTimeout(() => resetCheckout(), 100);
+            // Clear cart and checkout state after navigation
+            setTimeout(() => {
+              queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
+              resetCheckout();
+            }, 500); // Give navigation time to complete
           },
         }
       );
@@ -283,8 +310,11 @@ export function CheckoutPageContent() {
                             });
                             // Redirect to confirmation page
                             router.push(`/orders/${order.id}`);
-                            // Clear checkout state after navigation starts
-                            setTimeout(() => resetCheckout(), 100);
+                            // Clear cart and checkout state after navigation
+                            setTimeout(() => {
+                              queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
+                              resetCheckout();
+                            }, 500); // Give navigation time to complete
                           },
                         }
                       );

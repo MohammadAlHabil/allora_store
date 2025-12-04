@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/shared/lib/prisma";
+import { calculateTotalStock, getDefaultVariantId } from "@/shared/lib/utils/product-availability";
 
 export async function GET(request: Request) {
   try {
@@ -9,7 +10,17 @@ export async function GET(request: Request) {
     const products = await prisma.product.findMany({
       where: { isAvailable: true, isArchived: false },
       include: {
-        images: { orderBy: { sortOrder: "asc" }, take: 1 },
+        images: { take: 1, orderBy: { sortOrder: "asc" } },
+        variants: {
+          include: {
+            inventory: true,
+          },
+        },
+        inventories: {
+          where: {
+            variantId: null,
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
       take: limit,
@@ -24,6 +35,14 @@ export async function GET(request: Request) {
           ? (basePrice as { toNumber: () => number }).toNumber()
           : Number(basePrice);
 
+      // Calculate total available stock using centralized utility
+      // Handles both variant-based and direct inventories
+      const totalStock = calculateTotalStock(p.variants, p.inventories);
+
+      // Find default variant using centralized utility
+      const hasVariants = p.variants.length > 0;
+      const defaultVariantId = getDefaultVariantId(p.variants);
+
       return {
         id: p.id,
         name: p.name,
@@ -31,6 +50,11 @@ export async function GET(request: Request) {
         price,
         image: p.images?.[0]?.url ?? "/images/placeholder.png",
         rating: p.avgRating ?? 0,
+        isAvailable: p.isAvailable,
+        isArchived: p.isArchived,
+        stock: totalStock,
+        hasVariants,
+        defaultVariantId,
       };
     });
 

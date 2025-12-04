@@ -30,11 +30,11 @@ export function useCreateOrder() {
     onSuccess: (data: OrderResponse) => {
       console.log("✅ useCreateOrder: Order created successfully:", data);
 
-      // Invalidate cart queries (cart is now empty)
-      queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
+      // DON'T invalidate cart here - will be done after navigation
+      // to prevent showing "empty cart" message during redirect
 
-      // Note: Don't show toast here - will be shown on order confirmation page
       // The onSuccess callback from mutate() will be called after this
+      // and will handle navigation + cart invalidation
     },
 
     onError: (error: Error) => {

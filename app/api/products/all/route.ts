@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Prisma } from "@/app/generated/prisma";
 import prisma from "@/shared/lib/prisma";
+import { calculateTotalStock, getDefaultVariantId } from "@/shared/lib/utils/product-availability";
 
 export async function GET(request: Request) {
   try {
@@ -106,22 +107,47 @@ export async function GET(request: Request) {
               },
             },
           },
+          variants: {
+            include: {
+              inventory: true,
+            },
+          },
+          inventories: {
+            where: {
+              variantId: null,
+            },
+          },
         },
       }),
       prisma.product.count({ where }),
     ]);
 
     // Format products for frontend
-    const formattedProducts = products.map((product) => ({
-      id: product.id,
-      name: product.name,
-      slug: product.slug,
-      price: parseFloat(product.basePrice.toString()),
-      image: product.images[0]?.url || "/images/placeholder.png",
-      rating: product.avgRating || 0,
-      reviewCount: product.reviewCount || 0,
-      categories: product.categories.map((pc) => pc.category.name),
-    }));
+    const formattedProducts = products.map((product) => {
+      // Calculate total available stock using centralized utility
+      // Handles both variant-based and direct inventories
+      const totalStock = calculateTotalStock(product.variants, product.inventories);
+
+      // Find default variant using centralized utility
+      const hasVariants = product.variants.length > 0;
+      const defaultVariantId = getDefaultVariantId(product.variants);
+
+      return {
+        id: product.id,
+        name: product.name,
+        slug: product.slug,
+        price: parseFloat(product.basePrice.toString()),
+        image: product.images[0]?.url || "/images/placeholder.png",
+        rating: product.avgRating || 0,
+        reviewCount: product.reviewCount || 0,
+        categories: product.categories.map((pc) => pc.category.name),
+        isAvailable: product.isAvailable,
+        isArchived: product.isArchived,
+        stock: totalStock,
+        hasVariants,
+        defaultVariantId,
+      };
+    });
 
     return NextResponse.json({
       products: formattedProducts,

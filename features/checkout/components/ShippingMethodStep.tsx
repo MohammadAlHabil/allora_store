@@ -7,7 +7,7 @@
  */
 
 import { Truck, Clock, CheckCircle2, AlertCircle } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useShippingMethods, useSelectShippingMethod } from "@/features/checkout/hooks";
 import type { ShippingMethodResponse } from "@/features/checkout/types/shipping.types";
 import { Button } from "@/shared/components/ui/button";
@@ -35,15 +35,6 @@ export function ShippingMethodStep({
   });
 
   const { mutate: selectMethod, isPending: isSelecting } = useSelectShippingMethod();
-
-  // Auto-select first method if none selected
-  useEffect(() => {
-    if (methods && methods.length > 0 && !selectedMethod) {
-      // Avoid calling setState synchronously inside the effect body to satisfy
-      // react-hooks/set-state-in-effect lint rule. Schedule it in a microtask.
-      void Promise.resolve().then(() => setSelectedMethod(methods[0].id));
-    }
-  }, [methods, selectedMethod]);
 
   const handleMethodSelect = (methodId: string) => {
     setSelectedMethod(methodId);

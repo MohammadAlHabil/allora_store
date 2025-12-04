@@ -165,20 +165,55 @@ export class OrderRepository {
   }
 
   /**
-   * Cancel order
+   * Cancel order and release reserved stock
    */
   async cancel(orderId: string, reason?: string) {
-    return prisma.order.update({
-      where: { id: orderId },
-      data: {
-        status: "CANCELLED",
-        cancelledAt: new Date(),
-        metadata: reason
-          ? {
-              cancellationReason: reason,
-            }
-          : undefined,
-      },
+    return prisma.$transaction(async (tx) => {
+      // Get order with items to release stock
+      const order = await tx.order.findUnique({
+        where: { id: orderId },
+        include: {
+          items: {
+            select: {
+              productId: true,
+              variantId: true,
+              quantity: true,
+            },
+          },
+        },
+      });
+
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
+      // Release reserved stock for cancelled order
+      const { releaseReservedStock } = await import(
+        "@/features/checkout/services/inventory.service"
+      );
+
+      await releaseReservedStock(
+        tx,
+        order.items.map((item) => ({
+          productId: item.productId,
+          variantId: item.variantId,
+          quantity: item.quantity,
+        }))
+      );
+
+      // Update order status
+      return tx.order.update({
+        where: { id: orderId },
+        data: {
+          status: "CANCELLED",
+          cancelledAt: new Date(),
+          metadata: reason
+            ? {
+                cancellationReason: reason,
+              }
+            : undefined,
+        },
+      });
     });
   }
 

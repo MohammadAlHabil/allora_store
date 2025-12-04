@@ -1,3 +1,5 @@
+import { Product } from "@/app/generated/prisma";
+import { calculateTotalStock } from "@/shared/lib/utils/product-availability";
 import type {
   AvailableColor,
   AvailableSize,
@@ -222,6 +224,18 @@ export function isValidSelection(product: ProductDetails, selection: ProductSele
   // Quantity must be at least 1
   if (selection.quantity < 1) return false;
 
+  // If product has no variants, validate against product-level inventories
+  const hasVariants = product.variants && product.variants.length > 0;
+  if (!hasVariants) {
+    const directInventories = product.inventories || [];
+    const totalAvailable = calculateTotalStock([], directInventories);
+
+    if (totalAvailable <= 0) return false;
+    if (selection.quantity > totalAvailable) return false;
+
+    return true;
+  }
+
   // Find matching variant and check stock
   const variant = findMatchingVariant(product.variants, selection);
   if (!variant) return false;
@@ -269,6 +283,27 @@ export function validateSelection(
   // Quantity validation
   if (selection.quantity < 1) {
     return { isValid: false, error: "Quantity must be at least 1" };
+  }
+
+  // Find matching variant
+  // If product has no variants, validate against product-level inventories
+  const hasVariants = product.variants && product.variants.length > 0;
+  if (!hasVariants) {
+    const directInventories = product.inventories || [];
+    const totalAvailable = calculateTotalStock([], directInventories);
+
+    if (totalAvailable <= 0) {
+      return { isValid: false, error: "This product is currently out of stock" };
+    }
+
+    if (selection.quantity > totalAvailable) {
+      return {
+        isValid: false,
+        error: `Only ${totalAvailable} item${totalAvailable !== 1 ? "s" : ""} available`,
+      };
+    }
+
+    return { isValid: true };
   }
 
   // Find matching variant

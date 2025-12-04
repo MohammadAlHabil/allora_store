@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/shared/lib/prisma";
+import { calculateTotalStock } from "@/shared/lib/utils/product-availability";
 
 /**
  * GET /api/products/[productId]/availability
@@ -32,13 +33,8 @@ export async function GET(
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    // Calculate actual stock from variants
-    const totalStock = product.variants.reduce((sum, variant) => {
-      const quantity = variant.inventory?.quantity || 0;
-      const reserved = variant.inventory?.reserved || 0;
-      const available = Math.max(0, quantity - reserved);
-      return sum + available;
-    }, 0);
+    // Calculate actual stock using centralized utility
+    const totalStock = calculateTotalStock(product.variants);
 
     return NextResponse.json({
       id: product.id,
