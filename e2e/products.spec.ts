@@ -8,13 +8,8 @@ test.describe("Products Page", () => {
   test("should display products grid", async ({ page }) => {
     await page.waitForLoadState("networkidle");
 
-    // Wait for products to load
-    const productsGrid = page
-      .locator('[data-testid="products-grid"]')
-      .or(page.locator("main").locator("article, [class*='product'], [class*='card']").first());
-
     // Either find specific products grid or general content
-    const mainContent = page.locator("main");
+    const mainContent = page.locator("main").first();
     await expect(mainContent).toBeVisible({ timeout: 10000 });
   });
 
@@ -77,7 +72,7 @@ test.describe("Products Page", () => {
       .first();
 
     // The loading state might be very brief, so we just verify the page loads
-    await expect(newPage.locator("main")).toBeVisible({ timeout: 10000 });
+    await expect(newPage.locator("main").first()).toBeVisible({ timeout: 10000 });
 
     await newPage.close();
   });

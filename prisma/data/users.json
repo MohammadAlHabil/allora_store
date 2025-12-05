@@ -24,7 +24,8 @@
     "password": "password123",
     "phone": "+10000000099",
     "role": "USER",
-    "isActive": true
+    "isActive": true,
+    "emailVerified": "2023-01-01T00:00:00.000Z"
   },
   {
     "id": "user_admin2",

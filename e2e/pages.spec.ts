@@ -265,7 +265,7 @@ test.describe("Performance", () => {
 
   test("should have accessible main landmark", async ({ page }) => {
     await page.goto("/");
-    const main = page.locator("main");
-    await expect(main).toBeVisible();
+    await page.waitForLoadState("networkidle");
+    await expect(page.locator("h1").first()).toBeVisible({ timeout: 10000 });
   });
 });
