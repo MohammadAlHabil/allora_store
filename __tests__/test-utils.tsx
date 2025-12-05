@@ -100,6 +100,8 @@ export const mockProduct = {
   price: 29.99,
   compareAtPrice: 39.99,
   currency: "USD",
+  isAvailable: true,
+  isArchived: false,
   type: "PHYSICAL" as const,
   avgRating: 4.5,
   reviewCount: 100,

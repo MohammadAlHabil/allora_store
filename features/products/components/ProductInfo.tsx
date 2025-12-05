@@ -312,6 +312,11 @@ export function ProductInfo({ product }: ProductInfoProps) {
               -{priceInfo.discountPercentage}% OFF
             </Badge>
           )}
+
+          {/* Stock status badge */}
+          <div>
+            <Badge className="px-2 py-0.5 text-sm">{getStockStatusMessage(stockStatus)}</Badge>
+          </div>
         </div>
 
         {/* Product Meta */}

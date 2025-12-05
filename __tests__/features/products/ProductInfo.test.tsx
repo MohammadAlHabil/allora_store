@@ -38,6 +38,7 @@ jest.mock("@/features/products/utils/product.utils", () => ({
     stock: 10,
     isDefault: true,
     optionValues: { size: "M", color: "Blue" },
+    inventory: { quantity: 10, reserved: 0 },
   })),
   formatPrice: jest.fn((price, currency) => `$${price.toFixed(2)}`),
   getAvailableColors: jest.fn(() => [
@@ -55,11 +56,14 @@ jest.mock("@/features/products/utils/product.utils", () => ({
     { value: "M", label: "M", isAvailable: true, stockCount: 10 },
   ]),
   getAvailableQuantity: jest.fn(() => 10),
+  getVariantSize: jest.fn((variant) => variant.optionValues?.size || null),
+  getVariantColor: jest.fn((variant) => variant.optionValues?.color || null),
   getPriceInfo: jest.fn(() => ({
     current: 29.99,
     original: 39.99,
     discountPercentage: 25,
   })),
+  getVariantLabel: jest.fn(() => "Size"),
   getStockStatus: jest.fn(() => "in_stock"),
   getStockStatusMessage: jest.fn(() => "In Stock"),
   isValidSelection: jest.fn(() => true),
@@ -108,7 +112,7 @@ describe("ProductInfo", () => {
     render(<ProductInfo product={mockProduct as any} />);
 
     expect(screen.getByText("$39.99")).toBeInTheDocument();
-    expect(screen.getByText(/save 25%/i)).toBeInTheDocument();
+    expect(screen.getByText(/25% OFF/i)).toBeInTheDocument();
   });
 
   it("renders Add to Cart button", () => {
@@ -182,6 +186,6 @@ describe("ProductInfo", () => {
   it("renders tax information", () => {
     render(<ProductInfo product={mockProduct as any} />);
 
-    expect(screen.getByText(/tax included/i)).toBeInTheDocument();
+    expect(screen.getByText(/free shipping/i)).toBeInTheDocument();
   });
 });
