@@ -1,13 +1,11 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { toast } from "sonner";
 import { useCart } from "@/features/cart/hooks";
-import { cartQueryKeys } from "@/features/cart/hooks/cart.query-keys";
 import { AddressStep, ShippingMethodStep, PaymentMethodStep } from "@/features/checkout/components";
 import CheckoutSkeleton from "@/features/checkout/components/CheckoutSkeleton";
 import { ExpressCheckoutSummary } from "@/features/checkout/components/ExpressCheckoutSummary";
@@ -27,7 +25,7 @@ export function CheckoutPageContent() {
   const { items, total } = useCart();
   const { expressItem, clearExpressItem } = useExpressCheckout();
   const { mutate: createOrder, isPending } = useCreateOrder();
-  const queryClient = useQueryClient();
+
   const {
     currentStep,
     formData,
@@ -40,8 +38,33 @@ export function CheckoutPageContent() {
     resetCheckout,
   } = useCheckoutFlow();
 
-  // Check if in express mode
+  // Track if we are in the process of submitting/redirecting
+  // const [isSuccessRedirecting, setIsSuccessRedirecting] = useState(false); // Refactored to useRef
+
+  // Check if inside express mode
   const isExpressMode = searchParams.get("mode") === "express" && expressItem !== null;
+
+  // Use a ref for submission state to avoid render cycle delays during redirects
+  const isSubmittedRef = useRef(false);
+
+  // Validate cart content - moved from CheckoutGuard to handle race conditions with order success
+  useEffect(() => {
+    // If not hydrated, still loading, processing order, express mode, or ALREADY SUBMITTED -> skip check
+    if (
+      !isHydrated ||
+      !items ||
+      isPending || // Request is in flight
+      isExpressMode ||
+      isSubmittedRef.current // Request finished successfully
+    ) {
+      return;
+    }
+
+    if (items.length === 0) {
+      toast.error("Your cart is empty");
+      router.replace("/cart");
+    }
+  }, [items, isHydrated, isPending, isExpressMode, router]);
 
   const pathname = usePathname();
 
@@ -145,15 +168,15 @@ export function CheckoutPageContent() {
         },
         {
           onSuccess: (order) => {
-            // Clear express item if in express mode
-            if (isExpressMode) {
-              clearExpressItem();
-            }
+            // Set submitted flag to prevent empty cart redirect
+            isSubmittedRef.current = true;
+
             // Redirect to confirmation page
             router.push(`/orders/${order.id}`);
-            // Clear cart and checkout state after navigation
+
+            // Note: Cart invalidation is now handled in the OrderDetails component
+            // to prevent race conditions where the cart becomes empty before navigation completes
             setTimeout(() => {
-              queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
               resetCheckout();
             }, 500); // Give navigation time to complete
           },
@@ -300,6 +323,9 @@ export function CheckoutPageContent() {
                         },
                         {
                           onSuccess: (order) => {
+                            // Set submitted flag to prevent empty cart redirect
+                            isSubmittedRef.current = true;
+
                             // Clear express item if in express mode
                             if (isExpressMode) {
                               clearExpressItem();
@@ -310,9 +336,9 @@ export function CheckoutPageContent() {
                             });
                             // Redirect to confirmation page
                             router.push(`/orders/${order.id}`);
-                            // Clear cart and checkout state after navigation
+                            // Clear checkout state check after navigation
                             setTimeout(() => {
-                              queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
+                              // Note: Cart invalidation is handled in OrderDetails
                               resetCheckout();
                             }, 500); // Give navigation time to complete
                           },

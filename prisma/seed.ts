@@ -192,13 +192,18 @@ async function main() {
 
     // Product variants
     if (Array.isArray(data.productVariants) && data.productVariants.length) {
-      await prisma.productVariant.createMany({
-        data: data.productVariants.map((v: any) => ({
+      for (const v of data.productVariants) {
+        const variantData: any = {
           ...v,
           price: v.price ? String(v.price) : undefined,
-        })),
-        skipDuplicates: true,
-      });
+          compareAt: v.compareAt ? String(v.compareAt) : undefined,
+        };
+        await prisma.productVariant.upsert({
+          where: { id: v.id },
+          update: variantData,
+          create: variantData,
+        });
+      }
       console.log(`Seeded ${data.productVariants.length} product variants`);
     }
 

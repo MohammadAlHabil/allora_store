@@ -269,7 +269,7 @@ export function AddToCartButton({
           {/* Expanded state: Controls (shown on hover) */}
           <div
             className={cn(
-              "overflow-hidden absolute top-0 flex items-center gap-1.5",
+              "absolute top-0 flex items-center gap-1.5",
               isHovered ? "" : "pointer-events-none",
               expandDirection === "left" ? "right-0" : "left-0"
             )}

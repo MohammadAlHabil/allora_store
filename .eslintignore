@@ -6,4 +6,4 @@ prisma/build-seed.js
 prisma/data/
 
 # Ignore standalone scripts
-check-inventory.js
+scripts/

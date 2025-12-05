@@ -23,8 +23,12 @@ export function useCreateOrder() {
 
   return useMutation({
     mutationFn: (input: CreateOrderInput) => {
-      console.log("🔵 useCreateOrder: Calling API with input:", input);
-      return createOrderAPI(input);
+      // Generate a unique key for this specific attempt
+      // This ensures that if the network retries the SAME request, the key is consistent
+      // But if the user clicks again (new mutation), we get a new key
+      const idempotencyKey = crypto.randomUUID();
+      console.log("🔵 useCreateOrder: Calling API with input:", input, "Key:", idempotencyKey);
+      return createOrderAPI(input, idempotencyKey);
     },
 
     onSuccess: (data: OrderResponse) => {

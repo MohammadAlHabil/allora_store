@@ -13,7 +13,7 @@
       "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?w=800",
       "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800"
     ],
-    "variantIds": ["var_1", "var_1b", "var_1c"]
+    "variantIds": ["var_1_XS", "var_1_S", "var_1_M", "var_1_L", "var_1_XL"]
   },
   {
     "id": "prod_2",
@@ -29,7 +29,7 @@
       "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800",
       "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800"
     ],
-    "variantIds": ["var_2", "var_2b"]
+    "variantIds": ["var_2_40", "var_2_41", "var_2_42", "var_2_43", "var_2_44", "var_2_45"]
   },
   {
     "id": "prod_3",
@@ -38,14 +38,14 @@
     "sku": "SKU-HAT-001",
     "shortDesc": "A fashionable hat",
     "description": "Stylish hat for sunny days",
-    "basePrice": 25.0,
+    "basePrice": 25,
     "currency": "USD",
     "categoryId": "cat_accessories_scarves",
     "images": [
       "https://images.unsplash.com/photo-1591047643423-2dc2b4e31869?w=800",
       "https://images.unsplash.com/photo-1610652520814-8a4e5cb9c8e3?w=800"
     ],
-    "variantIds": ["var_3"]
+    "variantIds": ["var_3_black", "var_3_brown", "var_3_gold", "var_3_silver"]
   },
   {
     "id": "prod_4",
@@ -54,14 +54,14 @@
     "sku": "SKU-DRESS-001",
     "shortDesc": "Flowing dress",
     "description": "Elegant dress for special occasions",
-    "basePrice": 129.0,
+    "basePrice": 129,
     "currency": "USD",
     "categoryId": "cat_fashion_dresses",
     "images": [
       "https://images.unsplash.com/photo-1539533018865-21b91283b553?w=800",
       "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800"
     ],
-    "variantIds": ["var_4"]
+    "variantIds": ["var_4_XS", "var_4_S", "var_4_M", "var_4_L", "var_4_XL"]
   },
   {
     "id": "prod_5",
@@ -77,7 +77,7 @@
       "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=800",
       "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800"
     ],
-    "variantIds": ["var_5"]
+    "variantIds": ["var_5_XS", "var_5_S", "var_5_M", "var_5_L", "var_5_XL"]
   },
   {
     "id": "prod_6",
@@ -86,14 +86,14 @@
     "sku": "SKU-PANTS-001",
     "shortDesc": "Comfort pants",
     "description": "Comfortable pants for daily wear",
-    "basePrice": 59.0,
+    "basePrice": 59,
     "currency": "USD",
     "categoryId": "cat_fashion_pants",
     "images": [
       "https://images.unsplash.com/photo-1624378439575-d88b830d70ad?w=800",
       "https://images.unsplash.com/photo-1473691955023-da1c49c95c78?w=800"
     ],
-    "variantIds": ["var_6"]
+    "variantIds": ["var_6_XS", "var_6_S", "var_6_M", "var_6_L", "var_6_XL"]
   },
   {
     "id": "prod_7",
@@ -102,14 +102,14 @@
     "sku": "SKU-PERF-001",
     "shortDesc": "Signature scent",
     "description": "Long-lasting perfume with refined notes",
-    "basePrice": 79.0,
+    "basePrice": 79,
     "currency": "USD",
     "categoryId": "cat_beauty_perfumes",
     "images": [
       "https://images.unsplash.com/photo-1541643600914-78b084683601?w=800",
       "https://images.unsplash.com/photo-1588405748880-12d1d2a59926?w=800"
     ],
-    "variantIds": ["var_7"]
+    "variantIds": ["var_7_50ml", "var_7_100ml"]
   },
   {
     "id": "prod_8",
@@ -125,22 +125,23 @@
       "https://images.unsplash.com/photo-1570194065650-d99fb4b14169?w=800",
       "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800"
     ],
-    "variantIds": ["var_8"]
+    "variantIds": ["var_8_50ml", "var_8_100ml"]
   },
   {
     "id": "prod_9",
-    "name": "Sport Tee",
-    "slug": "sport-tee",
+    "name": "Sport Sneakers",
+    "slug": "sport-sneakers",
     "sku": "SKU-SPORT-001",
-    "shortDesc": "Breathable tee",
-    "description": "Lightweight sportswear top",
-    "basePrice": 24.0,
+    "shortDesc": "Performance sneakers",
+    "description": "High performance sport sneakers.",
+    "basePrice": 24,
     "currency": "USD",
-    "categoryId": "cat_sports",
+    "categoryId": "cat_shoes",
     "images": [
       "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800",
       "https://images.unsplash.com/photo-1515886657613-9d3515b1e089?w=800"
-    ]
+    ],
+    "variantIds": ["var_9_40", "var_9_41", "var_9_42", "var_9_43", "var_9_44", "var_9_45"]
   },
   {
     "id": "prod_10",
@@ -149,13 +150,14 @@
     "sku": "SKU-SUN-001",
     "shortDesc": "Polarized shades",
     "description": "Protective sunglasses with modern design",
-    "basePrice": 69.0,
+    "basePrice": 69,
     "currency": "USD",
     "categoryId": "cat_accessories_sunglasses",
     "images": [
       "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800",
       "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800"
-    ]
+    ],
+    "variantIds": ["var_10_black", "var_10_brown", "var_10_gold", "var_10_silver"]
   },
   {
     "id": "prod_11",
@@ -170,7 +172,8 @@
     "images": [
       "https://images.unsplash.com/photo-1624222247344-550fb60583c2?w=800",
       "https://images.unsplash.com/photo-1553062407-98eeb64c6309?w=800"
-    ]
+    ],
+    "variantIds": ["var_11_black", "var_11_brown", "var_11_gold", "var_11_silver"]
   },
   {
     "id": "prod_12",
@@ -179,13 +182,14 @@
     "sku": "SKU-WATCH-001",
     "shortDesc": "Connected watch",
     "description": "Track activity and notifications",
-    "basePrice": 199.0,
+    "basePrice": 199,
     "currency": "USD",
     "categoryId": "cat_accessories_watches",
     "images": [
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
       "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800"
-    ]
+    ],
+    "variantIds": ["var_12_black", "var_12_brown", "var_12_gold", "var_12_silver"]
   },
   {
     "id": "prod_13",
@@ -200,7 +204,8 @@
     "images": [
       "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800",
       "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800"
-    ]
+    ],
+    "variantIds": ["var_13_black", "var_13_brown", "var_13_gold", "var_13_silver"]
   },
   {
     "id": "prod_14",
@@ -209,13 +214,14 @@
     "sku": "SKU-MAKEUP-001",
     "shortDesc": "Complete kit",
     "description": "All-in-one makeup essentials",
-    "basePrice": 45.0,
+    "basePrice": 45,
     "currency": "USD",
     "categoryId": "cat_beauty_makeup",
     "images": [
       "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800",
       "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800"
-    ]
+    ],
+    "variantIds": ["var_14_small", "var_14_large"]
   },
   {
     "id": "prod_15",
@@ -230,7 +236,8 @@
     "images": [
       "https://images.unsplash.com/photo-1522338140262-f46f5913618f?w=800",
       "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=800"
-    ]
+    ],
+    "variantIds": ["var_15_50g", "var_15_100g"]
   },
   {
     "id": "prod_16",
@@ -239,13 +246,14 @@
     "sku": "SKU-SHOES-002",
     "shortDesc": "Casual sneakers",
     "description": "Comfortable sneakers for everyday use",
-    "basePrice": 74.0,
+    "basePrice": 74,
     "currency": "USD",
     "categoryId": "cat_shoes",
     "images": [
       "https://images.unsplash.com/photo-1543163521-1bd2c6935523?w=800",
       "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800"
-    ]
+    ],
+    "variantIds": ["var_16_40", "var_16_41", "var_16_42", "var_16_43", "var_16_44", "var_16_45"]
   },
   {
     "id": "prod_17",
@@ -254,13 +262,14 @@
     "sku": "SKU-BLAZER-001",
     "shortDesc": "Tailored blazer",
     "description": "Sharp blazer for formal events",
-    "basePrice": 149.0,
+    "basePrice": 149,
     "currency": "USD",
     "categoryId": "cat_fashion",
     "images": [
       "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800",
       "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800"
-    ]
+    ],
+    "variantIds": ["var_17_XS", "var_17_S", "var_17_M", "var_17_L", "var_17_XL"]
   },
   {
     "id": "prod_18",
@@ -269,13 +278,14 @@
     "sku": "SKU-SPORT-002",
     "shortDesc": "Durable shorts",
     "description": "Shorts built for outdoor activity",
-    "basePrice": 34.0,
+    "basePrice": 34,
     "currency": "USD",
     "categoryId": "cat_sports",
     "images": [
       "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800",
       "https://images.unsplash.com/photo-1515886657613-9d3515b1e089?w=800"
-    ]
+    ],
+    "variantIds": ["var_18_XS", "var_18_S", "var_18_M", "var_18_L", "var_18_XL"]
   },
   {
     "id": "prod_19",
@@ -284,13 +294,14 @@
     "sku": "SKU-WALLET-001",
     "shortDesc": "Slim wallet",
     "description": "Compact wallet for essentials",
-    "basePrice": 22.0,
+    "basePrice": 22,
     "currency": "USD",
     "categoryId": "cat_accessories",
     "images": [
       "https://images.unsplash.com/photo-1591047643423-2dc2b4e31869?w=800",
       "https://images.unsplash.com/photo-1610652520814-8a4e5cb9c8e3?w=800"
-    ]
+    ],
+    "variantIds": ["var_19_black", "var_19_brown", "var_19_gold", "var_19_silver"]
   },
   {
     "id": "prod_20",
@@ -299,12 +310,13 @@
     "sku": "SKU-BAG-002",
     "shortDesc": "Rugged backpack",
     "description": "Backpack designed for travel and commuting",
-    "basePrice": 89.0,
+    "basePrice": 89,
     "currency": "USD",
     "categoryId": "cat_bags",
     "images": [
       "https://images.unsplash.com/photo-1564422179731-5f20e0a6f3a2?w=800",
       "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800"
-    ]
+    ],
+    "variantIds": ["var_20_black", "var_20_brown", "var_20_gold", "var_20_silver"]
   }
 ]

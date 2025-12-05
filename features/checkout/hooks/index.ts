@@ -10,3 +10,4 @@ export * from "./useCheckoutValidation";
 export * from "./useCheckoutFlow";
 export * from "./useShippingMethods";
 export * from "./useSelectShippingMethod";
+export * from "./useExpressCheckout";

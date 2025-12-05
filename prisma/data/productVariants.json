@@ -1,92 +1,842 @@
 [
   {
-    "id": "var_1",
+    "id": "var_1_XS",
     "productId": "prod_1",
-    "sku": "SKU-SHIRT-001-S",
-    "title": "Small",
-    "optionValues": { "size": "S" },
-    "price": 49.99,
-    "isDefault": true
+    "sku": "SKU-SHIRT-001-XS",
+    "title": "Size XS",
+    "optionValues": {
+      "size": "XS"
+    },
+    "price": 49.99
   },
   {
-    "id": "var_2",
+    "id": "var_1_S",
+    "productId": "prod_1",
+    "sku": "SKU-SHIRT-001-S",
+    "title": "Size S",
+    "optionValues": {
+      "size": "S"
+    },
+    "price": 49.99
+  },
+  {
+    "id": "var_1_M",
+    "productId": "prod_1",
+    "sku": "SKU-SHIRT-001-M",
+    "title": "Size M",
+    "optionValues": {
+      "size": "M"
+    },
+    "price": 49.99
+  },
+  {
+    "id": "var_1_L",
+    "productId": "prod_1",
+    "sku": "SKU-SHIRT-001-L",
+    "title": "Size L",
+    "optionValues": {
+      "size": "L"
+    },
+    "price": 49.99
+  },
+  {
+    "id": "var_1_XL",
+    "productId": "prod_1",
+    "sku": "SKU-SHIRT-001-XL",
+    "title": "Size XL",
+    "optionValues": {
+      "size": "XL"
+    },
+    "price": 49.99
+  },
+  {
+    "id": "var_2_40",
+    "productId": "prod_2",
+    "sku": "SKU-SHOES-001-40",
+    "title": "Size 40",
+    "optionValues": {
+      "size": "40"
+    },
+    "price": 89.5
+  },
+  {
+    "id": "var_2_41",
+    "productId": "prod_2",
+    "sku": "SKU-SHOES-001-41",
+    "title": "Size 41",
+    "optionValues": {
+      "size": "41"
+    },
+    "price": 89.5
+  },
+  {
+    "id": "var_2_42",
     "productId": "prod_2",
     "sku": "SKU-SHOES-001-42",
     "title": "Size 42",
-    "optionValues": { "size": "42" },
+    "optionValues": {
+      "size": "42"
+    },
     "price": 89.5
   },
   {
-    "id": "var_1b",
-    "productId": "prod_1",
-    "sku": "SKU-SHIRT-001-M",
-    "title": "Medium",
-    "optionValues": { "size": "M" },
-    "price": 49.99
-  },
-  {
-    "id": "var_1c",
-    "productId": "prod_1",
-    "sku": "SKU-SHIRT-001-L",
-    "title": "Large",
-    "optionValues": { "size": "L" },
-    "price": 49.99
-  },
-  {
-    "id": "var_2b",
+    "id": "var_2_43",
     "productId": "prod_2",
     "sku": "SKU-SHOES-001-43",
     "title": "Size 43",
-    "optionValues": { "size": "43" },
+    "optionValues": {
+      "size": "43"
+    },
     "price": 89.5
   },
   {
-    "id": "var_3",
-    "productId": "prod_3",
-    "sku": "SKU-HAT-001-OS",
-    "title": "One Size",
-    "optionValues": { "size": "OS" },
-    "price": 25.0,
-    "isDefault": true
+    "id": "var_2_44",
+    "productId": "prod_2",
+    "sku": "SKU-SHOES-001-44",
+    "title": "Size 44",
+    "optionValues": {
+      "size": "44"
+    },
+    "price": 89.5
   },
   {
-    "id": "var_4",
+    "id": "var_2_45",
+    "productId": "prod_2",
+    "sku": "SKU-SHOES-001-45",
+    "title": "Size 45",
+    "optionValues": {
+      "size": "45"
+    },
+    "price": 89.5
+  },
+  {
+    "id": "var_3_black",
+    "productId": "prod_3",
+    "sku": "SKU-HAT-001-BLACK",
+    "title": "Black",
+    "optionValues": {
+      "color": "Black"
+    },
+    "price": 25
+  },
+  {
+    "id": "var_3_brown",
+    "productId": "prod_3",
+    "sku": "SKU-HAT-001-BROWN",
+    "title": "Brown",
+    "optionValues": {
+      "color": "Brown"
+    },
+    "price": 25
+  },
+  {
+    "id": "var_3_gold",
+    "productId": "prod_3",
+    "sku": "SKU-HAT-001-GOLD",
+    "title": "Gold",
+    "optionValues": {
+      "color": "Gold"
+    },
+    "price": 25
+  },
+  {
+    "id": "var_3_silver",
+    "productId": "prod_3",
+    "sku": "SKU-HAT-001-SILVER",
+    "title": "Silver",
+    "optionValues": {
+      "color": "Silver"
+    },
+    "price": 25
+  },
+  {
+    "id": "var_4_XS",
+    "productId": "prod_4",
+    "sku": "SKU-DRESS-001-XS",
+    "title": "Size XS",
+    "optionValues": {
+      "size": "XS"
+    },
+    "price": 129
+  },
+  {
+    "id": "var_4_S",
     "productId": "prod_4",
     "sku": "SKU-DRESS-001-S",
-    "title": "Small",
-    "optionValues": { "size": "S" },
-    "price": 129.0
+    "title": "Size S",
+    "optionValues": {
+      "size": "S"
+    },
+    "price": 129
   },
   {
-    "id": "var_5",
+    "id": "var_4_M",
+    "productId": "prod_4",
+    "sku": "SKU-DRESS-001-M",
+    "title": "Size M",
+    "optionValues": {
+      "size": "M"
+    },
+    "price": 129
+  },
+  {
+    "id": "var_4_L",
+    "productId": "prod_4",
+    "sku": "SKU-DRESS-001-L",
+    "title": "Size L",
+    "optionValues": {
+      "size": "L"
+    },
+    "price": 129
+  },
+  {
+    "id": "var_4_XL",
+    "productId": "prod_4",
+    "sku": "SKU-DRESS-001-XL",
+    "title": "Size XL",
+    "optionValues": {
+      "size": "XL"
+    },
+    "price": 129
+  },
+  {
+    "id": "var_5_XS",
     "productId": "prod_5",
-    "sku": "SKU-SKIRT-001-S",
-    "title": "Small",
-    "optionValues": { "size": "S" },
+    "sku": "SKU-SKIRT-001-XS",
+    "title": "Size XS",
+    "optionValues": {
+      "size": "XS"
+    },
     "price": 39.5
   },
   {
-    "id": "var_6",
-    "productId": "prod_6",
-    "sku": "SKU-PANTS-001-30",
-    "title": "Waist 30",
-    "optionValues": { "size": "30" },
-    "price": 59.0
+    "id": "var_5_S",
+    "productId": "prod_5",
+    "sku": "SKU-SKIRT-001-S",
+    "title": "Size S",
+    "optionValues": {
+      "size": "S"
+    },
+    "price": 39.5
   },
   {
-    "id": "var_7",
+    "id": "var_5_M",
+    "productId": "prod_5",
+    "sku": "SKU-SKIRT-001-M",
+    "title": "Size M",
+    "optionValues": {
+      "size": "M"
+    },
+    "price": 39.5
+  },
+  {
+    "id": "var_5_L",
+    "productId": "prod_5",
+    "sku": "SKU-SKIRT-001-L",
+    "title": "Size L",
+    "optionValues": {
+      "size": "L"
+    },
+    "price": 39.5
+  },
+  {
+    "id": "var_5_XL",
+    "productId": "prod_5",
+    "sku": "SKU-SKIRT-001-XL",
+    "title": "Size XL",
+    "optionValues": {
+      "size": "XL"
+    },
+    "price": 39.5
+  },
+  {
+    "id": "var_6_XS",
+    "productId": "prod_6",
+    "sku": "SKU-PANTS-001-XS",
+    "title": "Size XS",
+    "optionValues": {
+      "size": "XS"
+    },
+    "price": 59
+  },
+  {
+    "id": "var_6_S",
+    "productId": "prod_6",
+    "sku": "SKU-PANTS-001-S",
+    "title": "Size S",
+    "optionValues": {
+      "size": "S"
+    },
+    "price": 59
+  },
+  {
+    "id": "var_6_M",
+    "productId": "prod_6",
+    "sku": "SKU-PANTS-001-M",
+    "title": "Size M",
+    "optionValues": {
+      "size": "M"
+    },
+    "price": 59
+  },
+  {
+    "id": "var_6_L",
+    "productId": "prod_6",
+    "sku": "SKU-PANTS-001-L",
+    "title": "Size L",
+    "optionValues": {
+      "size": "L"
+    },
+    "price": 59
+  },
+  {
+    "id": "var_6_XL",
+    "productId": "prod_6",
+    "sku": "SKU-PANTS-001-XL",
+    "title": "Size XL",
+    "optionValues": {
+      "size": "XL"
+    },
+    "price": 59
+  },
+  {
+    "id": "var_7_50ml",
     "productId": "prod_7",
     "sku": "SKU-PERF-001-50ML",
     "title": "50ml",
-    "optionValues": { "volume": "50ml" },
-    "price": 79.0
+    "optionValues": {
+      "volume": "50ml"
+    },
+    "price": 79
   },
   {
-    "id": "var_8",
+    "id": "var_7_100ml",
+    "productId": "prod_7",
+    "sku": "SKU-PERF-001-100ML",
+    "title": "100ml",
+    "optionValues": {
+      "volume": "100ml"
+    },
+    "price": 79
+  },
+  {
+    "id": "var_8_50ml",
     "productId": "prod_8",
     "sku": "SKU-SKIN-001-50ML",
     "title": "50ml",
-    "optionValues": { "volume": "50ml" },
+    "optionValues": {
+      "volume": "50ml"
+    },
     "price": 29.99
+  },
+  {
+    "id": "var_8_100ml",
+    "productId": "prod_8",
+    "sku": "SKU-SKIN-001-100ML",
+    "title": "100ml",
+    "optionValues": {
+      "volume": "100ml"
+    },
+    "price": 29.99
+  },
+  {
+    "id": "var_9_40",
+    "productId": "prod_9",
+    "sku": "SKU-SPORT-001-40",
+    "title": "Size 40",
+    "optionValues": {
+      "size": "40"
+    },
+    "price": 24
+  },
+  {
+    "id": "var_9_41",
+    "productId": "prod_9",
+    "sku": "SKU-SPORT-001-41",
+    "title": "Size 41",
+    "optionValues": {
+      "size": "41"
+    },
+    "price": 24
+  },
+  {
+    "id": "var_9_42",
+    "productId": "prod_9",
+    "sku": "SKU-SPORT-001-42",
+    "title": "Size 42",
+    "optionValues": {
+      "size": "42"
+    },
+    "price": 24
+  },
+  {
+    "id": "var_9_43",
+    "productId": "prod_9",
+    "sku": "SKU-SPORT-001-43",
+    "title": "Size 43",
+    "optionValues": {
+      "size": "43"
+    },
+    "price": 24
+  },
+  {
+    "id": "var_9_44",
+    "productId": "prod_9",
+    "sku": "SKU-SPORT-001-44",
+    "title": "Size 44",
+    "optionValues": {
+      "size": "44"
+    },
+    "price": 24
+  },
+  {
+    "id": "var_9_45",
+    "productId": "prod_9",
+    "sku": "SKU-SPORT-001-45",
+    "title": "Size 45",
+    "optionValues": {
+      "size": "45"
+    },
+    "price": 24
+  },
+  {
+    "id": "var_10_black",
+    "productId": "prod_10",
+    "sku": "SKU-SUN-001-BLACK",
+    "title": "Black",
+    "optionValues": {
+      "color": "Black"
+    },
+    "price": 69
+  },
+  {
+    "id": "var_10_brown",
+    "productId": "prod_10",
+    "sku": "SKU-SUN-001-BROWN",
+    "title": "Brown",
+    "optionValues": {
+      "color": "Brown"
+    },
+    "price": 69
+  },
+  {
+    "id": "var_10_gold",
+    "productId": "prod_10",
+    "sku": "SKU-SUN-001-GOLD",
+    "title": "Gold",
+    "optionValues": {
+      "color": "Gold"
+    },
+    "price": 69
+  },
+  {
+    "id": "var_10_silver",
+    "productId": "prod_10",
+    "sku": "SKU-SUN-001-SILVER",
+    "title": "Silver",
+    "optionValues": {
+      "color": "Silver"
+    },
+    "price": 69
+  },
+  {
+    "id": "var_11_black",
+    "productId": "prod_11",
+    "sku": "SKU-BELT-001-BLACK",
+    "title": "Black",
+    "optionValues": {
+      "color": "Black"
+    },
+    "price": 34.5
+  },
+  {
+    "id": "var_11_brown",
+    "productId": "prod_11",
+    "sku": "SKU-BELT-001-BROWN",
+    "title": "Brown",
+    "optionValues": {
+      "color": "Brown"
+    },
+    "price": 34.5
+  },
+  {
+    "id": "var_11_gold",
+    "productId": "prod_11",
+    "sku": "SKU-BELT-001-GOLD",
+    "title": "Gold",
+    "optionValues": {
+      "color": "Gold"
+    },
+    "price": 34.5
+  },
+  {
+    "id": "var_11_silver",
+    "productId": "prod_11",
+    "sku": "SKU-BELT-001-SILVER",
+    "title": "Silver",
+    "optionValues": {
+      "color": "Silver"
+    },
+    "price": 34.5
+  },
+  {
+    "id": "var_12_black",
+    "productId": "prod_12",
+    "sku": "SKU-WATCH-001-BLACK",
+    "title": "Black",
+    "optionValues": {
+      "color": "Black"
+    },
+    "price": 199
+  },
+  {
+    "id": "var_12_brown",
+    "productId": "prod_12",
+    "sku": "SKU-WATCH-001-BROWN",
+    "title": "Brown",
+    "optionValues": {
+      "color": "Brown"
+    },
+    "price": 199
+  },
+  {
+    "id": "var_12_gold",
+    "productId": "prod_12",
+    "sku": "SKU-WATCH-001-GOLD",
+    "title": "Gold",
+    "optionValues": {
+      "color": "Gold"
+    },
+    "price": 199
+  },
+  {
+    "id": "var_12_silver",
+    "productId": "prod_12",
+    "sku": "SKU-WATCH-001-SILVER",
+    "title": "Silver",
+    "optionValues": {
+      "color": "Silver"
+    },
+    "price": 199
+  },
+  {
+    "id": "var_13_black",
+    "productId": "prod_13",
+    "sku": "SKU-BAG-001-BLACK",
+    "title": "Black",
+    "optionValues": {
+      "color": "Black"
+    },
+    "price": 59.99
+  },
+  {
+    "id": "var_13_brown",
+    "productId": "prod_13",
+    "sku": "SKU-BAG-001-BROWN",
+    "title": "Brown",
+    "optionValues": {
+      "color": "Brown"
+    },
+    "price": 59.99
+  },
+  {
+    "id": "var_13_gold",
+    "productId": "prod_13",
+    "sku": "SKU-BAG-001-GOLD",
+    "title": "Gold",
+    "optionValues": {
+      "color": "Gold"
+    },
+    "price": 59.99
+  },
+  {
+    "id": "var_13_silver",
+    "productId": "prod_13",
+    "sku": "SKU-BAG-001-SILVER",
+    "title": "Silver",
+    "optionValues": {
+      "color": "Silver"
+    },
+    "price": 59.99
+  },
+  {
+    "id": "var_14_small",
+    "productId": "prod_14",
+    "sku": "SKU-MAKEUP-001-SMALL",
+    "title": "Small Kit",
+    "optionValues": {
+      "dimensions": "15x10x5 cm"
+    },
+    "price": 45
+  },
+  {
+    "id": "var_14_large",
+    "productId": "prod_14",
+    "sku": "SKU-MAKEUP-001-LARGE",
+    "title": "Large Kit",
+    "optionValues": {
+      "dimensions": "25x15x8 cm"
+    },
+    "price": 65
+  },
+  {
+    "id": "var_15_50g",
+    "productId": "prod_15",
+    "sku": "SKU-HAIR-001-50G",
+    "title": "50g",
+    "optionValues": {
+      "weight": "50g"
+    },
+    "price": 19.99
+  },
+  {
+    "id": "var_15_100g",
+    "productId": "prod_15",
+    "sku": "SKU-HAIR-001-100G",
+    "title": "100g",
+    "optionValues": {
+      "weight": "100g"
+    },
+    "price": 29.99
+  },
+  {
+    "id": "var_16_40",
+    "productId": "prod_16",
+    "sku": "SKU-SHOES-002-40",
+    "title": "Size 40",
+    "optionValues": {
+      "size": "40"
+    },
+    "price": 74
+  },
+  {
+    "id": "var_16_41",
+    "productId": "prod_16",
+    "sku": "SKU-SHOES-002-41",
+    "title": "Size 41",
+    "optionValues": {
+      "size": "41"
+    },
+    "price": 74
+  },
+  {
+    "id": "var_16_42",
+    "productId": "prod_16",
+    "sku": "SKU-SHOES-002-42",
+    "title": "Size 42",
+    "optionValues": {
+      "size": "42"
+    },
+    "price": 74
+  },
+  {
+    "id": "var_16_43",
+    "productId": "prod_16",
+    "sku": "SKU-SHOES-002-43",
+    "title": "Size 43",
+    "optionValues": {
+      "size": "43"
+    },
+    "price": 74
+  },
+  {
+    "id": "var_16_44",
+    "productId": "prod_16",
+    "sku": "SKU-SHOES-002-44",
+    "title": "Size 44",
+    "optionValues": {
+      "size": "44"
+    },
+    "price": 74
+  },
+  {
+    "id": "var_16_45",
+    "productId": "prod_16",
+    "sku": "SKU-SHOES-002-45",
+    "title": "Size 45",
+    "optionValues": {
+      "size": "45"
+    },
+    "price": 74
+  },
+  {
+    "id": "var_17_XS",
+    "productId": "prod_17",
+    "sku": "SKU-BLAZER-001-XS",
+    "title": "Size XS",
+    "optionValues": {
+      "size": "XS"
+    },
+    "price": 149
+  },
+  {
+    "id": "var_17_S",
+    "productId": "prod_17",
+    "sku": "SKU-BLAZER-001-S",
+    "title": "Size S",
+    "optionValues": {
+      "size": "S"
+    },
+    "price": 149
+  },
+  {
+    "id": "var_17_M",
+    "productId": "prod_17",
+    "sku": "SKU-BLAZER-001-M",
+    "title": "Size M",
+    "optionValues": {
+      "size": "M"
+    },
+    "price": 149
+  },
+  {
+    "id": "var_17_L",
+    "productId": "prod_17",
+    "sku": "SKU-BLAZER-001-L",
+    "title": "Size L",
+    "optionValues": {
+      "size": "L"
+    },
+    "price": 149
+  },
+  {
+    "id": "var_17_XL",
+    "productId": "prod_17",
+    "sku": "SKU-BLAZER-001-XL",
+    "title": "Size XL",
+    "optionValues": {
+      "size": "XL"
+    },
+    "price": 149
+  },
+  {
+    "id": "var_18_XS",
+    "productId": "prod_18",
+    "sku": "SKU-SPORT-002-XS",
+    "title": "Size XS",
+    "optionValues": {
+      "size": "XS"
+    },
+    "price": 34
+  },
+  {
+    "id": "var_18_S",
+    "productId": "prod_18",
+    "sku": "SKU-SPORT-002-S",
+    "title": "Size S",
+    "optionValues": {
+      "size": "S"
+    },
+    "price": 34
+  },
+  {
+    "id": "var_18_M",
+    "productId": "prod_18",
+    "sku": "SKU-SPORT-002-M",
+    "title": "Size M",
+    "optionValues": {
+      "size": "M"
+    },
+    "price": 34
+  },
+  {
+    "id": "var_18_L",
+    "productId": "prod_18",
+    "sku": "SKU-SPORT-002-L",
+    "title": "Size L",
+    "optionValues": {
+      "size": "L"
+    },
+    "price": 34
+  },
+  {
+    "id": "var_18_XL",
+    "productId": "prod_18",
+    "sku": "SKU-SPORT-002-XL",
+    "title": "Size XL",
+    "optionValues": {
+      "size": "XL"
+    },
+    "price": 34
+  },
+  {
+    "id": "var_19_black",
+    "productId": "prod_19",
+    "sku": "SKU-WALLET-001-BLACK",
+    "title": "Black",
+    "optionValues": {
+      "color": "Black"
+    },
+    "price": 22
+  },
+  {
+    "id": "var_19_brown",
+    "productId": "prod_19",
+    "sku": "SKU-WALLET-001-BROWN",
+    "title": "Brown",
+    "optionValues": {
+      "color": "Brown"
+    },
+    "price": 22
+  },
+  {
+    "id": "var_19_gold",
+    "productId": "prod_19",
+    "sku": "SKU-WALLET-001-GOLD",
+    "title": "Gold",
+    "optionValues": {
+      "color": "Gold"
+    },
+    "price": 22
+  },
+  {
+    "id": "var_19_silver",
+    "productId": "prod_19",
+    "sku": "SKU-WALLET-001-SILVER",
+    "title": "Silver",
+    "optionValues": {
+      "color": "Silver"
+    },
+    "price": 22
+  },
+  {
+    "id": "var_20_black",
+    "productId": "prod_20",
+    "sku": "SKU-BAG-002-BLACK",
+    "title": "Black",
+    "optionValues": {
+      "color": "Black"
+    },
+    "price": 89
+  },
+  {
+    "id": "var_20_brown",
+    "productId": "prod_20",
+    "sku": "SKU-BAG-002-BROWN",
+    "title": "Brown",
+    "optionValues": {
+      "color": "Brown"
+    },
+    "price": 89
+  },
+  {
+    "id": "var_20_gold",
+    "productId": "prod_20",
+    "sku": "SKU-BAG-002-GOLD",
+    "title": "Gold",
+    "optionValues": {
+      "color": "Gold"
+    },
+    "price": 89
+  },
+  {
+    "id": "var_20_silver",
+    "productId": "prod_20",
+    "sku": "SKU-BAG-002-SILVER",
+    "title": "Silver",
+    "optionValues": {
+      "color": "Silver"
+    },
+    "price": 89
   }
 ]

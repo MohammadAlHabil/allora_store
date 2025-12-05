@@ -1,8 +1,10 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Check, CreditCard, Package, Truck, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { cartQueryKeys } from "@/features/cart/hooks/cart.query-keys";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,7 +19,7 @@ import {
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { formatPrice } from "@/shared/lib/utils/formatters";
-import { useOrder, useCancelOrder } from "../hooks";
+import { useCancelOrder, useOrder } from "../hooks";
 import { AddressCard } from "./AddressCard";
 import { OrderDetailsSkeleton } from "./OrderDetailsSkeleton";
 import { OrderItemsList } from "./OrderItemsList";
@@ -42,6 +44,13 @@ export function OrderDetails({ orderId }: OrderDetailsProps) {
       setIsCancelling(false);
     }
   };
+
+  // Invalidate cart on mount to ensure it's empty after a successful order
+  // This is the safest place to do it, as we are sure the user has left the checkout page
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
+  }, [queryClient]);
 
   if (isLoading) {
     return <OrderDetailsSkeleton />;
