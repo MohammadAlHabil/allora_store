@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AddToCartButton } from "@/features/cart/components/AddToCartButton";
 import { WishlistButton } from "@/features/wishlist";
+import WishlistSkeleton from "@/features/wishlist/components/WishlistSkeleton";
 import { useWishlist } from "@/features/wishlist/hooks/useWishlist";
 import type { WishlistProduct } from "@/features/wishlist/types/wishlist.types";
 import { Button } from "@/shared/components/ui/button";
@@ -14,15 +15,7 @@ export default function WishlistPage() {
   const { data: wishlist, isLoading } = useWishlist();
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-12">
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          </div>
-        </div>
-      </div>
-    );
+    return <WishlistSkeleton />;
   }
 
   const items = wishlist?.items || [];

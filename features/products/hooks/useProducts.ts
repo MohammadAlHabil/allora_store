@@ -11,6 +11,12 @@ export type Product = {
   rating?: number;
   reviewCount?: number;
   categories?: string[];
+  isAvailable: boolean;
+  isArchived: boolean;
+  stock: number;
+  // Variant information for products with variants
+  hasVariants?: boolean;
+  defaultVariantId?: string | null;
 };
 
 export type ProductsResponse = {

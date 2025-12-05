@@ -1,8 +1,10 @@
 "use client";
 
-import { ArrowLeft, CreditCard, Package, Truck, XCircle } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, Check, CreditCard, Package, Truck, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { cartQueryKeys } from "@/features/cart/hooks/cart.query-keys";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,7 +19,7 @@ import {
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { formatPrice } from "@/shared/lib/utils/formatters";
-import { useOrder, useCancelOrder } from "../hooks";
+import { useCancelOrder, useOrder } from "../hooks";
 import { AddressCard } from "./AddressCard";
 import { OrderDetailsSkeleton } from "./OrderDetailsSkeleton";
 import { OrderItemsList } from "./OrderItemsList";
@@ -43,6 +45,13 @@ export function OrderDetails({ orderId }: OrderDetailsProps) {
     }
   };
 
+  // Invalidate cart on mount to ensure it's empty after a successful order
+  // This is the safest place to do it, as we are sure the user has left the checkout page
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
+  }, [queryClient]);
+
   if (isLoading) {
     return <OrderDetailsSkeleton />;
   }
@@ -63,10 +72,13 @@ export function OrderDetails({ orderId }: OrderDetailsProps) {
     );
   }
 
-  const canCancel =
-    order.status === "PENDING_PAYMENT" ||
-    order.status === "DRAFT" ||
-    (order.status === "PAID" && order.paymentStatus === "PAID");
+  // Determine if order can be cancelled
+  // Business Rules:
+  // - DRAFT: Can cancel (order not finalized)
+  // - PENDING_PAYMENT (COD): Can cancel (payment not received yet)
+  // - PAID (Credit Card): CANNOT cancel (payment already processed)
+  // - CANCELLED/EXPIRED/FULFILLED: Cannot cancel (already in final state)
+  const canCancel = order.status === "PENDING_PAYMENT" || order.status === "DRAFT";
 
   const orderDate = order.placedAt || order.createdAt;
 
@@ -120,6 +132,27 @@ export function OrderDetails({ orderId }: OrderDetailsProps) {
           )}
         </div>
       </div>
+
+      {/* Order Paid Notice - Cannot Cancel */}
+      {order.status === "PAID" && order.paymentStatus === "PAID" && (
+        <Card className="border-border bg-secondary/3 shadow-none">
+          <CardContent>
+            <div className="flex items-start gap-3">
+              <div className="rounded-full bg-primary/10 p-2">
+                <Check className="h-5 w-5 text-primary" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-sm mb-1">Payment Confirmed</h3>
+                <p className="text-sm text-muted-foreground">
+                  Your payment has been successfully processed. This order cannot be cancelled
+                  online. If you need to return items, please contact our support team after
+                  receiving your order.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Status Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

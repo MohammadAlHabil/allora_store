@@ -3,18 +3,56 @@ name: Cleanup Expired Anonymous Carts
 on:
   schedule:
     # Run daily at 2:00 AM UTC (cron format: minute hour day month day-of-week)
-    - cron: '0 2 * * *'
+    - cron: "0 2 * * *"
   workflow_dispatch: # Allow manual trigger
+
+concurrency:
+  group: cleanup-carts
+  cancel-in-progress: false
 
 jobs:
   cleanup:
+    name: Cleanup Expired Anonymous Carts
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NODE_OPTIONS: "--max_old_space_size=4096"
+      APP_URL: ${{ secrets.APP_URL }}
+      ADMIN_TASKS_SECRET: ${{ secrets.ADMIN_TASKS_SECRET }}
     steps:
-      - name: Call Cleanup API
+      - name: Validate required secrets
         run: |
-          curl -X POST "${{ secrets.APP_URL }}/api/cart/cleanup" \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.CLEANUP_SECRET }}"
-        env:
-          APP_URL: ${{ secrets.APP_URL }}
+          set -euo pipefail
+          if [ -z "${APP_URL:-}" ] || [ -z "${ADMIN_TASKS_SECRET:-}" ]; then
+            echo "ERROR: Required secrets APP_URL or ADMIN_TASKS_SECRET are missing."
+            echo "Please add them in repository settings -> Secrets."
+            exit 1
+          fi
 
+      - name: Call admin cleanup endpoint (with retries)
+        run: |
+          set -euo pipefail
+          RETRIES=3
+          attempt=1
+          rm -f admin-cleanup-response.txt || true
+          until curl -fsS -X POST "$APP_URL/api/admin/tasks/cleanup" -H "Authorization: Bearer $ADMIN_TASKS_SECRET" -H "Content-Type: application/json" 2>&1 | tee admin-cleanup-response.txt; do
+            echo "Cleanup HTTP attempt $attempt failed."
+            if [ "$attempt" -ge "$RETRIES" ]; then
+              echo "All $RETRIES attempts failed. Exiting."
+              exit 1
+            fi
+            sleep_time=$((2 ** attempt))
+            echo "Sleeping for ${sleep_time}s before retry..."
+            sleep $sleep_time
+            attempt=$((attempt + 1))
+          done
+
+      - name: Upload cleanup response (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cleanup-endpoint-response
+          path: admin-cleanup-response.txt
+
+      - name: Done
+        run: echo "Cleanup job finished"

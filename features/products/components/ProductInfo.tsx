@@ -12,7 +12,12 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Separator } from "@/shared/components/ui/separator";
 import { cn } from "@/shared/lib/utils";
-
+import {
+  calculateTotalStock,
+  calculateVariantStock,
+  shouldDisableAddToCart,
+  type ProductAvailabilityData,
+} from "@/shared/lib/utils/product-availability";
 import type { ProductDetails, ProductSelection } from "../types/product.types";
 import {
   findMatchingVariant,
@@ -25,6 +30,9 @@ import {
   getPriceInfo,
   getStockStatus,
   getStockStatusMessage,
+  getVariantColor,
+  getVariantLabel,
+  getVariantSize,
   isValidSelection,
   validateSelection,
 } from "../utils/product.utils";
@@ -42,6 +50,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const router = useRouter();
   const { addItem, isAdding } = useCart();
   const { setExpressItem } = useExpressCheckout();
+
+  // NOTE: product availability depends on the selected variant (if any)
+  // We'll compute availability after the selected variant is known below.
 
   const [selection, setSelection] = useState<ProductSelection>({
     size: null,
@@ -69,8 +80,8 @@ export function ProductInfo({ product }: ProductInfoProps) {
         product.variants[0];
 
       if (defaultVariant) {
-        const size = defaultVariant.optionValues?.size;
-        const color = defaultVariant.optionValues?.color;
+        const size = getVariantSize(defaultVariant);
+        const color = getVariantColor(defaultVariant);
 
         setSelection({
           size: size || null,
@@ -85,19 +96,23 @@ export function ProductInfo({ product }: ProductInfoProps) {
   // Get available options (memoized for performance)
   const allSizes = useMemo(() => getAvailableSizes(product.variants), [product.variants]);
   const allColors = useMemo(() => getAvailableColors(product.variants), [product.variants]);
+  const variantLabel = useMemo(() => getVariantLabel(product.variants), [product.variants]);
 
   // Filter options based on current selection (memoized)
-  const availableSizes = useMemo(
+  const filteredSizes = useMemo(
     () =>
       selection.color ? getAvailableSizesForColor(product.variants, selection.color) : allSizes,
     [selection.color, product.variants, allSizes]
   );
 
-  const availableColors = useMemo(
+  const filteredColors = useMemo(
     () =>
       selection.size ? getAvailableColorsForSize(product.variants, selection.size) : allColors,
     [selection.size, product.variants, allColors]
   );
+
+  const displaySizes = selection.color ? filteredSizes : allSizes;
+  const displayColors = selection.size ? filteredColors : allColors;
 
   // Find matching variant (memoized)
   const selectedVariant = useMemo(
@@ -112,13 +127,32 @@ export function ProductInfo({ product }: ProductInfoProps) {
     () => getStockStatus(product, selectedVariant),
     [product, selectedVariant]
   );
-  const maxQuantity = useMemo(
-    () => (selectedVariant ? getAvailableQuantity(selectedVariant) : 0),
-    [selectedVariant]
-  );
+  const maxQuantity = useMemo(() => {
+    if (selectedVariant) return getAvailableQuantity(selectedVariant);
 
-  // Check if selection is valid (memoized)
-  const canAddToCart = useMemo(() => isValidSelection(product, selection), [product, selection]);
+    // For products without variants, calculate total available from product-level inventories
+    const total = calculateTotalStock(product.variants, product.inventories);
+    return total;
+  }, [selectedVariant, product]);
+
+  // Calculate total product availability using centralized utility
+  const productAvailability: ProductAvailabilityData = useMemo(() => {
+    const stock = selectedVariant
+      ? calculateVariantStock(selectedVariant?.inventory)
+      : calculateTotalStock(product.variants, product.inventories);
+
+    return {
+      isAvailable: product.isAvailable,
+      isArchived: product.isArchived,
+      stock,
+    };
+  }, [product, selectedVariant]);
+
+  // Check if selection is valid and product is available (memoized)
+  const canAddToCart = useMemo(
+    () => isValidSelection(product, selection) && !shouldDisableAddToCart(productAvailability),
+    [product, selection, productAvailability]
+  );
 
   // Handlers (memoized with useCallback)
   const handleSizeChange = useCallback(
@@ -264,74 +298,66 @@ export function ProductInfo({ product }: ProductInfoProps) {
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">{product.name}</h1>
 
-        {product.shortDesc && <p className="text-muted-foreground">{product.shortDesc}</p>}
-
         <div className="flex items-center gap-4">
-          {product.avgRating && (
-            <div className="flex items-center gap-1">
-              <Star className="h-5 w-5 fill-primary text-primary" />
-              <span className="font-medium">{product.avgRating.toFixed(1)}</span>
-              <span className="text-sm text-muted-foreground">({product.reviewCount} reviews)</span>
+          <div className="text-2xl font-bold tracking-tight">
+            {formatPrice(priceInfo.current, product.currency)}
+          </div>
+          {priceInfo.original && (
+            <div className="text-lg text-muted-foreground line-through">
+              {formatPrice(Number(priceInfo.original), product.currency)}
             </div>
           )}
-
-          <Badge variant={stockStatus === "in_stock" ? "default" : "secondary"}>
-            {getStockStatusMessage(stockStatus)}
-          </Badge>
+          {priceInfo.discountPercentage && (
+            <Badge variant="destructive" className="px-2 py-0.5 text-sm">
+              -{priceInfo.discountPercentage}% OFF
+            </Badge>
+          )}
         </div>
-      </div>
 
-      {/* Price */}
-      <div className="space-y-1">
-        <div className="flex items-baseline gap-3">
-          <span className="text-3xl font-bold">
-            {formatPrice(priceInfo.current, product.currency)}
-          </span>
-
-          {priceInfo.original && (
+        {/* Product Meta */}
+        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          {product.sku && (
+            <div className="flex items-center gap-1">
+              <span className="font-medium">SKU:</span>
+              {selectedVariant?.sku || product.sku}
+            </div>
+          )}
+          {product.avgRating! > 0 && (
             <>
-              <span className="text-xl text-muted-foreground line-through">
-                {formatPrice(priceInfo.original, product.currency)}
-              </span>
-              <Badge variant="destructive" className="text-sm">
-                Save {priceInfo.discountPercentage}%
-              </Badge>
+              <Separator orientation="vertical" className="h-4" />
+              <div className="flex items-center gap-1">
+                <div className="flex text-yellow-500">
+                  <Star className="h-4 w-4 fill-current" />
+                </div>
+                <span className="font-medium text-foreground">{product.avgRating}</span>
+                <span>({product.reviewCount} reviews)</span>
+              </div>
             </>
           )}
         </div>
 
-        {product.type === "PHYSICAL" && (
-          <p className="text-sm text-muted-foreground">
-            Tax included. Shipping calculated at checkout.
-          </p>
+        {product.shortDesc && (
+          <p className="text-base text-muted-foreground leading-relaxed">{product.shortDesc}</p>
         )}
       </div>
 
       <Separator />
 
-      {/* Description */}
-      {product.description && (
-        <div className="prose prose-sm max-w-none">
-          <p className="text-muted-foreground">{product.description}</p>
-        </div>
-      )}
-
-      {/* Size and color selector */}
       <SizeColorSelector
-        sizes={availableSizes}
-        colors={availableColors}
+        sizes={displaySizes}
+        colors={displayColors}
         selectedSize={selection.size}
         selectedColor={selection.color}
-        onSizeChange={handleSizeChange}
-        onColorChange={handleColorChange}
+        onSizeChange={(size) => setSelection((prev) => ({ ...prev, size }))}
+        onColorChange={(color) => setSelection((prev) => ({ ...prev, color }))}
+        variantLabel={variantLabel}
       />
-
       {/* Quantity selector */}
       <QuantitySelector
         quantity={selection.quantity}
         maxQuantity={maxQuantity}
         onQuantityChange={handleQuantityChange}
-        disabled={!selectedVariant}
+        disabled={!selectedVariant && product.variants && product.variants.length > 0}
       />
 
       {/* Action buttons */}
@@ -362,7 +388,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
               size="icon"
               onClick={handleWishlistToggle}
               disabled={isAdding || isBuyingNow || isTogglingWishlist}
-              className="h-12"
+              className="h-12 "
               aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
             >
               <Heart

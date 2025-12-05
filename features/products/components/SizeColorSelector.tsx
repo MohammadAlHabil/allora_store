@@ -13,6 +13,7 @@ interface SizeColorSelectorProps {
   selectedColor: string | null;
   onSizeChange: (size: string) => void;
   onColorChange: (color: string) => void;
+  variantLabel?: string;
 }
 
 /**
@@ -25,6 +26,7 @@ export function SizeColorSelector({
   selectedColor,
   onSizeChange,
   onColorChange,
+  variantLabel = "Size",
 }: SizeColorSelectorProps) {
   return (
     <div className="space-y-6">
@@ -92,7 +94,7 @@ export function SizeColorSelector({
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <label className="text-sm font-medium">
-              Size
+              {variantLabel}
               {selectedSize && (
                 <span className="ml-2 text-muted-foreground font-normal">({selectedSize})</span>
               )}

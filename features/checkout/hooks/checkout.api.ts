@@ -14,10 +14,19 @@ const CHECKOUT_API = {
 /**
  * Create order via API
  */
-export async function createOrderAPI(input: CreateOrderInput): Promise<OrderResponse> {
+export async function createOrderAPI(
+  input: CreateOrderInput,
+  idempotencyKey?: string
+): Promise<OrderResponse> {
+  const headers: HeadersInit = { "Content-Type": "application/json" };
+
+  if (idempotencyKey) {
+    headers["Idempotency-Key"] = idempotencyKey;
+  }
+
   const response = await fetch(CHECKOUT_API.CREATE_ORDER, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(input),
   });
 

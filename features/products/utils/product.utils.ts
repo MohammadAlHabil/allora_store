@@ -1,3 +1,5 @@
+import { Product } from "@/app/generated/prisma";
+import { calculateTotalStock } from "@/shared/lib/utils/product-availability";
 import type {
   AvailableColor,
   AvailableSize,
@@ -32,6 +34,8 @@ const COLOR_HEX_MAP: Record<string, string> = {
   teal: "#14B8A6",
   coral: "#FF7F50",
   lavender: "#E6E6FA",
+  gold: "#ffcc00de",
+  silver: "#C0C0C0",
 };
 
 /**
@@ -42,13 +46,59 @@ function getColorHex(color: string): string | undefined {
 }
 
 /**
+ * Helper to get size from variant options with flexible keys
+ */
+export function getVariantSize(variant: ProductVariant): string | undefined {
+  if (!variant.optionValues) return undefined;
+
+  // Standard key
+  if (variant.optionValues.size) return variant.optionValues.size;
+
+  // Flexible keys for other product types
+  const sizeKeys = [
+    "Size",
+    "volume",
+    "Volume",
+    "capacity",
+    "Capacity",
+    "weight",
+    "Weight",
+    "dimensions",
+    "Dimensions",
+  ];
+  for (const key of sizeKeys) {
+    if (variant.optionValues[key]) return variant.optionValues[key];
+  }
+
+  return undefined;
+}
+
+/**
+ * Helper to get color from variant options with flexible keys
+ */
+export function getVariantColor(variant: ProductVariant): string | undefined {
+  if (!variant.optionValues) return undefined;
+
+  // Standard key
+  if (variant.optionValues.color) return variant.optionValues.color;
+
+  // Flexible keys
+  const colorKeys = ["Color", "colour", "Colour", "shade", "Shade"];
+  for (const key of colorKeys) {
+    if (variant.optionValues[key]) return variant.optionValues[key];
+  }
+
+  return undefined;
+}
+
+/**
  * Extract available sizes from product variants
  */
 export function getAvailableSizes(variants: ProductVariant[]): AvailableSize[] {
   const sizesMap = new Map<string, AvailableSize>();
 
   variants.forEach((variant) => {
-    const size = variant.optionValues?.size;
+    const size = getVariantSize(variant);
     if (!size) return;
 
     const stockCount = variant.inventory?.quantity || 0;
@@ -89,7 +139,7 @@ export function getAvailableColors(variants: ProductVariant[]): AvailableColor[]
   const colorsMap = new Map<string, AvailableColor>();
 
   variants.forEach((variant) => {
-    const color = variant.optionValues?.color;
+    const color = getVariantColor(variant);
     if (!color) return;
 
     const stockCount = variant.inventory?.quantity || 0;
@@ -121,11 +171,11 @@ export function findMatchingVariant(
 ): ProductVariant | null {
   return (
     variants.find((variant) => {
-      const options = variant.optionValues;
-      if (!options) return false;
+      const variantSize = getVariantSize(variant);
+      const variantColor = getVariantColor(variant);
 
-      const sizeMatch = !selection.size || options.size === selection.size;
-      const colorMatch = !selection.color || options.color === selection.color;
+      const sizeMatch = !selection.size || variantSize === selection.size;
+      const colorMatch = !selection.color || variantColor === selection.color;
 
       return sizeMatch && colorMatch;
     }) || null
@@ -210,8 +260,8 @@ export function isValidSelection(product: ProductDetails, selection: ProductSele
   if (!product.isAvailable || product.isArchived) return false;
 
   // Check if product has variants with options
-  const hasSize = product.variants.some((v) => v.optionValues?.size);
-  const hasColor = product.variants.some((v) => v.optionValues?.color);
+  const hasSize = product.variants.some((v) => getVariantSize(v));
+  const hasColor = product.variants.some((v) => getVariantColor(v));
 
   // If product has size options, size must be selected
   if (hasSize && !selection.size) return false;
@@ -221,6 +271,18 @@ export function isValidSelection(product: ProductDetails, selection: ProductSele
 
   // Quantity must be at least 1
   if (selection.quantity < 1) return false;
+
+  // If product has no variants, validate against product-level inventories
+  const hasVariants = product.variants && product.variants.length > 0;
+  if (!hasVariants) {
+    const directInventories = product.inventories || [];
+    const totalAvailable = calculateTotalStock([], directInventories);
+
+    if (totalAvailable <= 0) return false;
+    if (selection.quantity > totalAvailable) return false;
+
+    return true;
+  }
 
   // Find matching variant and check stock
   const variant = findMatchingVariant(product.variants, selection);
@@ -252,8 +314,8 @@ export function validateSelection(
   }
 
   // Check required options
-  const hasSize = product.variants.some((v) => v.optionValues?.size);
-  const hasColor = product.variants.some((v) => v.optionValues?.color);
+  const hasSize = product.variants.some((v) => getVariantSize(v));
+  const hasColor = product.variants.some((v) => getVariantColor(v));
 
   const missing = [];
   if (hasSize && !selection.size) missing.push("size");
@@ -269,6 +331,27 @@ export function validateSelection(
   // Quantity validation
   if (selection.quantity < 1) {
     return { isValid: false, error: "Quantity must be at least 1" };
+  }
+
+  // Find matching variant
+  // If product has no variants, validate against product-level inventories
+  const hasVariants = product.variants && product.variants.length > 0;
+  if (!hasVariants) {
+    const directInventories = product.inventories || [];
+    const totalAvailable = calculateTotalStock([], directInventories);
+
+    if (totalAvailable <= 0) {
+      return { isValid: false, error: "This product is currently out of stock" };
+    }
+
+    if (selection.quantity > totalAvailable) {
+      return {
+        isValid: false,
+        error: `Only ${totalAvailable} item${totalAvailable !== 1 ? "s" : ""} available`,
+      };
+    }
+
+    return { isValid: true };
   }
 
   // Find matching variant
@@ -358,7 +441,7 @@ export function getAvailableColorsForSize(
 ): AvailableColor[] {
   if (!size) return getAvailableColors(variants);
 
-  const filteredVariants = variants.filter((v) => v.optionValues?.size === size);
+  const filteredVariants = variants.filter((v) => getVariantSize(v) === size);
 
   return getAvailableColors(filteredVariants);
 }
@@ -372,7 +455,25 @@ export function getAvailableSizesForColor(
 ): AvailableSize[] {
   if (!color) return getAvailableSizes(variants);
 
-  const filteredVariants = variants.filter((v) => v.optionValues?.color === color);
+  const filteredVariants = variants.filter((v) => getVariantColor(v) === color);
 
   return getAvailableSizes(filteredVariants);
+}
+
+/**
+ * Get the variant label based on the variant keys
+ */
+export function getVariantLabel(variants: ProductVariant[]): string {
+  if (!variants.length) return "Size";
+
+  // Check the first variant to determine the label type
+  const variant = variants[0];
+  if (!variant.optionValues) return "Size";
+
+  if (variant.optionValues.dimensions || variant.optionValues.Dimensions) return "Dimensions";
+  if (variant.optionValues.weight || variant.optionValues.Weight) return "Weight";
+  if (variant.optionValues.volume || variant.optionValues.Volume) return "Volume";
+  if (variant.optionValues.capacity || variant.optionValues.Capacity) return "Capacity";
+
+  return "Size";
 }

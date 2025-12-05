@@ -4,8 +4,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 
-// Initialize Stripe
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!);
+// Initialize Stripe using the public publishable key exposed to the browser
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 interface StripePaymentWrapperProps {
   amount: number; // Amount in dollars (e.g., 10.50)
@@ -19,43 +19,64 @@ export function StripePaymentWrapper({ amount, orderId, children }: StripePaymen
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Create Payment Intent when component mounts
-    const createPaymentIntent = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+    // Reset state when amount or orderId changes (new checkout session)
+    setClientSecret(null);
+    setLoading(true);
+    setError(null);
 
-        const response = await fetch("/api/checkout/create-payment-intent", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount,
-            orderId,
-          }),
-        });
+    // Abort controller to cancel previous requests
+    const abortController = new AbortController();
 
-        const data = await response.json();
+    // Debounce timer to avoid creating multiple payment intents
+    const timer = setTimeout(() => {
+      // Create Payment Intent when component mounts or amount changes
+      const createPaymentIntent = async () => {
+        try {
+          const response = await fetch("/api/checkout/create-payment-intent", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              amount,
+              orderId,
+            }),
+            signal: abortController.signal, // Allow cancellation
+          });
 
-        if (!response.ok) {
-          throw new Error(data.error || "Failed to create payment intent");
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Failed to create payment intent");
+          }
+
+          setClientSecret(data.clientSecret);
+        } catch (err: unknown) {
+          // Ignore abort errors (these are intentional)
+          if (err instanceof Error && err.name === "AbortError") {
+            return;
+          }
+          console.error("Payment intent error:", err);
+          const message = err instanceof Error ? err.message : String(err);
+          setError(message || "Failed to initialize payment");
+        } finally {
+          setLoading(false);
         }
+      };
 
-        setClientSecret(data.clientSecret);
-      } catch (err: unknown) {
-        console.error("Payment intent error:", err);
-        const message = err instanceof Error ? err.message : String(err);
-        setError(message || "Failed to initialize payment");
-      } finally {
+      if (amount > 0) {
+        createPaymentIntent();
+      } else {
         setLoading(false);
       }
-    };
+    }, 500); // Wait 500ms before creating payment intent (debounce)
 
-    if (amount > 0) {
-      createPaymentIntent();
-    }
-  }, [amount, orderId]);
+    // Cleanup function
+    return () => {
+      clearTimeout(timer);
+      abortController.abort(); // Cancel any pending requests
+    };
+  }, [amount, orderId]); // Re-run when amount or orderId changes
 
   if (loading) {
     return (

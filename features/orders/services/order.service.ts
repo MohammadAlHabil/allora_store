@@ -109,6 +109,12 @@ export class OrderService {
 
   /**
    * Check if order can be cancelled based on status
+   *
+   * Business Rules:
+   * - DRAFT: Can cancel (not finalized)
+   * - PENDING_PAYMENT (COD): Can cancel (payment not received)
+   * - PAID (Credit Card): CANNOT cancel (payment already processed)
+   * - FULFILLED/CANCELLED/REFUNDED: Cannot cancel (final states)
    */
   private canCancelOrder(orderStatus: string, paymentStatus: string): boolean {
     // Can cancel if order is pending payment or draft
@@ -116,9 +122,10 @@ export class OrderService {
       return true;
     }
 
-    // Can cancel if paid but not yet fulfilled
-    if (orderStatus === "PAID" && paymentStatus === "PAID") {
-      return true;
+    // Cannot cancel paid orders (payment already processed)
+    // User must contact support for refunds/returns
+    if (orderStatus === "PAID") {
+      return false;
     }
 
     // Cannot cancel fulfilled, already cancelled, or refunded orders

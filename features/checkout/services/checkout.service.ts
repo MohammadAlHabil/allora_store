@@ -61,12 +61,6 @@ export async function validateCheckout(userId: string) {
     throw new Error(CHECKOUT_ERRORS.CART_NOT_FOUND.message);
   }
 
-  console.log("🔵 Validate Checkout - Cart:", {
-    cartId: cart.id,
-    itemCount: cart.items.length,
-    items: cart.items.map((i) => ({ id: i.id, title: i.title, quantity: i.quantity })),
-  });
-
   if (cart.items.length === 0) {
     throw new Error(CHECKOUT_ERRORS.CART_EMPTY.message);
   }
@@ -589,17 +583,17 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
         },
       });
 
-      // 3. Commit stock and create payment
-      await commitStock(tx, stockItems);
-
+      // 3. Handle payment method-specific logic
       if (isCOD) {
-        // For COD: Payment will be collected on delivery
+        // For COD: Keep stock RESERVED (not committed)
+        // Stock will remain reserved until delivery is confirmed
+        // No commitStock() call - stock stays in reserved state
         await tx.order.update({
           where: { id: newOrder.id },
           data: {
             status: "PENDING_PAYMENT", // Will be paid on delivery
             paymentStatus: "PENDING", // Will be updated to PAID on delivery
-            reservationExpiresAt: null, // Stock committed, no expiration
+            // Keep reservationExpiresAt - stock is reserved but not committed
           },
         });
 
@@ -615,14 +609,16 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
           },
         });
       } else if (hasPaymentIntent) {
-        // For Stripe: Payment confirmed
+        // For Stripe/Card: Payment confirmed - COMMIT stock (deduct from inventory)
+        await commitStock(tx, stockItems);
+
         await tx.order.update({
           where: { id: newOrder.id },
           data: {
             status: "PAID",
             paymentStatus: "PAID",
             paidAt: new Date(),
-            reservationExpiresAt: null,
+            reservationExpiresAt: null, // Stock committed, no expiration
           },
         });
 
@@ -639,13 +635,13 @@ export async function createOrder(userId: string, input: CreateOrderInput): Prom
           },
         });
       } else {
-        // For other payment methods: Mark as pending
+        // For other payment methods: Keep as pending, stock remains reserved
         await tx.order.update({
           where: { id: newOrder.id },
           data: {
             status: "PENDING_PAYMENT",
             paymentStatus: "PENDING",
-            reservationExpiresAt: null, // Stock committed
+            // Keep reservationExpiresAt - stock is reserved
           },
         });
 

@@ -429,6 +429,16 @@ exports.Prisma.ActivityLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.IdempotencyKeyScalarFieldEnum = {
+  key: 'key',
+  userId: 'userId',
+  status: 'status',
+  responseStatus: 'responseStatus',
+  responseBody: 'responseBody',
+  createdAt: 'createdAt',
+  lockedAt: 'lockedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -498,6 +508,13 @@ exports.CouponType = exports.$Enums.CouponType = {
   FREE_SHIPPING: 'FREE_SHIPPING'
 };
 
+exports.IdempotencyStatus = exports.$Enums.IdempotencyStatus = {
+  STARTED: 'STARTED',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
@@ -520,7 +537,8 @@ exports.Prisma.ModelName = {
   Coupon: 'Coupon',
   Review: 'Review',
   WishlistItem: 'WishlistItem',
-  ActivityLog: 'ActivityLog'
+  ActivityLog: 'ActivityLog',
+  IdempotencyKey: 'IdempotencyKey'
 };
 
 /**

@@ -6,7 +6,7 @@
  * BUSINESS RULES:
  * - There is only ONE warehouse in the system
  * - All inventory is tracked against this single warehouse
- * - Stock formula: available = quantity - reserved
+ * - Stock formula: available = quantity - reserved (uses centralized utility)
  * - isTracked = true: enforce stock constraints
  * - isTracked = false: treat as "always available" (digital products, services)
  *
@@ -19,6 +19,7 @@
 
 import { Prisma } from "@/app/generated/prisma";
 import prisma from "@/shared/lib/prisma";
+import { calculateVariantStock } from "@/shared/lib/utils/product-availability";
 
 /**
  * Result of stock availability check
@@ -163,8 +164,8 @@ export async function checkStockAvailability(
       continue;
     }
 
-    // For tracked items, calculate availability
-    const available = Math.max(0, inventory.quantity - inventory.reserved);
+    // For tracked items, calculate availability using centralized utility
+    const available = calculateVariantStock(inventory);
     const isAvailable = available >= item.quantity;
 
     const result = {
@@ -237,8 +238,8 @@ export async function reserveStock(
       continue;
     }
 
-    // Calculate available stock
-    const available = inventory.quantity - inventory.reserved;
+    // Calculate available stock using centralized utility
+    const available = calculateVariantStock(inventory);
 
     // Check if sufficient stock
     if (available < item.quantity) {
@@ -379,7 +380,8 @@ export async function getStockStatus(productId: string, variantId?: string | nul
     };
   }
 
-  const available = inventory.quantity - inventory.reserved;
+  // Calculate available stock using centralized utility
+  const available = calculateVariantStock(inventory);
 
   return {
     exists: true,

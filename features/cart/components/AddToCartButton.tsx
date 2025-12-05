@@ -2,7 +2,6 @@
 
 import { Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { useProductAvailability } from "@/features/products/hooks/useProductAvailability";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import {
@@ -12,6 +11,11 @@ import {
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/lib/utils";
+import {
+  getAvailabilityMessage,
+  shouldDisableAddToCart,
+  type ProductAvailabilityData,
+} from "@/shared/lib/utils/product-availability";
 import { isValidQuantity } from "@/shared/lib/utils/validation";
 import { useAddToCart, useCart, useRemoveItem, useUpdateQuantity } from "../hooks";
 import type { AddToCartInput } from "../types";
@@ -27,13 +31,15 @@ export interface AddToCartButtonProps {
   size?: "default" | "sm" | "lg" | "icon";
   variant?: "default" | "outline" | "secondary" | "destructive" | "ghost" | "link";
   expandDirection?: "left" | "right"; // Direction for desktop expanded controls
+  // Product availability data (comes from API with product data)
+  availability?: ProductAvailabilityData;
 }
 
 /**
  * Enhanced Add to Cart Icon Button Component
  *
  * Features:
- * - Automatically checks product availability and stock
+ * - Uses product availability data from API (no separate request needed)
  * - Mobile: Always shows full controls when item is in cart
  * - Desktop: Shows icon with badge, expands to controls on hover
  * - Handles out of stock scenarios
@@ -49,16 +55,10 @@ export function AddToCartButton({
   size = "icon",
   variant = "default",
   expandDirection = "left",
+  availability,
 }: AddToCartButtonProps) {
   const [quantity, setQuantity] = useState(defaultQuantity);
   const [isHovered, setIsHovered] = useState(false);
-
-  // Fetch product availability
-  const {
-    data: productAvailability,
-    isLoading: isLoadingAvailability,
-    isError: isAvailabilityError,
-  } = useProductAvailability(productId);
 
   // Cart hooks
   const { items } = useCart();
@@ -73,12 +73,11 @@ export function AddToCartButton({
   const isInCart = !!cartItem;
   const cartQuantity = cartItem?.quantity || 0;
 
-  // Product availability check
-  const isProductAvailable =
-    productAvailability?.isAvailable === true && productAvailability?.isArchived !== true;
-  const hasStock = (productAvailability?.stock ?? 0) > 0;
-  const isProductDisabled =
-    disabled || isLoadingAvailability || isAvailabilityError || !isProductAvailable || !hasStock;
+  // Product availability check (use provided data or assume available if not provided)
+  const isProductDisabled = availability
+    ? disabled || shouldDisableAddToCart(availability)
+    : disabled;
+  const availabilityMessage = availability ? getAvailabilityMessage(availability) : "";
   const isPending = isAdding || isUpdating || isRemoving;
 
   const handleAddToCart = () => {
@@ -196,7 +195,7 @@ export function AddToCartButton({
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <div className="h-8 min-w-[32px] px-2 flex items-center justify-center text-sm font-semibold">
+          <div className="h-8 min-w-8 px-2 flex items-center justify-center text-sm font-semibold">
             {isPending && (isUpdating || isAdding) ? (
               <Loader2 className="h-3 w-3 animate-spin" />
             ) : (
@@ -239,8 +238,11 @@ export function AddToCartButton({
                   variant={variant}
                   size="icon"
                   className={cn(
-                    "relative rounded-full transition-all duration-200",
-                    isHovered && "opacity-0 pointer-events-none"
+                    "relative rounded-full transition-transform duration-200 transform",
+                    // Animate collapsed icon: fade & scale out when hovered
+                    isHovered
+                      ? "opacity-0 scale-75 translate-y-0 pointer-events-none"
+                      : "opacity-100 scale-100"
                   )}
                   disabled={isPending}
                 >
@@ -267,10 +269,12 @@ export function AddToCartButton({
           {/* Expanded state: Controls (shown on hover) */}
           <div
             className={cn(
-              "absolute top-0 flex items-center gap-1.5 transition-all duration-200",
-              expandDirection === "left" ? "right-0" : "left-0",
-              isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
+              "absolute top-0 flex items-center gap-1.5",
+              isHovered ? "" : "pointer-events-none",
+              expandDirection === "left" ? "right-0" : "left-0"
             )}
+            // keep container interactive state based on hover
+            aria-hidden={!isHovered}
           >
             <TooltipProvider>
               <Tooltip>
@@ -282,9 +286,14 @@ export function AddToCartButton({
                     onClick={cartQuantity === 1 ? handleRemove : handleDecrement}
                     disabled={isPending}
                     className={cn(
-                      "h-9 w-9 rounded-full shadow-sm border bg-background",
-                      cartQuantity === 1 && "text-red-600 hover:text-red-700 hover:bg-red-50"
+                      "h-9 w-9 rounded-full shadow-sm border bg-background transform transition-all duration-400",
+                      cartQuantity === 1 && "text-red-600 hover:text-red-700 hover:bg-red-50",
+                      // animate in/out with translateY and opacity based on hover state
+                      isHovered
+                        ? "opacity-100 translate-y-0 scale-100"
+                        : "opacity-0 translate-y-2 scale-95 pointer-events-none"
                     )}
+                    style={{ transitionDelay: isHovered ? "40ms" : "0ms" }}
                     aria-label={cartQuantity === 1 ? "Remove from cart" : "Decrease quantity"}
                   >
                     {isPending && isRemoving ? (
@@ -301,7 +310,15 @@ export function AddToCartButton({
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            <div className="h-9 min-w-[36px] px-2 flex items-center justify-center text-sm font-semibold bg-background rounded-full shadow-sm border">
+            <div
+              className={cn(
+                "h-9 min-w-9 px-2 flex items-center justify-center text-sm font-semibold bg-background rounded-full shadow-sm border transform transition-all duration-250",
+                isHovered
+                  ? "opacity-100 translate-y-0 scale-100"
+                  : "opacity-0 translate-y-2 scale-95 pointer-events-none"
+              )}
+              style={{ transitionDelay: isHovered ? "80ms" : "0ms" }}
+            >
               {isPending && (isUpdating || isAdding) ? (
                 <Loader2 className="h-3 w-3 animate-spin" />
               ) : (
@@ -317,7 +334,13 @@ export function AddToCartButton({
                     size="icon"
                     onClick={handleIncrement}
                     disabled={isPending}
-                    className="h-9 w-9 rounded-full shadow-sm border bg-background"
+                    className={cn(
+                      "h-9 w-9 rounded-full shadow-sm border bg-background transform transition-all duration-250",
+                      isHovered
+                        ? "opacity-100 translate-y-0 scale-100"
+                        : "opacity-0 translate-y-2 scale-95 pointer-events-none"
+                    )}
+                    style={{ transitionDelay: isHovered ? "120ms" : "0ms" }}
                     aria-label="Increase quantity"
                   >
                     {isPending && isUpdating ? (
@@ -386,11 +409,7 @@ export function AddToCartButton({
           ) : (
             <>
               <ShoppingCart className="mr-2 h-4 w-4" />
-              {isProductDisabled
-                ? productAvailability?.isArchived
-                  ? "Archived"
-                  : "Out of Stock"
-                : "Add to Cart"}
+              {isProductDisabled ? availabilityMessage || "Unavailable" : "Add to Cart"}
             </>
           )}
         </Button>
@@ -409,13 +428,7 @@ export function AddToCartButton({
             size="icon-lg"
             variant={variant}
             className={cn("rounded-full relative", className)}
-            aria-label={
-              isProductDisabled
-                ? productAvailability?.isArchived
-                  ? "Archived"
-                  : "Out of stock"
-                : "Add to cart"
-            }
+            aria-label={isProductDisabled ? availabilityMessage || "Unavailable" : "Add to cart"}
           >
             {isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -428,15 +441,7 @@ export function AddToCartButton({
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>
-            {isPending
-              ? "Adding..."
-              : isProductDisabled
-                ? productAvailability?.isArchived
-                  ? "Product archived"
-                  : "Out of stock"
-                : "Add to cart"}
-          </p>
+          <p>{isPending ? "Adding..." : isProductDisabled ? availabilityMessage : "Add to cart"}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

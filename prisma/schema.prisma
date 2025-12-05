@@ -17,7 +17,7 @@ generator client {
 
 // Enums
 enum UserRole {
-  USER
+  USER٫
   ADMIN
 }
 
@@ -87,6 +87,7 @@ model User {
   reviews          Review[]
   wishlistItems    WishlistItem[]
   activityLogs     ActivityLog[]
+  idempotencyKeys  IdempotencyKey[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
@@ -519,3 +520,25 @@ model ActivityLog {
 // ------------------------- Indexes / performance hints -------------------------
 // Add commonly queried indexes. Adjust as needed after analyzing production queries.
 
+
+// ------------------------- Idempotency -------------------------
+enum IdempotencyStatus {
+  STARTED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model IdempotencyKey {
+  key             String   @id
+  userId          String
+  status          IdempotencyStatus @default(STARTED)
+  responseStatus  Int?
+  responseBody    Json?
+  createdAt       DateTime @default(now())
+  lockedAt        DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

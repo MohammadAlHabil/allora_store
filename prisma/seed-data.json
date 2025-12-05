@@ -172,11 +172,7 @@
         "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?w=800",
         "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800"
       ],
-      "variantIds": [
-        "var_1",
-        "var_1b",
-        "var_1c"
-      ]
+      "variantIds": ["var_1_XS", "var_1_S", "var_1_M", "var_1_L", "var_1_XL"]
     },
     {
       "id": "prod_2",
@@ -192,10 +188,7 @@
         "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800",
         "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800"
       ],
-      "variantIds": [
-        "var_2",
-        "var_2b"
-      ]
+      "variantIds": ["var_2_40", "var_2_41", "var_2_42", "var_2_43", "var_2_44", "var_2_45"]
     },
     {
       "id": "prod_3",
@@ -211,9 +204,7 @@
         "https://images.unsplash.com/photo-1591047643423-2dc2b4e31869?w=800",
         "https://images.unsplash.com/photo-1610652520814-8a4e5cb9c8e3?w=800"
       ],
-      "variantIds": [
-        "var_3"
-      ]
+      "variantIds": ["var_3_black", "var_3_brown", "var_3_gold", "var_3_silver"]
     },
     {
       "id": "prod_4",
@@ -229,9 +220,7 @@
         "https://images.unsplash.com/photo-1539533018865-21b91283b553?w=800",
         "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800"
       ],
-      "variantIds": [
-        "var_4"
-      ]
+      "variantIds": ["var_4_XS", "var_4_S", "var_4_M", "var_4_L", "var_4_XL"]
     },
     {
       "id": "prod_5",
@@ -247,9 +236,7 @@
         "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=800",
         "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800"
       ],
-      "variantIds": [
-        "var_5"
-      ]
+      "variantIds": ["var_5_XS", "var_5_S", "var_5_M", "var_5_L", "var_5_XL"]
     },
     {
       "id": "prod_6",
@@ -265,9 +252,7 @@
         "https://images.unsplash.com/photo-1624378439575-d88b830d70ad?w=800",
         "https://images.unsplash.com/photo-1473691955023-da1c49c95c78?w=800"
       ],
-      "variantIds": [
-        "var_6"
-      ]
+      "variantIds": ["var_6_XS", "var_6_S", "var_6_M", "var_6_L", "var_6_XL"]
     },
     {
       "id": "prod_7",
@@ -283,9 +268,7 @@
         "https://images.unsplash.com/photo-1541643600914-78b084683601?w=800",
         "https://images.unsplash.com/photo-1588405748880-12d1d2a59926?w=800"
       ],
-      "variantIds": [
-        "var_7"
-      ]
+      "variantIds": ["var_7_50ml", "var_7_100ml"]
     },
     {
       "id": "prod_8",
@@ -301,24 +284,23 @@
         "https://images.unsplash.com/photo-1570194065650-d99fb4b14169?w=800",
         "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800"
       ],
-      "variantIds": [
-        "var_8"
-      ]
+      "variantIds": ["var_8_50ml", "var_8_100ml"]
     },
     {
       "id": "prod_9",
-      "name": "Sport Tee",
-      "slug": "sport-tee",
+      "name": "Sport Sneakers",
+      "slug": "sport-sneakers",
       "sku": "SKU-SPORT-001",
-      "shortDesc": "Breathable tee",
-      "description": "Lightweight sportswear top",
+      "shortDesc": "Performance sneakers",
+      "description": "High performance sport sneakers.",
       "basePrice": 24,
       "currency": "USD",
-      "categoryId": "cat_sports",
+      "categoryId": "cat_shoes",
       "images": [
         "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800",
         "https://images.unsplash.com/photo-1515886657613-9d3515b1e089?w=800"
-      ]
+      ],
+      "variantIds": ["var_9_40", "var_9_41", "var_9_42", "var_9_43", "var_9_44", "var_9_45"]
     },
     {
       "id": "prod_10",
@@ -333,7 +315,8 @@
       "images": [
         "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800",
         "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800"
-      ]
+      ],
+      "variantIds": ["var_10_black", "var_10_brown", "var_10_gold", "var_10_silver"]
     },
     {
       "id": "prod_11",
@@ -348,7 +331,8 @@
       "images": [
         "https://images.unsplash.com/photo-1624222247344-550fb60583c2?w=800",
         "https://images.unsplash.com/photo-1553062407-98eeb64c6309?w=800"
-      ]
+      ],
+      "variantIds": ["var_11_black", "var_11_brown", "var_11_gold", "var_11_silver"]
     },
     {
       "id": "prod_12",
@@ -363,7 +347,8 @@
       "images": [
         "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",
         "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800"
-      ]
+      ],
+      "variantIds": ["var_12_black", "var_12_brown", "var_12_gold", "var_12_silver"]
     },
     {
       "id": "prod_13",
@@ -378,7 +363,8 @@
       "images": [
         "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800",
         "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800"
-      ]
+      ],
+      "variantIds": ["var_13_black", "var_13_brown", "var_13_gold", "var_13_silver"]
     },
     {
       "id": "prod_14",
@@ -393,7 +379,8 @@
       "images": [
         "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800",
         "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800"
-      ]
+      ],
+      "variantIds": ["var_14_small", "var_14_large"]
     },
     {
       "id": "prod_15",
@@ -408,7 +395,8 @@
       "images": [
         "https://images.unsplash.com/photo-1522338140262-f46f5913618f?w=800",
         "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=800"
-      ]
+      ],
+      "variantIds": ["var_15_50g", "var_15_100g"]
     },
     {
       "id": "prod_16",
@@ -423,7 +411,8 @@
       "images": [
         "https://images.unsplash.com/photo-1543163521-1bd2c6935523?w=800",
         "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800"
-      ]
+      ],
+      "variantIds": ["var_16_40", "var_16_41", "var_16_42", "var_16_43", "var_16_44", "var_16_45"]
     },
     {
       "id": "prod_17",
@@ -438,7 +427,8 @@
       "images": [
         "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800",
         "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800"
-      ]
+      ],
+      "variantIds": ["var_17_XS", "var_17_S", "var_17_M", "var_17_L", "var_17_XL"]
     },
     {
       "id": "prod_18",
@@ -453,7 +443,8 @@
       "images": [
         "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800",
         "https://images.unsplash.com/photo-1515886657613-9d3515b1e089?w=800"
-      ]
+      ],
+      "variantIds": ["var_18_XS", "var_18_S", "var_18_M", "var_18_L", "var_18_XL"]
     },
     {
       "id": "prod_19",
@@ -468,7 +459,8 @@
       "images": [
         "https://images.unsplash.com/photo-1591047643423-2dc2b4e31869?w=800",
         "https://images.unsplash.com/photo-1610652520814-8a4e5cb9c8e3?w=800"
-      ]
+      ],
+      "variantIds": ["var_19_black", "var_19_brown", "var_19_gold", "var_19_silver"]
     },
     {
       "id": "prod_20",
@@ -483,7 +475,8 @@
       "images": [
         "https://images.unsplash.com/photo-1564422179731-5f20e0a6f3a2?w=800",
         "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800"
-      ]
+      ],
+      "variantIds": ["var_20_black", "var_20_brown", "var_20_gold", "var_20_silver"]
     }
   ],
   "productImages": [
@@ -499,18 +492,77 @@
   ],
   "productVariants": [
     {
-      "id": "var_1",
+      "id": "var_1_XS",
+      "productId": "prod_1",
+      "sku": "SKU-SHIRT-001-XS",
+      "title": "Size XS",
+      "optionValues": {
+        "size": "XS"
+      },
+      "price": 49.99
+    },
+    {
+      "id": "var_1_S",
       "productId": "prod_1",
       "sku": "SKU-SHIRT-001-S",
-      "title": "Small",
+      "title": "Size S",
       "optionValues": {
         "size": "S"
       },
-      "price": 49.99,
-      "isDefault": true
+      "price": 49.99
     },
     {
-      "id": "var_2",
+      "id": "var_1_M",
+      "productId": "prod_1",
+      "sku": "SKU-SHIRT-001-M",
+      "title": "Size M",
+      "optionValues": {
+        "size": "M"
+      },
+      "price": 49.99
+    },
+    {
+      "id": "var_1_L",
+      "productId": "prod_1",
+      "sku": "SKU-SHIRT-001-L",
+      "title": "Size L",
+      "optionValues": {
+        "size": "L"
+      },
+      "price": 49.99
+    },
+    {
+      "id": "var_1_XL",
+      "productId": "prod_1",
+      "sku": "SKU-SHIRT-001-XL",
+      "title": "Size XL",
+      "optionValues": {
+        "size": "XL"
+      },
+      "price": 49.99
+    },
+    {
+      "id": "var_2_40",
+      "productId": "prod_2",
+      "sku": "SKU-SHOES-001-40",
+      "title": "Size 40",
+      "optionValues": {
+        "size": "40"
+      },
+      "price": 89.5
+    },
+    {
+      "id": "var_2_41",
+      "productId": "prod_2",
+      "sku": "SKU-SHOES-001-41",
+      "title": "Size 41",
+      "optionValues": {
+        "size": "41"
+      },
+      "price": 89.5
+    },
+    {
+      "id": "var_2_42",
       "productId": "prod_2",
       "sku": "SKU-SHOES-001-42",
       "title": "Size 42",
@@ -520,27 +572,7 @@
       "price": 89.5
     },
     {
-      "id": "var_1b",
-      "productId": "prod_1",
-      "sku": "SKU-SHIRT-001-M",
-      "title": "Medium",
-      "optionValues": {
-        "size": "M"
-      },
-      "price": 49.99
-    },
-    {
-      "id": "var_1c",
-      "productId": "prod_1",
-      "sku": "SKU-SHIRT-001-L",
-      "title": "Large",
-      "optionValues": {
-        "size": "L"
-      },
-      "price": 49.99
-    },
-    {
-      "id": "var_2b",
+      "id": "var_2_43",
       "productId": "prod_2",
       "sku": "SKU-SHOES-001-43",
       "title": "Size 43",
@@ -550,48 +582,217 @@
       "price": 89.5
     },
     {
-      "id": "var_3",
-      "productId": "prod_3",
-      "sku": "SKU-HAT-001-OS",
-      "title": "One Size",
+      "id": "var_2_44",
+      "productId": "prod_2",
+      "sku": "SKU-SHOES-001-44",
+      "title": "Size 44",
       "optionValues": {
-        "size": "OS"
+        "size": "44"
       },
-      "price": 25,
-      "isDefault": true
+      "price": 89.5
     },
     {
-      "id": "var_4",
+      "id": "var_2_45",
+      "productId": "prod_2",
+      "sku": "SKU-SHOES-001-45",
+      "title": "Size 45",
+      "optionValues": {
+        "size": "45"
+      },
+      "price": 89.5
+    },
+    {
+      "id": "var_3_black",
+      "productId": "prod_3",
+      "sku": "SKU-HAT-001-BLACK",
+      "title": "Black",
+      "optionValues": {
+        "color": "Black"
+      },
+      "price": 25
+    },
+    {
+      "id": "var_3_brown",
+      "productId": "prod_3",
+      "sku": "SKU-HAT-001-BROWN",
+      "title": "Brown",
+      "optionValues": {
+        "color": "Brown"
+      },
+      "price": 25
+    },
+    {
+      "id": "var_3_gold",
+      "productId": "prod_3",
+      "sku": "SKU-HAT-001-GOLD",
+      "title": "Gold",
+      "optionValues": {
+        "color": "Gold"
+      },
+      "price": 25
+    },
+    {
+      "id": "var_3_silver",
+      "productId": "prod_3",
+      "sku": "SKU-HAT-001-SILVER",
+      "title": "Silver",
+      "optionValues": {
+        "color": "Silver"
+      },
+      "price": 25
+    },
+    {
+      "id": "var_4_XS",
+      "productId": "prod_4",
+      "sku": "SKU-DRESS-001-XS",
+      "title": "Size XS",
+      "optionValues": {
+        "size": "XS"
+      },
+      "price": 129
+    },
+    {
+      "id": "var_4_S",
       "productId": "prod_4",
       "sku": "SKU-DRESS-001-S",
-      "title": "Small",
+      "title": "Size S",
       "optionValues": {
         "size": "S"
       },
       "price": 129
     },
     {
-      "id": "var_5",
+      "id": "var_4_M",
+      "productId": "prod_4",
+      "sku": "SKU-DRESS-001-M",
+      "title": "Size M",
+      "optionValues": {
+        "size": "M"
+      },
+      "price": 129
+    },
+    {
+      "id": "var_4_L",
+      "productId": "prod_4",
+      "sku": "SKU-DRESS-001-L",
+      "title": "Size L",
+      "optionValues": {
+        "size": "L"
+      },
+      "price": 129
+    },
+    {
+      "id": "var_4_XL",
+      "productId": "prod_4",
+      "sku": "SKU-DRESS-001-XL",
+      "title": "Size XL",
+      "optionValues": {
+        "size": "XL"
+      },
+      "price": 129
+    },
+    {
+      "id": "var_5_XS",
+      "productId": "prod_5",
+      "sku": "SKU-SKIRT-001-XS",
+      "title": "Size XS",
+      "optionValues": {
+        "size": "XS"
+      },
+      "price": 39.5
+    },
+    {
+      "id": "var_5_S",
       "productId": "prod_5",
       "sku": "SKU-SKIRT-001-S",
-      "title": "Small",
+      "title": "Size S",
       "optionValues": {
         "size": "S"
       },
       "price": 39.5
     },
     {
-      "id": "var_6",
-      "productId": "prod_6",
-      "sku": "SKU-PANTS-001-30",
-      "title": "Waist 30",
+      "id": "var_5_M",
+      "productId": "prod_5",
+      "sku": "SKU-SKIRT-001-M",
+      "title": "Size M",
       "optionValues": {
-        "size": "30"
+        "size": "M"
+      },
+      "price": 39.5
+    },
+    {
+      "id": "var_5_L",
+      "productId": "prod_5",
+      "sku": "SKU-SKIRT-001-L",
+      "title": "Size L",
+      "optionValues": {
+        "size": "L"
+      },
+      "price": 39.5
+    },
+    {
+      "id": "var_5_XL",
+      "productId": "prod_5",
+      "sku": "SKU-SKIRT-001-XL",
+      "title": "Size XL",
+      "optionValues": {
+        "size": "XL"
+      },
+      "price": 39.5
+    },
+    {
+      "id": "var_6_XS",
+      "productId": "prod_6",
+      "sku": "SKU-PANTS-001-XS",
+      "title": "Size XS",
+      "optionValues": {
+        "size": "XS"
       },
       "price": 59
     },
     {
-      "id": "var_7",
+      "id": "var_6_S",
+      "productId": "prod_6",
+      "sku": "SKU-PANTS-001-S",
+      "title": "Size S",
+      "optionValues": {
+        "size": "S"
+      },
+      "price": 59
+    },
+    {
+      "id": "var_6_M",
+      "productId": "prod_6",
+      "sku": "SKU-PANTS-001-M",
+      "title": "Size M",
+      "optionValues": {
+        "size": "M"
+      },
+      "price": 59
+    },
+    {
+      "id": "var_6_L",
+      "productId": "prod_6",
+      "sku": "SKU-PANTS-001-L",
+      "title": "Size L",
+      "optionValues": {
+        "size": "L"
+      },
+      "price": 59
+    },
+    {
+      "id": "var_6_XL",
+      "productId": "prod_6",
+      "sku": "SKU-PANTS-001-XL",
+      "title": "Size XL",
+      "optionValues": {
+        "size": "XL"
+      },
+      "price": 59
+    },
+    {
+      "id": "var_7_50ml",
       "productId": "prod_7",
       "sku": "SKU-PERF-001-50ML",
       "title": "50ml",
@@ -601,7 +802,17 @@
       "price": 79
     },
     {
-      "id": "var_8",
+      "id": "var_7_100ml",
+      "productId": "prod_7",
+      "sku": "SKU-PERF-001-100ML",
+      "title": "100ml",
+      "optionValues": {
+        "volume": "100ml"
+      },
+      "price": 79
+    },
+    {
+      "id": "var_8_50ml",
       "productId": "prod_8",
       "sku": "SKU-SKIN-001-50ML",
       "title": "50ml",
@@ -609,6 +820,516 @@
         "volume": "50ml"
       },
       "price": 29.99
+    },
+    {
+      "id": "var_8_100ml",
+      "productId": "prod_8",
+      "sku": "SKU-SKIN-001-100ML",
+      "title": "100ml",
+      "optionValues": {
+        "volume": "100ml"
+      },
+      "price": 29.99
+    },
+    {
+      "id": "var_9_40",
+      "productId": "prod_9",
+      "sku": "SKU-SPORT-001-40",
+      "title": "Size 40",
+      "optionValues": {
+        "size": "40"
+      },
+      "price": 24
+    },
+    {
+      "id": "var_9_41",
+      "productId": "prod_9",
+      "sku": "SKU-SPORT-001-41",
+      "title": "Size 41",
+      "optionValues": {
+        "size": "41"
+      },
+      "price": 24
+    },
+    {
+      "id": "var_9_42",
+      "productId": "prod_9",
+      "sku": "SKU-SPORT-001-42",
+      "title": "Size 42",
+      "optionValues": {
+        "size": "42"
+      },
+      "price": 24
+    },
+    {
+      "id": "var_9_43",
+      "productId": "prod_9",
+      "sku": "SKU-SPORT-001-43",
+      "title": "Size 43",
+      "optionValues": {
+        "size": "43"
+      },
+      "price": 24
+    },
+    {
+      "id": "var_9_44",
+      "productId": "prod_9",
+      "sku": "SKU-SPORT-001-44",
+      "title": "Size 44",
+      "optionValues": {
+        "size": "44"
+      },
+      "price": 24
+    },
+    {
+      "id": "var_9_45",
+      "productId": "prod_9",
+      "sku": "SKU-SPORT-001-45",
+      "title": "Size 45",
+      "optionValues": {
+        "size": "45"
+      },
+      "price": 24
+    },
+    {
+      "id": "var_10_black",
+      "productId": "prod_10",
+      "sku": "SKU-SUN-001-BLACK",
+      "title": "Black",
+      "optionValues": {
+        "color": "Black"
+      },
+      "price": 69
+    },
+    {
+      "id": "var_10_brown",
+      "productId": "prod_10",
+      "sku": "SKU-SUN-001-BROWN",
+      "title": "Brown",
+      "optionValues": {
+        "color": "Brown"
+      },
+      "price": 69
+    },
+    {
+      "id": "var_10_gold",
+      "productId": "prod_10",
+      "sku": "SKU-SUN-001-GOLD",
+      "title": "Gold",
+      "optionValues": {
+        "color": "Gold"
+      },
+      "price": 69
+    },
+    {
+      "id": "var_10_silver",
+      "productId": "prod_10",
+      "sku": "SKU-SUN-001-SILVER",
+      "title": "Silver",
+      "optionValues": {
+        "color": "Silver"
+      },
+      "price": 69
+    },
+    {
+      "id": "var_11_black",
+      "productId": "prod_11",
+      "sku": "SKU-BELT-001-BLACK",
+      "title": "Black",
+      "optionValues": {
+        "color": "Black"
+      },
+      "price": 34.5
+    },
+    {
+      "id": "var_11_brown",
+      "productId": "prod_11",
+      "sku": "SKU-BELT-001-BROWN",
+      "title": "Brown",
+      "optionValues": {
+        "color": "Brown"
+      },
+      "price": 34.5
+    },
+    {
+      "id": "var_11_gold",
+      "productId": "prod_11",
+      "sku": "SKU-BELT-001-GOLD",
+      "title": "Gold",
+      "optionValues": {
+        "color": "Gold"
+      },
+      "price": 34.5
+    },
+    {
+      "id": "var_11_silver",
+      "productId": "prod_11",
+      "sku": "SKU-BELT-001-SILVER",
+      "title": "Silver",
+      "optionValues": {
+        "color": "Silver"
+      },
+      "price": 34.5
+    },
+    {
+      "id": "var_12_black",
+      "productId": "prod_12",
+      "sku": "SKU-WATCH-001-BLACK",
+      "title": "Black",
+      "optionValues": {
+        "color": "Black"
+      },
+      "price": 199
+    },
+    {
+      "id": "var_12_brown",
+      "productId": "prod_12",
+      "sku": "SKU-WATCH-001-BROWN",
+      "title": "Brown",
+      "optionValues": {
+        "color": "Brown"
+      },
+      "price": 199
+    },
+    {
+      "id": "var_12_gold",
+      "productId": "prod_12",
+      "sku": "SKU-WATCH-001-GOLD",
+      "title": "Gold",
+      "optionValues": {
+        "color": "Gold"
+      },
+      "price": 199
+    },
+    {
+      "id": "var_12_silver",
+      "productId": "prod_12",
+      "sku": "SKU-WATCH-001-SILVER",
+      "title": "Silver",
+      "optionValues": {
+        "color": "Silver"
+      },
+      "price": 199
+    },
+    {
+      "id": "var_13_black",
+      "productId": "prod_13",
+      "sku": "SKU-BAG-001-BLACK",
+      "title": "Black",
+      "optionValues": {
+        "color": "Black"
+      },
+      "price": 59.99
+    },
+    {
+      "id": "var_13_brown",
+      "productId": "prod_13",
+      "sku": "SKU-BAG-001-BROWN",
+      "title": "Brown",
+      "optionValues": {
+        "color": "Brown"
+      },
+      "price": 59.99
+    },
+    {
+      "id": "var_13_gold",
+      "productId": "prod_13",
+      "sku": "SKU-BAG-001-GOLD",
+      "title": "Gold",
+      "optionValues": {
+        "color": "Gold"
+      },
+      "price": 59.99
+    },
+    {
+      "id": "var_13_silver",
+      "productId": "prod_13",
+      "sku": "SKU-BAG-001-SILVER",
+      "title": "Silver",
+      "optionValues": {
+        "color": "Silver"
+      },
+      "price": 59.99
+    },
+    {
+      "id": "var_14_small",
+      "productId": "prod_14",
+      "sku": "SKU-MAKEUP-001-SMALL",
+      "title": "Small Kit",
+      "optionValues": {
+        "dimensions": "15x10x5 cm"
+      },
+      "price": 45
+    },
+    {
+      "id": "var_14_large",
+      "productId": "prod_14",
+      "sku": "SKU-MAKEUP-001-LARGE",
+      "title": "Large Kit",
+      "optionValues": {
+        "dimensions": "25x15x8 cm"
+      },
+      "price": 65
+    },
+    {
+      "id": "var_15_50g",
+      "productId": "prod_15",
+      "sku": "SKU-HAIR-001-50G",
+      "title": "50g",
+      "optionValues": {
+        "weight": "50g"
+      },
+      "price": 19.99
+    },
+    {
+      "id": "var_15_100g",
+      "productId": "prod_15",
+      "sku": "SKU-HAIR-001-100G",
+      "title": "100g",
+      "optionValues": {
+        "weight": "100g"
+      },
+      "price": 29.99
+    },
+    {
+      "id": "var_16_40",
+      "productId": "prod_16",
+      "sku": "SKU-SHOES-002-40",
+      "title": "Size 40",
+      "optionValues": {
+        "size": "40"
+      },
+      "price": 74
+    },
+    {
+      "id": "var_16_41",
+      "productId": "prod_16",
+      "sku": "SKU-SHOES-002-41",
+      "title": "Size 41",
+      "optionValues": {
+        "size": "41"
+      },
+      "price": 74
+    },
+    {
+      "id": "var_16_42",
+      "productId": "prod_16",
+      "sku": "SKU-SHOES-002-42",
+      "title": "Size 42",
+      "optionValues": {
+        "size": "42"
+      },
+      "price": 74
+    },
+    {
+      "id": "var_16_43",
+      "productId": "prod_16",
+      "sku": "SKU-SHOES-002-43",
+      "title": "Size 43",
+      "optionValues": {
+        "size": "43"
+      },
+      "price": 74
+    },
+    {
+      "id": "var_16_44",
+      "productId": "prod_16",
+      "sku": "SKU-SHOES-002-44",
+      "title": "Size 44",
+      "optionValues": {
+        "size": "44"
+      },
+      "price": 74
+    },
+    {
+      "id": "var_16_45",
+      "productId": "prod_16",
+      "sku": "SKU-SHOES-002-45",
+      "title": "Size 45",
+      "optionValues": {
+        "size": "45"
+      },
+      "price": 74
+    },
+    {
+      "id": "var_17_XS",
+      "productId": "prod_17",
+      "sku": "SKU-BLAZER-001-XS",
+      "title": "Size XS",
+      "optionValues": {
+        "size": "XS"
+      },
+      "price": 149
+    },
+    {
+      "id": "var_17_S",
+      "productId": "prod_17",
+      "sku": "SKU-BLAZER-001-S",
+      "title": "Size S",
+      "optionValues": {
+        "size": "S"
+      },
+      "price": 149
+    },
+    {
+      "id": "var_17_M",
+      "productId": "prod_17",
+      "sku": "SKU-BLAZER-001-M",
+      "title": "Size M",
+      "optionValues": {
+        "size": "M"
+      },
+      "price": 149
+    },
+    {
+      "id": "var_17_L",
+      "productId": "prod_17",
+      "sku": "SKU-BLAZER-001-L",
+      "title": "Size L",
+      "optionValues": {
+        "size": "L"
+      },
+      "price": 149
+    },
+    {
+      "id": "var_17_XL",
+      "productId": "prod_17",
+      "sku": "SKU-BLAZER-001-XL",
+      "title": "Size XL",
+      "optionValues": {
+        "size": "XL"
+      },
+      "price": 149
+    },
+    {
+      "id": "var_18_XS",
+      "productId": "prod_18",
+      "sku": "SKU-SPORT-002-XS",
+      "title": "Size XS",
+      "optionValues": {
+        "size": "XS"
+      },
+      "price": 34
+    },
+    {
+      "id": "var_18_S",
+      "productId": "prod_18",
+      "sku": "SKU-SPORT-002-S",
+      "title": "Size S",
+      "optionValues": {
+        "size": "S"
+      },
+      "price": 34
+    },
+    {
+      "id": "var_18_M",
+      "productId": "prod_18",
+      "sku": "SKU-SPORT-002-M",
+      "title": "Size M",
+      "optionValues": {
+        "size": "M"
+      },
+      "price": 34
+    },
+    {
+      "id": "var_18_L",
+      "productId": "prod_18",
+      "sku": "SKU-SPORT-002-L",
+      "title": "Size L",
+      "optionValues": {
+        "size": "L"
+      },
+      "price": 34
+    },
+    {
+      "id": "var_18_XL",
+      "productId": "prod_18",
+      "sku": "SKU-SPORT-002-XL",
+      "title": "Size XL",
+      "optionValues": {
+        "size": "XL"
+      },
+      "price": 34
+    },
+    {
+      "id": "var_19_black",
+      "productId": "prod_19",
+      "sku": "SKU-WALLET-001-BLACK",
+      "title": "Black",
+      "optionValues": {
+        "color": "Black"
+      },
+      "price": 22
+    },
+    {
+      "id": "var_19_brown",
+      "productId": "prod_19",
+      "sku": "SKU-WALLET-001-BROWN",
+      "title": "Brown",
+      "optionValues": {
+        "color": "Brown"
+      },
+      "price": 22
+    },
+    {
+      "id": "var_19_gold",
+      "productId": "prod_19",
+      "sku": "SKU-WALLET-001-GOLD",
+      "title": "Gold",
+      "optionValues": {
+        "color": "Gold"
+      },
+      "price": 22
+    },
+    {
+      "id": "var_19_silver",
+      "productId": "prod_19",
+      "sku": "SKU-WALLET-001-SILVER",
+      "title": "Silver",
+      "optionValues": {
+        "color": "Silver"
+      },
+      "price": 22
+    },
+    {
+      "id": "var_20_black",
+      "productId": "prod_20",
+      "sku": "SKU-BAG-002-BLACK",
+      "title": "Black",
+      "optionValues": {
+        "color": "Black"
+      },
+      "price": 89
+    },
+    {
+      "id": "var_20_brown",
+      "productId": "prod_20",
+      "sku": "SKU-BAG-002-BROWN",
+      "title": "Brown",
+      "optionValues": {
+        "color": "Brown"
+      },
+      "price": 89
+    },
+    {
+      "id": "var_20_gold",
+      "productId": "prod_20",
+      "sku": "SKU-BAG-002-GOLD",
+      "title": "Gold",
+      "optionValues": {
+        "color": "Gold"
+      },
+      "price": 89
+    },
+    {
+      "id": "var_20_silver",
+      "productId": "prod_20",
+      "sku": "SKU-BAG-002-SILVER",
+      "title": "Silver",
+      "optionValues": {
+        "color": "Silver"
+      },
+      "price": 89
     }
   ],
   "productCategories": [
@@ -640,9 +1361,7 @@
       "basePrice": 30,
       "currency": "EGP",
       "isActive": true,
-      "availableCountries": [
-        "EG"
-      ],
+      "availableCountries": ["EG"],
       "estimatedDaysMin": 3,
       "estimatedDaysMax": 5,
       "rules": {
@@ -658,9 +1377,7 @@
       "basePrice": 60,
       "currency": "EGP",
       "isActive": true,
-      "availableCountries": [
-        "EG"
-      ],
+      "availableCountries": ["EG"],
       "estimatedDaysMin": 1,
       "estimatedDaysMax": 2,
       "rules": {
@@ -676,17 +1393,12 @@
       "basePrice": 100,
       "currency": "EGP",
       "isActive": true,
-      "availableCountries": [
-        "EG"
-      ],
+      "availableCountries": ["EG"],
       "estimatedDaysMin": 0,
       "estimatedDaysMax": 0,
       "rules": {
         "maxWeight": 10,
-        "regions": [
-          "Cairo",
-          "Giza"
-        ],
+        "regions": ["Cairo", "Giza"],
         "cutoffTime": "12:00 PM"
       }
     }
@@ -757,256 +1469,1012 @@
   ],
   "inventories": [
     {
-      "id": "inv_1",
-      "sku": "INV-SHIRT-001",
+      "id": "inv_1_XS",
+      "sku": "INV-SHIRT-001-XS",
       "productId": "prod_1",
-      "variantId": "var_1",
+      "variantId": "var_1_XS",
       "warehouseId": "wh_1",
-      "quantity": 100,
-      "reserved": 5,
-      "incoming": 12,
-      "reorderThreshold": 10,
+      "quantity": 48,
+      "reserved": 0,
+      "incoming": 18,
+      "reorderThreshold": 5,
       "isTracked": true
     },
     {
-      "id": "inv_2",
-      "sku": "INV-SHOES-001",
-      "productId": "prod_2",
-      "variantId": "var_2",
+      "id": "inv_1_S",
+      "sku": "INV-SHIRT-001-S",
+      "productId": "prod_1",
+      "variantId": "var_1_S",
       "warehouseId": "wh_1",
-      "quantity": 50,
-      "reserved": 2,
+      "quantity": 15,
+      "reserved": 0,
       "incoming": 5,
       "reorderThreshold": 5,
       "isTracked": true
     },
     {
-      "id": "inv_3",
-      "sku": "INV-HAT-001",
-      "productId": "prod_3",
-      "variantId": "var_3",
+      "id": "inv_1_M",
+      "sku": "INV-SHIRT-001-M",
+      "productId": "prod_1",
+      "variantId": "var_1_M",
       "warehouseId": "wh_1",
-      "quantity": 75,
-      "reserved": 10,
-      "incoming": 0,
-      "reorderThreshold": 8,
-      "isTracked": true
-    },
-    {
-      "id": "inv_4",
-      "sku": "INV-DRESS-001",
-      "productId": "prod_4",
-      "variantId": "var_4",
-      "warehouseId": "wh_1",
-      "quantity": 40,
-      "reserved": 0,
-      "incoming": 20,
-      "reorderThreshold": 6,
-      "isTracked": true
-    },
-    {
-      "id": "inv_5",
-      "sku": "INV-SKIRT-001",
-      "productId": "prod_5",
-      "variantId": "var_5",
-      "warehouseId": "wh_1",
-      "quantity": 60,
-      "reserved": 4,
-      "incoming": 8,
-      "reorderThreshold": 7,
-      "isTracked": true
-    },
-    {
-      "id": "inv_6",
-      "sku": "INV-PANTS-001",
-      "productId": "prod_6",
-      "variantId": "var_6",
-      "warehouseId": "wh_1",
-      "quantity": 55,
+      "quantity": 10,
       "reserved": 0,
       "incoming": 15,
-      "reorderThreshold": 7,
-      "isTracked": true
-    },
-    {
-      "id": "inv_7",
-      "sku": "INV-PERF-001",
-      "productId": "prod_7",
-      "variantId": "var_7",
-      "warehouseId": "wh_1",
-      "quantity": 30,
-      "reserved": 3,
-      "incoming": 0,
       "reorderThreshold": 5,
       "isTracked": true
     },
     {
-      "id": "inv_8",
-      "sku": "INV-SKIN-001",
-      "productId": "prod_8",
-      "variantId": "var_8",
-      "warehouseId": "wh_1",
-      "quantity": 80,
-      "reserved": 8,
-      "incoming": 25,
-      "reorderThreshold": 10,
-      "isTracked": true
-    },
-    {
-      "id": "inv_9",
-      "sku": "INV-SPORT-001",
-      "productId": "prod_9",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 120,
-      "reserved": 25,
-      "incoming": 40,
-      "reorderThreshold": 15,
-      "isTracked": true
-    },
-    {
-      "id": "inv_10",
-      "sku": "INV-SUN-001",
-      "productId": "prod_10",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 45,
-      "reserved": 2,
-      "incoming": 0,
-      "reorderThreshold": 5,
-      "isTracked": true
-    },
-    {
-      "id": "inv_11",
-      "sku": "INV-BELT-001",
-      "productId": "prod_11",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 70,
-      "reserved": 6,
-      "incoming": 0,
-      "reorderThreshold": 10,
-      "isTracked": true
-    },
-    {
-      "id": "inv_12",
-      "sku": "INV-WATCH-001",
-      "productId": "prod_12",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 25,
-      "reserved": 1,
-      "incoming": 2,
-      "reorderThreshold": 3,
-      "isTracked": true
-    },
-    {
-      "id": "inv_13",
-      "sku": "INV-BAG-001",
-      "productId": "prod_13",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 65,
-      "reserved": 5,
-      "incoming": 0,
-      "reorderThreshold": 8,
-      "isTracked": true
-    },
-    {
-      "id": "inv_14",
-      "sku": "INV-MAKEUP-001",
-      "productId": "prod_14",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 90,
-      "reserved": 0,
-      "incoming": 30,
-      "reorderThreshold": 12,
-      "isTracked": true
-    },
-    {
-      "id": "inv_15",
-      "sku": "INV-HAIR-001",
-      "productId": "prod_15",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 110,
-      "reserved": 12,
-      "incoming": 20,
-      "reorderThreshold": 15,
-      "isTracked": true
-    },
-    {
-      "id": "inv_16",
-      "sku": "INV-SHOES-002",
-      "productId": "prod_16",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 40,
-      "reserved": 6,
-      "incoming": 0,
-      "reorderThreshold": 6,
-      "isTracked": true
-    },
-    {
-      "id": "inv_17",
-      "sku": "INV-BLAZER-001",
-      "productId": "prod_17",
-      "variantId": null,
+      "id": "inv_1_L",
+      "sku": "INV-SHIRT-001-L",
+      "productId": "prod_1",
+      "variantId": "var_1_L",
       "warehouseId": "wh_1",
       "quantity": 22,
       "reserved": 0,
-      "incoming": 5,
-      "reorderThreshold": 4,
-      "isTracked": true
-    },
-    {
-      "id": "inv_18",
-      "sku": "INV-SPORTS-002",
-      "productId": "prod_18",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 48,
-      "reserved": 4,
-      "incoming": 10,
-      "reorderThreshold": 6,
-      "isTracked": true
-    },
-    {
-      "id": "inv_19",
-      "sku": "INV-WALLET-001",
-      "productId": "prod_19",
-      "variantId": null,
-      "warehouseId": "wh_1",
-      "quantity": 33,
-      "reserved": 2,
-      "incoming": 0,
+      "incoming": 11,
       "reorderThreshold": 5,
       "isTracked": true
     },
     {
-      "id": "inv_20",
-      "sku": "INV-BAG-002",
-      "productId": "prod_20",
-      "variantId": null,
+      "id": "inv_1_XL",
+      "sku": "INV-SHIRT-001-XL",
+      "productId": "prod_1",
+      "variantId": "var_1_XL",
       "warehouseId": "wh_1",
-      "quantity": 27,
+      "quantity": 29,
       "reserved": 0,
       "incoming": 7,
       "reorderThreshold": 5,
       "isTracked": true
     },
     {
-      "id": "inv_digital_1",
-      "sku": "INV-EBOOK-001",
-      "productId": "prod_digital_1",
-      "variantId": null,
+      "id": "inv_2_40",
+      "sku": "INV-SHOES-001-40",
+      "productId": "prod_2",
+      "variantId": "var_2_40",
       "warehouseId": "wh_1",
-      "quantity": 999999,
+      "quantity": 16,
+      "reserved": 0,
+      "incoming": 14,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_2_41",
+      "sku": "INV-SHOES-001-41",
+      "productId": "prod_2",
+      "variantId": "var_2_41",
+      "warehouseId": "wh_1",
+      "quantity": 24,
+      "reserved": 0,
+      "incoming": 2,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_2_42",
+      "sku": "INV-SHOES-001-42",
+      "productId": "prod_2",
+      "variantId": "var_2_42",
+      "warehouseId": "wh_1",
+      "quantity": 44,
+      "reserved": 0,
+      "incoming": 2,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_2_43",
+      "sku": "INV-SHOES-001-43",
+      "productId": "prod_2",
+      "variantId": "var_2_43",
+      "warehouseId": "wh_1",
+      "quantity": 52,
+      "reserved": 0,
+      "incoming": 8,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_2_44",
+      "sku": "INV-SHOES-001-44",
+      "productId": "prod_2",
+      "variantId": "var_2_44",
+      "warehouseId": "wh_1",
+      "quantity": 49,
+      "reserved": 0,
+      "incoming": 13,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_2_45",
+      "sku": "INV-SHOES-001-45",
+      "productId": "prod_2",
+      "variantId": "var_2_45",
+      "warehouseId": "wh_1",
+      "quantity": 15,
+      "reserved": 0,
+      "incoming": 7,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_3_black",
+      "sku": "INV-HAT-001-BLACK",
+      "productId": "prod_3",
+      "variantId": "var_3_black",
+      "warehouseId": "wh_1",
+      "quantity": 12,
+      "reserved": 0,
+      "incoming": 16,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_3_brown",
+      "sku": "INV-HAT-001-BROWN",
+      "productId": "prod_3",
+      "variantId": "var_3_brown",
+      "warehouseId": "wh_1",
+      "quantity": 29,
+      "reserved": 0,
+      "incoming": 14,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_3_gold",
+      "sku": "INV-HAT-001-GOLD",
+      "productId": "prod_3",
+      "variantId": "var_3_gold",
+      "warehouseId": "wh_1",
+      "quantity": 55,
+      "reserved": 0,
+      "incoming": 7,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_3_silver",
+      "sku": "INV-HAT-001-SILVER",
+      "productId": "prod_3",
+      "variantId": "var_3_silver",
+      "warehouseId": "wh_1",
+      "quantity": 18,
+      "reserved": 0,
+      "incoming": 13,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_4_XS",
+      "sku": "INV-DRESS-001-XS",
+      "productId": "prod_4",
+      "variantId": "var_4_XS",
+      "warehouseId": "wh_1",
+      "quantity": 58,
+      "reserved": 0,
+      "incoming": 18,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_4_S",
+      "sku": "INV-DRESS-001-S",
+      "productId": "prod_4",
+      "variantId": "var_4_S",
+      "warehouseId": "wh_1",
+      "quantity": 10,
+      "reserved": 0,
+      "incoming": 4,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_4_M",
+      "sku": "INV-DRESS-001-M",
+      "productId": "prod_4",
+      "variantId": "var_4_M",
+      "warehouseId": "wh_1",
+      "quantity": 17,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_4_L",
+      "sku": "INV-DRESS-001-L",
+      "productId": "prod_4",
+      "variantId": "var_4_L",
+      "warehouseId": "wh_1",
+      "quantity": 55,
+      "reserved": 0,
+      "incoming": 9,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_4_XL",
+      "sku": "INV-DRESS-001-XL",
+      "productId": "prod_4",
+      "variantId": "var_4_XL",
+      "warehouseId": "wh_1",
+      "quantity": 58,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_5_XS",
+      "sku": "INV-SKIRT-001-XS",
+      "productId": "prod_5",
+      "variantId": "var_5_XS",
+      "warehouseId": "wh_1",
+      "quantity": 25,
+      "reserved": 0,
+      "incoming": 4,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_5_S",
+      "sku": "INV-SKIRT-001-S",
+      "productId": "prod_5",
+      "variantId": "var_5_S",
+      "warehouseId": "wh_1",
+      "quantity": 44,
+      "reserved": 0,
+      "incoming": 9,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_5_M",
+      "sku": "INV-SKIRT-001-M",
+      "productId": "prod_5",
+      "variantId": "var_5_M",
+      "warehouseId": "wh_1",
+      "quantity": 43,
+      "reserved": 0,
+      "incoming": 7,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_5_L",
+      "sku": "INV-SKIRT-001-L",
+      "productId": "prod_5",
+      "variantId": "var_5_L",
+      "warehouseId": "wh_1",
+      "quantity": 12,
+      "reserved": 0,
+      "incoming": 15,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_5_XL",
+      "sku": "INV-SKIRT-001-XL",
+      "productId": "prod_5",
+      "variantId": "var_5_XL",
+      "warehouseId": "wh_1",
+      "quantity": 35,
+      "reserved": 0,
+      "incoming": 12,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_6_XS",
+      "sku": "INV-PANTS-001-XS",
+      "productId": "prod_6",
+      "variantId": "var_6_XS",
+      "warehouseId": "wh_1",
+      "quantity": 59,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_6_S",
+      "sku": "INV-PANTS-001-S",
+      "productId": "prod_6",
+      "variantId": "var_6_S",
+      "warehouseId": "wh_1",
+      "quantity": 36,
+      "reserved": 0,
+      "incoming": 17,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_6_M",
+      "sku": "INV-PANTS-001-M",
+      "productId": "prod_6",
+      "variantId": "var_6_M",
+      "warehouseId": "wh_1",
+      "quantity": 50,
+      "reserved": 0,
+      "incoming": 6,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_6_L",
+      "sku": "INV-PANTS-001-L",
+      "productId": "prod_6",
+      "variantId": "var_6_L",
+      "warehouseId": "wh_1",
+      "quantity": 51,
+      "reserved": 0,
+      "incoming": 1,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_6_XL",
+      "sku": "INV-PANTS-001-XL",
+      "productId": "prod_6",
+      "variantId": "var_6_XL",
+      "warehouseId": "wh_1",
+      "quantity": 50,
       "reserved": 0,
       "incoming": 0,
-      "reorderThreshold": 0,
-      "isTracked": false
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_7_50ml",
+      "sku": "INV-PERF-001-50ML",
+      "productId": "prod_7",
+      "variantId": "var_7_50ml",
+      "warehouseId": "wh_1",
+      "quantity": 11,
+      "reserved": 0,
+      "incoming": 16,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_7_100ml",
+      "sku": "INV-PERF-001-100ML",
+      "productId": "prod_7",
+      "variantId": "var_7_100ml",
+      "warehouseId": "wh_1",
+      "quantity": 45,
+      "reserved": 0,
+      "incoming": 1,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_8_50ml",
+      "sku": "INV-SKIN-001-50ML",
+      "productId": "prod_8",
+      "variantId": "var_8_50ml",
+      "warehouseId": "wh_1",
+      "quantity": 54,
+      "reserved": 0,
+      "incoming": 1,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_8_100ml",
+      "sku": "INV-SKIN-001-100ML",
+      "productId": "prod_8",
+      "variantId": "var_8_100ml",
+      "warehouseId": "wh_1",
+      "quantity": 21,
+      "reserved": 0,
+      "incoming": 4,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_9_40",
+      "sku": "INV-SPORT-001-40",
+      "productId": "prod_9",
+      "variantId": "var_9_40",
+      "warehouseId": "wh_1",
+      "quantity": 39,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_9_41",
+      "sku": "INV-SPORT-001-41",
+      "productId": "prod_9",
+      "variantId": "var_9_41",
+      "warehouseId": "wh_1",
+      "quantity": 49,
+      "reserved": 0,
+      "incoming": 0,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_9_42",
+      "sku": "INV-SPORT-001-42",
+      "productId": "prod_9",
+      "variantId": "var_9_42",
+      "warehouseId": "wh_1",
+      "quantity": 32,
+      "reserved": 0,
+      "incoming": 12,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_9_43",
+      "sku": "INV-SPORT-001-43",
+      "productId": "prod_9",
+      "variantId": "var_9_43",
+      "warehouseId": "wh_1",
+      "quantity": 17,
+      "reserved": 0,
+      "incoming": 2,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_9_44",
+      "sku": "INV-SPORT-001-44",
+      "productId": "prod_9",
+      "variantId": "var_9_44",
+      "warehouseId": "wh_1",
+      "quantity": 10,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_9_45",
+      "sku": "INV-SPORT-001-45",
+      "productId": "prod_9",
+      "variantId": "var_9_45",
+      "warehouseId": "wh_1",
+      "quantity": 34,
+      "reserved": 0,
+      "incoming": 17,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_10_black",
+      "sku": "INV-SUN-001-BLACK",
+      "productId": "prod_10",
+      "variantId": "var_10_black",
+      "warehouseId": "wh_1",
+      "quantity": 42,
+      "reserved": 0,
+      "incoming": 18,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_10_brown",
+      "sku": "INV-SUN-001-BROWN",
+      "productId": "prod_10",
+      "variantId": "var_10_brown",
+      "warehouseId": "wh_1",
+      "quantity": 59,
+      "reserved": 0,
+      "incoming": 4,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_10_gold",
+      "sku": "INV-SUN-001-GOLD",
+      "productId": "prod_10",
+      "variantId": "var_10_gold",
+      "warehouseId": "wh_1",
+      "quantity": 10,
+      "reserved": 0,
+      "incoming": 19,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_10_silver",
+      "sku": "INV-SUN-001-SILVER",
+      "productId": "prod_10",
+      "variantId": "var_10_silver",
+      "warehouseId": "wh_1",
+      "quantity": 43,
+      "reserved": 0,
+      "incoming": 19,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_11_black",
+      "sku": "INV-BELT-001-BLACK",
+      "productId": "prod_11",
+      "variantId": "var_11_black",
+      "warehouseId": "wh_1",
+      "quantity": 50,
+      "reserved": 0,
+      "incoming": 4,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_11_brown",
+      "sku": "INV-BELT-001-BROWN",
+      "productId": "prod_11",
+      "variantId": "var_11_brown",
+      "warehouseId": "wh_1",
+      "quantity": 25,
+      "reserved": 0,
+      "incoming": 4,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_11_gold",
+      "sku": "INV-BELT-001-GOLD",
+      "productId": "prod_11",
+      "variantId": "var_11_gold",
+      "warehouseId": "wh_1",
+      "quantity": 40,
+      "reserved": 0,
+      "incoming": 16,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_11_silver",
+      "sku": "INV-BELT-001-SILVER",
+      "productId": "prod_11",
+      "variantId": "var_11_silver",
+      "warehouseId": "wh_1",
+      "quantity": 12,
+      "reserved": 0,
+      "incoming": 5,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_12_black",
+      "sku": "INV-WATCH-001-BLACK",
+      "productId": "prod_12",
+      "variantId": "var_12_black",
+      "warehouseId": "wh_1",
+      "quantity": 10,
+      "reserved": 0,
+      "incoming": 5,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_12_brown",
+      "sku": "INV-WATCH-001-BROWN",
+      "productId": "prod_12",
+      "variantId": "var_12_brown",
+      "warehouseId": "wh_1",
+      "quantity": 46,
+      "reserved": 0,
+      "incoming": 19,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_12_gold",
+      "sku": "INV-WATCH-001-GOLD",
+      "productId": "prod_12",
+      "variantId": "var_12_gold",
+      "warehouseId": "wh_1",
+      "quantity": 25,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_12_silver",
+      "sku": "INV-WATCH-001-SILVER",
+      "productId": "prod_12",
+      "variantId": "var_12_silver",
+      "warehouseId": "wh_1",
+      "quantity": 25,
+      "reserved": 0,
+      "incoming": 16,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_13_black",
+      "sku": "INV-BAG-001-BLACK",
+      "productId": "prod_13",
+      "variantId": "var_13_black",
+      "warehouseId": "wh_1",
+      "quantity": 34,
+      "reserved": 0,
+      "incoming": 5,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_13_brown",
+      "sku": "INV-BAG-001-BROWN",
+      "productId": "prod_13",
+      "variantId": "var_13_brown",
+      "warehouseId": "wh_1",
+      "quantity": 11,
+      "reserved": 0,
+      "incoming": 17,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_13_gold",
+      "sku": "INV-BAG-001-GOLD",
+      "productId": "prod_13",
+      "variantId": "var_13_gold",
+      "warehouseId": "wh_1",
+      "quantity": 21,
+      "reserved": 0,
+      "incoming": 4,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_13_silver",
+      "sku": "INV-BAG-001-SILVER",
+      "productId": "prod_13",
+      "variantId": "var_13_silver",
+      "warehouseId": "wh_1",
+      "quantity": 29,
+      "reserved": 0,
+      "incoming": 15,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_14_50ml",
+      "sku": "INV-MAKEUP-001-SMALL",
+      "productId": "prod_14",
+      "variantId": "var_14_small",
+      "warehouseId": "wh_1",
+      "quantity": 28,
+      "reserved": 0,
+      "incoming": 5,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_14_100ml",
+      "sku": "INV-MAKEUP-001-LARGE",
+      "productId": "prod_14",
+      "variantId": "var_14_large",
+      "warehouseId": "wh_1",
+      "quantity": 55,
+      "reserved": 0,
+      "incoming": 0,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_15_50ml",
+      "sku": "INV-HAIR-001-50G",
+      "productId": "prod_15",
+      "variantId": "var_15_50g",
+      "warehouseId": "wh_1",
+      "quantity": 39,
+      "reserved": 0,
+      "incoming": 19,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_15_100ml",
+      "sku": "INV-HAIR-001-100G",
+      "productId": "prod_15",
+      "variantId": "var_15_100g",
+      "warehouseId": "wh_1",
+      "quantity": 10,
+      "reserved": 0,
+      "incoming": 1,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_16_40",
+      "sku": "INV-SHOES-002-40",
+      "productId": "prod_16",
+      "variantId": "var_16_40",
+      "warehouseId": "wh_1",
+      "quantity": 59,
+      "reserved": 0,
+      "incoming": 17,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_16_41",
+      "sku": "INV-SHOES-002-41",
+      "productId": "prod_16",
+      "variantId": "var_16_41",
+      "warehouseId": "wh_1",
+      "quantity": 22,
+      "reserved": 0,
+      "incoming": 19,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_16_42",
+      "sku": "INV-SHOES-002-42",
+      "productId": "prod_16",
+      "variantId": "var_16_42",
+      "warehouseId": "wh_1",
+      "quantity": 15,
+      "reserved": 0,
+      "incoming": 16,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_16_43",
+      "sku": "INV-SHOES-002-43",
+      "productId": "prod_16",
+      "variantId": "var_16_43",
+      "warehouseId": "wh_1",
+      "quantity": 55,
+      "reserved": 0,
+      "incoming": 16,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_16_44",
+      "sku": "INV-SHOES-002-44",
+      "productId": "prod_16",
+      "variantId": "var_16_44",
+      "warehouseId": "wh_1",
+      "quantity": 25,
+      "reserved": 0,
+      "incoming": 6,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_16_45",
+      "sku": "INV-SHOES-002-45",
+      "productId": "prod_16",
+      "variantId": "var_16_45",
+      "warehouseId": "wh_1",
+      "quantity": 44,
+      "reserved": 0,
+      "incoming": 17,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_17_XS",
+      "sku": "INV-BLAZER-001-XS",
+      "productId": "prod_17",
+      "variantId": "var_17_XS",
+      "warehouseId": "wh_1",
+      "quantity": 21,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_17_S",
+      "sku": "INV-BLAZER-001-S",
+      "productId": "prod_17",
+      "variantId": "var_17_S",
+      "warehouseId": "wh_1",
+      "quantity": 17,
+      "reserved": 0,
+      "incoming": 15,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_17_M",
+      "sku": "INV-BLAZER-001-M",
+      "productId": "prod_17",
+      "variantId": "var_17_M",
+      "warehouseId": "wh_1",
+      "quantity": 30,
+      "reserved": 0,
+      "incoming": 17,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_17_L",
+      "sku": "INV-BLAZER-001-L",
+      "productId": "prod_17",
+      "variantId": "var_17_L",
+      "warehouseId": "wh_1",
+      "quantity": 41,
+      "reserved": 0,
+      "incoming": 6,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_17_XL",
+      "sku": "INV-BLAZER-001-XL",
+      "productId": "prod_17",
+      "variantId": "var_17_XL",
+      "warehouseId": "wh_1",
+      "quantity": 59,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_18_XS",
+      "sku": "INV-SPORT-002-XS",
+      "productId": "prod_18",
+      "variantId": "var_18_XS",
+      "warehouseId": "wh_1",
+      "quantity": 12,
+      "reserved": 0,
+      "incoming": 5,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_18_S",
+      "sku": "INV-SPORT-002-S",
+      "productId": "prod_18",
+      "variantId": "var_18_S",
+      "warehouseId": "wh_1",
+      "quantity": 51,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_18_M",
+      "sku": "INV-SPORT-002-M",
+      "productId": "prod_18",
+      "variantId": "var_18_M",
+      "warehouseId": "wh_1",
+      "quantity": 23,
+      "reserved": 0,
+      "incoming": 5,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_18_L",
+      "sku": "INV-SPORT-002-L",
+      "productId": "prod_18",
+      "variantId": "var_18_L",
+      "warehouseId": "wh_1",
+      "quantity": 54,
+      "reserved": 0,
+      "incoming": 0,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_18_XL",
+      "sku": "INV-SPORT-002-XL",
+      "productId": "prod_18",
+      "variantId": "var_18_XL",
+      "warehouseId": "wh_1",
+      "quantity": 34,
+      "reserved": 0,
+      "incoming": 10,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_19_black",
+      "sku": "INV-WALLET-001-BLACK",
+      "productId": "prod_19",
+      "variantId": "var_19_black",
+      "warehouseId": "wh_1",
+      "quantity": 39,
+      "reserved": 0,
+      "incoming": 12,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_19_brown",
+      "sku": "INV-WALLET-001-BROWN",
+      "productId": "prod_19",
+      "variantId": "var_19_brown",
+      "warehouseId": "wh_1",
+      "quantity": 32,
+      "reserved": 0,
+      "incoming": 2,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_19_gold",
+      "sku": "INV-WALLET-001-GOLD",
+      "productId": "prod_19",
+      "variantId": "var_19_gold",
+      "warehouseId": "wh_1",
+      "quantity": 38,
+      "reserved": 0,
+      "incoming": 5,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_19_silver",
+      "sku": "INV-WALLET-001-SILVER",
+      "productId": "prod_19",
+      "variantId": "var_19_silver",
+      "warehouseId": "wh_1",
+      "quantity": 43,
+      "reserved": 0,
+      "incoming": 19,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_20_black",
+      "sku": "INV-BAG-002-BLACK",
+      "productId": "prod_20",
+      "variantId": "var_20_black",
+      "warehouseId": "wh_1",
+      "quantity": 34,
+      "reserved": 0,
+      "incoming": 8,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_20_brown",
+      "sku": "INV-BAG-002-BROWN",
+      "productId": "prod_20",
+      "variantId": "var_20_brown",
+      "warehouseId": "wh_1",
+      "quantity": 13,
+      "reserved": 0,
+      "incoming": 0,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_20_gold",
+      "sku": "INV-BAG-002-GOLD",
+      "productId": "prod_20",
+      "variantId": "var_20_gold",
+      "warehouseId": "wh_1",
+      "quantity": 48,
+      "reserved": 0,
+      "incoming": 9,
+      "reorderThreshold": 5,
+      "isTracked": true
+    },
+    {
+      "id": "inv_20_silver",
+      "sku": "INV-BAG-002-SILVER",
+      "productId": "prod_20",
+      "variantId": "var_20_silver",
+      "warehouseId": "wh_1",
+      "quantity": 28,
+      "reserved": 0,
+      "incoming": 17,
+      "reorderThreshold": 5,
+      "isTracked": true
     }
   ],
   "coupons": [
@@ -1081,63 +2549,7 @@
       "token": null
     }
   ],
-  "cartItems": [
-    {
-      "id": "cart_item_1",
-      "cartId": "cart_1",
-      "productId": "prod_1",
-      "variantId": "var_1",
-      "sku": "SKU-SHIRT-001-S",
-      "title": "Elegant Shirt - S",
-      "quantity": 2,
-      "unitPrice": 49.99,
-      "totalPrice": 99.98
-    },
-    {
-      "id": "cart_item_2",
-      "cartId": "cart_anon_1",
-      "productId": "prod_2",
-      "variantId": "var_2",
-      "sku": "SKU-SHOES-001-42",
-      "title": "Classic Shoes - 42",
-      "quantity": 1,
-      "unitPrice": 89.5,
-      "totalPrice": 89.5
-    },
-    {
-      "id": "cart_item_3",
-      "cartId": "cart_anon_1",
-      "productId": "prod_3",
-      "variantId": null,
-      "sku": "SKU-HAT-001",
-      "title": "Stylish Hat",
-      "quantity": 2,
-      "unitPrice": 25,
-      "totalPrice": 50
-    },
-    {
-      "id": "cart_item_test_1",
-      "cartId": "cart_user_test",
-      "productId": "prod_1",
-      "variantId": "var_1",
-      "sku": "SKU-SHIRT-001-S",
-      "title": "Elegant Shirt - S",
-      "quantity": 1,
-      "unitPrice": 49.99,
-      "totalPrice": 49.99
-    },
-    {
-      "id": "cart_item_test_2",
-      "cartId": "cart_user_test",
-      "productId": "prod_2",
-      "variantId": "var_2",
-      "sku": "SKU-SHOES-001-42",
-      "title": "Classic Shoes - 42",
-      "quantity": 1,
-      "unitPrice": 89.5,
-      "totalPrice": 89.5
-    }
-  ],
+  "cartItems": [],
   "orders": [
     {
       "id": "order_1",
@@ -1171,47 +2583,7 @@
       "placedAt": "2025-11-21T10:00:00.000Z"
     }
   ],
-  "orderItems": [
-    {
-      "id": "order_item_1",
-      "orderId": "order_1",
-      "productId": "prod_1",
-      "variantId": "var_1",
-      "sku": "SKU-SHIRT-001-S",
-      "title": "Elegant Shirt - S",
-      "quantity": 2,
-      "unitPrice": 49.99,
-      "totalPrice": 99.98,
-      "taxAmount": 0,
-      "discountAmount": 0
-    },
-    {
-      "id": "order_item_test_1",
-      "orderId": "order_test_1",
-      "productId": "prod_2",
-      "variantId": "var_2",
-      "sku": "SKU-SHOES-001-42",
-      "title": "Classic Shoes - 42",
-      "quantity": 1,
-      "unitPrice": 89.5,
-      "totalPrice": 89.5,
-      "taxAmount": 0,
-      "discountAmount": 0
-    },
-    {
-      "id": "order_item_test_2",
-      "orderId": "order_test_1",
-      "productId": "prod_1",
-      "variantId": "var_1",
-      "sku": "SKU-SHIRT-001-S",
-      "title": "Elegant Shirt - S",
-      "quantity": 1,
-      "unitPrice": 49.99,
-      "totalPrice": 49.99,
-      "taxAmount": 0,
-      "discountAmount": 0
-    }
-  ],
+  "orderItems": [],
   "payments": [
     {
       "id": "pay_1",
@@ -1235,43 +2607,7 @@
       "approved": true
     }
   ],
-  "wishlistItems": [
-    {
-      "id": "wl_1",
-      "userId": "user_2",
-      "productId": "prod_2"
-    },
-    {
-      "id": "wl_admin_1",
-      "userId": "user_admin2",
-      "productId": "prod_1"
-    },
-    {
-      "id": "wl_test_2",
-      "userId": "user_test",
-      "productId": "prod_13"
-    },
-    {
-      "id": "wl_anon_1",
-      "token": "anonymous_token_abc123",
-      "productId": "prod_5"
-    },
-    {
-      "id": "wl_anon_2",
-      "token": "anonymous_token_abc123",
-      "productId": "prod_7"
-    },
-    {
-      "id": "wl_anon_3",
-      "token": "anonymous_token_xyz789",
-      "productId": "prod_3"
-    },
-    {
-      "id": "wl_user_2",
-      "userId": "user_2",
-      "productId": "prod_8"
-    }
-  ],
+  "wishlistItems": [],
   "activityLogs": [
     {
       "id": "log_1",

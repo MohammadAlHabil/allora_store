@@ -23,18 +23,22 @@ export function useCreateOrder() {
 
   return useMutation({
     mutationFn: (input: CreateOrderInput) => {
-      console.log("🔵 useCreateOrder: Calling API with input:", input);
-      return createOrderAPI(input);
+      // Generate a unique key for this specific attempt
+      // This ensures that if the network retries the SAME request, the key is consistent
+      // But if the user clicks again (new mutation), we get a new key
+      const idempotencyKey = crypto.randomUUID();
+      console.log("🔵 useCreateOrder: Calling API with input:", input, "Key:", idempotencyKey);
+      return createOrderAPI(input, idempotencyKey);
     },
 
     onSuccess: (data: OrderResponse) => {
       console.log("✅ useCreateOrder: Order created successfully:", data);
 
-      // Invalidate cart queries (cart is now empty)
-      queryClient.invalidateQueries({ queryKey: cartQueryKeys.cart() });
+      // DON'T invalidate cart here - will be done after navigation
+      // to prevent showing "empty cart" message during redirect
 
-      // Note: Don't show toast here - will be shown on order confirmation page
       // The onSuccess callback from mutate() will be called after this
+      // and will handle navigation + cart invalidation
     },
 
     onError: (error: Error) => {

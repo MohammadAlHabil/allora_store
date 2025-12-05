@@ -4,7 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { AddToCartButton } from "@/features/cart/components/AddToCartButton";
 import { WishlistButton } from "@/features/wishlist";
+import { Badge } from "@/shared/components/ui/badge";
 import { formatPrice } from "@/shared/lib/utils/formatters";
+import {
+  getAvailabilityMessage,
+  getAvailabilityStatus,
+  isProductAvailable,
+  type ProductAvailabilityData,
+} from "@/shared/lib/utils/product-availability";
 
 type Product = {
   id: string;
@@ -13,9 +20,30 @@ type Product = {
   price: number;
   image: string;
   rating?: number;
+  isAvailable: boolean;
+  isArchived: boolean;
+  stock: number;
+  // Variant information if product has variants
+  defaultVariantId?: string | null;
+  hasVariants?: boolean;
 };
 
 export default function ProductCard({ product }: { product: Product }) {
+  const availability: ProductAvailabilityData = {
+    isAvailable: product.isAvailable,
+    isArchived: product.isArchived,
+    stock: product.stock,
+  };
+
+  const availabilityStatus = getAvailabilityStatus(availability);
+  const isAvailable = isProductAvailable(availability);
+  const availabilityMessage = getAvailabilityMessage(availability);
+
+  // Determine variantId to use:
+  // - If product has variants, use defaultVariantId
+  // - If no variants, use null (direct inventory)
+  const variantId = product.hasVariants ? product.defaultVariantId || null : null;
+
   return (
     <article className="group relative bg-card rounded-2xl border overflow-hidden transition-all duration-300 hover:shadow-sm hover:border-primary/20">
       <Link href={`/products/${product.slug}`} className="block">
@@ -36,6 +64,21 @@ export default function ProductCard({ product }: { product: Product }) {
               target.src = "/images/placeholder.png";
             }}
           />
+
+          {/* Availability Badge - Top Left */}
+          {!isAvailable && (
+            <div className="absolute top-3 left-3 z-10">
+              <Badge
+                variant={
+                  availabilityStatus === "archived" || availabilityStatus === "unavailable"
+                    ? "secondary"
+                    : "glass"
+                }
+              >
+                {availabilityMessage}
+              </Badge>
+            </div>
+          )}
 
           {/* Wishlist Button - Top Right */}
           <div className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -74,8 +117,10 @@ export default function ProductCard({ product }: { product: Product }) {
         <AddToCartButton
           productId={product.id}
           productName={product.name}
+          variantId={variantId}
           expandDirection="left"
           className="ml-auto"
+          availability={availability}
         />
       </div>
     </article>

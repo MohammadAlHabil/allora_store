@@ -114,6 +114,7 @@ export interface ProductDetails {
   updatedAt: Date | null;
   images: ProductImage[];
   variants: ProductVariant[];
+  inventories?: Inventory[];
   categories: ProductCategory[];
   reviews: ProductReview[];
 }

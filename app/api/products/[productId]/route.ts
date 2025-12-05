@@ -27,6 +27,13 @@ export async function GET(
             createdAt: "asc",
           },
         },
+        // Include direct product inventories (variantId: null) so frontend
+        // can calculate stock for products without variants.
+        inventories: {
+          where: {
+            variantId: null,
+          },
+        },
         categories: {
           include: {
             category: true,
