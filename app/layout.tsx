@@ -1,4 +1,5 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Analytics } from "@vercel/analytics/react";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
@@ -46,6 +47,7 @@ export default function RootLayout({
                 <main className="min-h-screen">{children}</main>
                 <Footer />
                 <Toaster richColors position="top-center" />
+                <Analytics />
               </ThemeProvider>
               <ReactQueryDevtools initialIsOpen={false} />
             </ExpressCheckoutProvider>
