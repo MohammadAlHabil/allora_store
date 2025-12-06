@@ -167,18 +167,31 @@ export function CheckoutPageContent() {
               : undefined,
         },
         {
-          onSuccess: (order) => {
+          onSuccess: async (order) => {
             // Set submitted flag to prevent empty cart redirect
             isSubmittedRef.current = true;
 
-            // Redirect to confirmation page
-            router.push(`/orders/${order.id}`);
+            // Redirect to confirmation page and wait for navigation to complete
+            try {
+              await router.push(`/orders/${order.id}`);
+              console.log("Navigation to order page attempted for order:", order.id);
+            } catch (err) {
+              console.error("Failed to navigate to order page:", err);
+            }
 
-            // Note: Cart invalidation is now handled in the OrderDetails component
-            // to prevent race conditions where the cart becomes empty before navigation completes
-            setTimeout(() => {
-              resetCheckout();
-            }, 500); // Give navigation time to complete
+            // Reset checkout state only if we actually navigated away from checkout
+            try {
+              const currentPath =
+                typeof window !== "undefined" ? window.location.pathname : undefined;
+              if (currentPath && currentPath.startsWith(`/orders/${order.id}`)) {
+                resetCheckout();
+              } else {
+                console.warn("Did not detect navigation to order page; preserving checkout state.");
+              }
+            } catch (err) {
+              // Fallback: if any error reading location, don't reset to avoid returning user to step 1
+              console.error("Error checking navigation state before resetting checkout:", err);
+            }
           },
         }
       );
@@ -322,7 +335,7 @@ export function CheckoutPageContent() {
                               : undefined,
                         },
                         {
-                          onSuccess: (order) => {
+                          onSuccess: async (order) => {
                             // Set submitted flag to prevent empty cart redirect
                             isSubmittedRef.current = true;
 
@@ -330,17 +343,38 @@ export function CheckoutPageContent() {
                             if (isExpressMode) {
                               clearExpressItem();
                             }
+
                             // Show success message
                             toast.success("Order placed successfully!", {
                               description: `Order #${order.orderNumber} has been created.`,
                             });
-                            // Redirect to confirmation page
-                            router.push(`/orders/${order.id}`);
-                            // Clear checkout state check after navigation
-                            setTimeout(() => {
-                              // Note: Cart invalidation is handled in OrderDetails
-                              resetCheckout();
-                            }, 500); // Give navigation time to complete
+
+                            // Redirect to confirmation page and wait for navigation
+                            try {
+                              await router.push(`/orders/${order.id}`);
+                            } catch (err) {
+                              console.error("Failed to navigate to order page:", err);
+                            }
+
+                            // Reset checkout state only if navigation succeeded
+                            try {
+                              const currentPath =
+                                typeof window !== "undefined"
+                                  ? window.location.pathname
+                                  : undefined;
+                              if (currentPath && currentPath.startsWith(`/orders/${order.id}`)) {
+                                resetCheckout();
+                              } else {
+                                console.warn(
+                                  "Did not detect navigation to order page; preserving checkout state."
+                                );
+                              }
+                            } catch (err) {
+                              console.error(
+                                "Error checking navigation state before resetting checkout:",
+                                err
+                              );
+                            }
                           },
                         }
                       );
