@@ -108,5 +108,6 @@ export default defineConfig([
     "__tests__/",
     "coverage/",
     ".github/workflows/**",
+    "shared/lib/logger.ts",
   ]),
 ]);

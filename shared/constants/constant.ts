@@ -8,3 +8,4 @@ export const APP_PORT = Number(process.env.PORT ?? process.env.APP_PORT ?? 3000)
 export const APP_HOST = process.env.APP_HOST || "localhost";
 export const APP_PROTOCOL = process.env.APP_PROTOCOL || "http";
 export const APP_URL = process.env.APP_URL || `${APP_PROTOCOL}://${APP_HOST}:${APP_PORT}`;
+export const ADMIN_TASKS_SECRET = process.env.ADMIN_TASKS_SECRET || "";

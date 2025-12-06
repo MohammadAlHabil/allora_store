@@ -18,3 +18,5 @@ coverage/
 
 # Ignore GitHub Actions workflow files
 .github/workflows/
+
+shared/lib/logger.ts

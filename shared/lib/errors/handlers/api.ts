@@ -5,10 +5,15 @@
  * Wraps API Route handlers with automatic error handling
  */
 
+import { type NextRequest } from "next/server";
 import { logger } from "@/shared/lib/logger";
 import { fail } from "../core/result";
 import { type Result, type ErrorDetails } from "../core/types";
 import { mapToErrorDetails } from "../mappers/error-mapper";
+
+export type RouteContext = {
+  params: Promise<Record<string, string | string[]>>;
+};
 
 /**
  * Wraps API Route handlers with automatic error handling
@@ -25,10 +30,10 @@ import { mapToErrorDetails } from "../mappers/error-mapper";
  * )
  */
 export function withApiRoute<TData>(
-  fn: (request: Request, ctx?: Record<string, unknown>) => Promise<Result<TData> | Response>,
+  fn: (request: NextRequest, ctx: RouteContext) => Promise<Result<TData> | Response>,
   context?: string
-): (request: Request, ctx?: Record<string, unknown>) => Promise<Response> {
-  return async (request: Request, ctx?: Record<string, unknown>): Promise<Response> => {
+): (request: NextRequest, ctx: RouteContext) => Promise<Response> {
+  return async (request: NextRequest, ctx: RouteContext): Promise<Response> => {
     try {
       const result = await fn(request, ctx);
 
