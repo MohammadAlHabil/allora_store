@@ -78,11 +78,19 @@ export function AddressStep({ onAddressSelected, selectedAddressId }: AddressSte
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Shipping Address</h2>
-        <p className="text-sm text-muted-foreground">
-          {shouldShowForm ? "Add a new shipping address" : "Select an address or add a new one"}
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-semibold mb-2">Shipping Address</h2>
+          <p className="text-sm text-muted-foreground">
+            {shouldShowForm ? "Add a new shipping address" : "Select an address or add a new one"}
+          </p>
+        </div>
+        <button
+          onClick={() => setMode("add")}
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 text-sm font-medium transition-colors"
+        >
+          + Add New
+        </button>
       </div>
 
       {shouldShowForm ? (

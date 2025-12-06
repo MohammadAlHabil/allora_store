@@ -17,7 +17,7 @@ generator client {
 
 // Enums
 enum UserRole {
-  USER٫
+  USER
   ADMIN
 }
 

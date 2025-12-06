@@ -122,14 +122,14 @@ export function AddressList({
         <h3 className="text-base font-semibold text-foreground">
           Saved Addresses ({addresses.length})
         </h3>
-        {onAddNew && (
+        {/* {onAddNew && (
           <button
             onClick={onAddNew}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 text-sm font-medium transition-colors"
           >
             + Add New
           </button>
-        )}
+        )} */}
       </div>
 
       {/* Address Cards Grid */}
